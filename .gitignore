@@ -1,2 +1,8 @@
 node_modules
 .cache
+
+
+# The 'dev' environment is ignored, except for the .wasm file which is committed.
+dev/*.js
+dev/*.js.map
+dev/*.html
