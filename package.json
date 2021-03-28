@@ -6,7 +6,7 @@
   "scripts": {
     "test": "tape 'test/**/*-test.js' | tap-spec",
     "start": "parcel src/index.html aubio.wasm --out-dir dev",
-    "build": "parcel build src/index.html aubio.wasm --out-dir dist --public-url ./"
+    "build": "parcel build src/index.html aubio.wasm --out-dir docs --public-url ./"
   },
   "author": "",
   "license": "ISC",
