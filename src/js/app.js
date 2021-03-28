@@ -5,8 +5,8 @@ import { Tuner } from './tuner.js'
 const Application = function() {
   const a4 = 440
   this.tuner = new Tuner(a4)
-  this.$rawnote = document.querySelector('.rawnote span')
-  this.$tab = document.querySelector('.tab span')
+  this.$rawnote = document.getElementById('rawnote')
+  this.$tab = document.getElementById('tab')
   this.notes = []
 
   // Frequencies from https://en.wikipedia.org/wiki/Guitar_tunings
@@ -74,7 +74,8 @@ Application.prototype.writeTab = function() {
 
 Application.prototype.update = function(note) {
   if (note.standard !== 0) {
-    this.$rawnote.innerHTML = JSON.stringify(note)
+    const notedesc = `${note.name}${note.octave} (${note.frequency.toFixed(2)} Hz)`
+    this.$rawnote.innerHTML = `Current: ${notedesc}`
     this.notes.push(note)
     this.writeTab()
   }

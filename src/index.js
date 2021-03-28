@@ -19,6 +19,6 @@ window.startRecord = function() {
 
 window.printRecord = function() {
   const content = JSON.stringify(window.app.notes)
-  const display = document.querySelector('.recorded span')
+  const display = document.getElementById('recorded')
   display.innerHTML = content
 }

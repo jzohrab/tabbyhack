@@ -5,34 +5,38 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Hacktab</title>
     <script src='./index.js'></script>
+    <style>
+      h1   {color: blue;}
+      div  {padding: 5px;}
+      #rawnote {font-style: italic;}
+    </style>
   </head>
   <body>
-    <p>Hacktab</p>
+    <h1>Hacktab</h1>
 
-    <div id="controls-start-stop">
-      <button type="button" onclick="startRecord(); return true;">Start</button>
-    </div>
-
-    <div class="rawnote">Current note: <span></span></div>
-
-    <div id="controls-render">
-      <button type="button" onclick="printRecord(); return true;">Print</button>
-    </div>
-
-    <div class="recorded">
-      <p>Recorded notes:</p>
-      <span />
-    </div>
-
-    <div class="tab" style="font-family: courier;">
-      <span>
+    <div style="font-family: courier;">
+      <span id="tab">
 --<br />
 --<br />
 -- Click Start and start playing (single note at a time)<br />
--- This area will update with the tab<br />
+-- This area will update with tab<br />
 --<br />
 --<br />
       </span>
     </div>
+
+    <div id="controls-start-stop">
+      <button type="button" onclick="startRecord(); return true;">Start</button>
+      &nbsp;<span id="rawnote"></span>
+    </div>
+
+    <div id="controls-render">
+      <button type="button" onclick="printRecord(); return true;">Raw data</button>
+    </div>
+
+    <div>
+      <span id="recorded"/>
+    </div>
+
   </body>
 </html>
