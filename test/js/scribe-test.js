@@ -10,6 +10,7 @@ const Bhz = 246.94
 const Ehz = 329.63
 
 const b = new GuitarString('b', Bhz)
+const e = new GuitarString('e', Ehz)
 
 test('single open string', t => {
   const scribe = new Scribe([b])
@@ -49,13 +50,42 @@ test('fret less than min ignored', t => {
   t.end()
 })
 
-/* TESTS
-multiple strings
-multiple notes
-< 0 ignored
-> max ignored
-ignored puts a blank in the tab
-same note repeated
-notes at or above 10th fret
-out of range for all strings (less than 0)
-*/
+test('multistring open string', t => {
+  const scribe = new Scribe([e, b])
+  const actual = scribe.tab([Bhz, Ehz])
+  const expected =
+        "---0-\n" +
+        "-0-5-"
+  t.equal(actual, expected)
+  t.end()
+})
+
+test('multistring above 10th fret tab numbers aligned correctly', t => {
+  const scribe = new Scribe([e, b])
+  const actual = scribe.tab([Bhz, Ehz, Bhz * 2, Ehz])
+  const expected =
+        "---0--7-0-\n" +
+        "-0-5-12-5-"
+  t.equal(actual, expected)
+  t.end()
+})
+
+test('multistring ignored notes arent tabbed', t => {
+  const scribe = new Scribe([e, b], { min: 4, max: 12 } )
+  const actual = scribe.tab([Bhz, Ehz, Bhz * 2, Bhz / 2, Ehz * 2])
+  const expected =
+        "------7---12-\n" +
+        "---5-12------"
+  t.equal(actual, expected)
+  t.end()
+})
+
+test('multistring out of range notes yields blank tab', t => {
+  const scribe = new Scribe([e, b], { min: 4, max: 12 } )
+  const actual = scribe.tab([Ehz * 8, Bhz * 8, Bhz / 2, Ehz * 8])
+  const expected =
+        "---------\n" +
+        "---------"
+  t.equal(actual, expected)
+  t.end()
+})
