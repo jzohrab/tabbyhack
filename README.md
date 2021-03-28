@@ -48,19 +48,9 @@ Fork; clone; make you changes and be sure to run `npm run test`; PR back to main
 
 ## To github pages
 
-ref https://www.sitepoint.com/parcel-hyperapp-github-pages/
+After running tests, and checking the local site with `npm start`, we can deploy this automatically to a github pages repo by having everything deployed to `docs`.  See ref https://www.sitepoint.com/parcel-hyperapp-github-pages/
 
-Currently, Parcel doesn't do the javascript sources correctly ... likely user error.  So, after build to `docs` and before commit and push to `origin/main` on GitHub, edit the index.html and add a `.` in front of the script src, eg:
-
-```
--    <script src="/app.c3f9f951.js"></script>
-+    <script src="./app.c3f9f951.js"></script>
-... 
--    <script src="/src.e31bb0bc.js"></script>
-+    <script src="./src.e31bb0bc.js"></script>
-```
-
-This can probably be configured in Parcel somewhere; if not, a v short script should fix it.
+`npm run deploy` builds, commits, and pushes.  GH pages take a few moments to update.
 
 # Licensing
 
