@@ -9,13 +9,18 @@
   <body>
     <p>Hacktab</p>
 
-    <button type="button" onclick="startRecord(); return true;">Start recording</button>
-    <button type="button" onclick="printRecord(); return true;">Print all notes</button>
+    <div id="controls-start-stop">
+      <button type="button" onclick="startRecord(); return true;">Start</button>
+    </div>
 
     <div class="rawnote">Current note: <span></span></div>
 
+    <div id="controls-render">
+      <button type="button" onclick="printRecord(); return true;">Print</button>
+    </div>
+
     <div class="recorded">
-      <p>All notes recorded:</p>
+      <p>Recorded notes:</p>
       <span />
     </div>
   </body>
