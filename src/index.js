@@ -7,3 +7,9 @@ window.listNeckStrings = function() {
   const n = new GuitarNeck()
   alert(n.listStrings())
 }
+
+window.printRecord = function() {
+  const content = JSON.stringify(window.app.notes)
+  const display = document.querySelector('.recorded span')
+  display.innerHTML = content
+}

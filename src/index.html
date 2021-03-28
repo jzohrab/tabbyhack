@@ -8,12 +8,17 @@
   <body>
     <p>Hacktab</p>
 
-    <div class="rawnote"><span>NOTE PLAYED</span></div>
+    <div class="rawnote">Current note: <span></span></div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="./js/app.js"></script>
-    <button type="button" onclick="alert(JSON.stringify(window.app.notes)); return true;">dump</input>
+    <button type="button" onclick="printRecord(); return true;">dump</input>
 
     <button type="button" onclick="listNeckStrings(); return true;">List strings</button>
     <script src='./index.js'></script>
+
+    <div class="recorded">
+      <p>All notes recorded:</p>
+      <span />
+    </div>
   </body>
 </html>
