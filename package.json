@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "tape 'test/**/*-test.js' | tap-spec",
-    "start": "parcel src/index.html --out-dir docs",
-    "build": "parcel build src/index.html --out-dir docs --public-url ./"
+    "start": "parcel src/index.html aubio.wasm --out-dir docs",
+    "build": "parcel build src/index.html aubio.wasm --out-dir docs --public-url ./"
   },
   "author": "",
   "license": "ISC",
