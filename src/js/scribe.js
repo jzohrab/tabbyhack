@@ -36,7 +36,7 @@ Scribe.prototype.tab = function(frequencies) {
       result[j] += fretstring[j]
     }
   }
-  return result
+  return [result]
 }
 
 
