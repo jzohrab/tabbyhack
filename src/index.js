@@ -1,4 +1,3 @@
-import { GuitarNeck } from './js/guitarneck.js'
 import { Application } from './js/app.js'
 
 // All functions have "window." due to hint:
