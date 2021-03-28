@@ -13,9 +13,7 @@ const b = new GuitarString('b', Bhz)
 
 test('single open string', t => {
   const scribe = new Scribe([b])
-  const actual = scribe.tab([Bhz])
-  const expected = "-0-"
-  t.equal(actual, expected)
+  t.equal(scribe.tab([Bhz]), "-0-")
   t.end()
 })
 
@@ -26,17 +24,28 @@ test('single string multiple notes', t => {
   t.equal(actual, expected)
   t.end()
 })
-     
+
+test('fret less than 0 ignored', t => {
+  const scribe = new Scribe([b])
+  t.equal(scribe.tab([Bhz-100]), "---")
+  t.end()
+})
+
+test('fret can be very large if no max fret specified', t => {
+  const scribe = new Scribe([b])
+  t.equal(scribe.tab([Bhz * 16]), "-48-")
+  t.end()
+})
+
+test('fret greater than max ignored', t => {
+  const scribe = new Scribe([b], { max: 12 } )
+  t.equal(scribe.tab([Bhz, Ehz, Ehz * 2, Bhz * 2]), "-0-5---12-")
+  t.end()
+})
+
 /* TESTS
 
-frequencies:
-  t.equal(0, b.getFret(246.94), 'open string')
-  t.equal(5, b.getFret(329.63), 'E = b string, 5th fret')
-  t.equal(12, b.getFret(246.94 * 2), 'octave')
-
 single string:
-multiple notes
-< 0 ignored
 > max ignored
 ignored puts a blank in the tab
 same note repeated

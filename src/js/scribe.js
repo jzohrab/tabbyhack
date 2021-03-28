@@ -12,13 +12,15 @@ const Scribe = function(strings, scribeOptions = {}) {
  */
 Scribe.prototype.tab = function(frequencies) {
 
+  const topfret = (this.opts.max || 100)
   const result = this.strings.map(s => '-')
 
   for (var i = 0; i < frequencies.length; i++) {
     const freq = frequencies[i]
     const frets = this.strings.
           map(s => s.getFret(freq)).
-          map(n => n < 0 ? null : n)
+          map(n => n < 0 ? null : n).
+          map(n => n > topfret ? null : n)
     // console.log(frets)
     const maxfret = Math.max(...frets)
     maxfretlen = `${maxfret}`.length
