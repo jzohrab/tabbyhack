@@ -8,7 +8,7 @@ const Scribe = function(strings, scribeOptions = {}) {
  * get tab for frequencies
  *
  * @param {array} frequency
- * @returns {string}
+ * @returns {array}
  */
 Scribe.prototype.tab = function(frequencies) {
 
@@ -36,7 +36,7 @@ Scribe.prototype.tab = function(frequencies) {
       result[j] += fretstring[j]
     }
   }
-  return result.join('\n')
+  return result
 }
 
 
