@@ -40,4 +40,5 @@ multiple notes
 ignored puts a blank in the tab
 same note repeated
 notes at or above 10th fret
+out of range for all strings (less than 0)
 */
