@@ -1,4 +1,8 @@
-# Tabber
+# Hacktab -- PRE-ALPHA
+
+A very rough work-in-progress tool to generate guitar TAB from audio input.  Start the app locally or visit its deployed site, allow mic access, and start playing -- slowly, and only a single note at a time (no chords).  It will generate some candidate TAB, it's up to you to edit the TAB to select the notes you really want.
+
+Note: this is still pre-alpha, work-in-progress, it's not fully functional
 
 # Development
 
