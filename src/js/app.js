@@ -1,24 +1,27 @@
 import { GuitarString } from './guitarstring.js'
+import { Scribe } from './scribe.js'
 import { Tuner } from './tuner.js'
 
 const Application = function() {
   const a4 = 440
   this.tuner = new Tuner(a4)
   this.$rawnote = document.querySelector('.rawnote span')
-  this.notes = [];
+  this.$tab = document.querySelector('.tab span')
+  this.notes = []
+
+  // Frequencies from https://en.wikipedia.org/wiki/Guitar_tunings
+  const stringFreqs = [
+    329.63,
+    246.94,
+    196.00,
+    146.83,
+    110.00,
+    82.41
+  ]
+  const strings = stringFreqs.map((f, i) => new GuitarString(i, f))
+  this.scribe = new Scribe(strings, { max: 24 })
 }
 
-// Frequencies from https://en.wikipedia.org/wiki/Guitar_tunings
-const stringFreqs = [
-  329.63,
-  246.94,
-  196.00,
-  146.83,
-  110.00,
-  82.41
-  ]
-
-const GuitarStrings = stringFreqs.map((f, i) => new GuitarString(i, f))
 
 Application.prototype.start = function() {
   const self = this
@@ -64,11 +67,16 @@ Application.prototype.start = function() {
 
 }
 
+Application.prototype.writeTab = function() {
+  const tab = this.scribe.tab(this.notes.map(n => n.frequency))
+  this.$tab.innerHTML = tab.join('<br />')
+}
+
 Application.prototype.update = function(note) {
   if (note.standard !== 0) {
-    note.frets = GuitarStrings.map((s, i) => s.getFret(note.frequency))
-    this.$rawnote.innerHTML = note.standard + ": " + note.frets.join(', ')
+    this.$rawnote.innerHTML = JSON.stringify(note)
     this.notes.push(note)
+    this.writeTab()
   }
 }
 
