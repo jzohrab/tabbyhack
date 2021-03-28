@@ -669,7 +669,7 @@ var substr = 'ab'.substr(-1) === 'b'
 
 },{"process":"../node_modules/process/browser.js"}],"js/aubio.js":[function(require,module,exports) {
 var process = require("process");
-var __dirname = "/Users/jeff/Documents/Projects/parcel-gh-test/src/js";
+var __dirname = "/Users/jeff/Documents/Projects/hacktab/src/js";
 var define;
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
@@ -2608,7 +2608,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57595" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49374" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
