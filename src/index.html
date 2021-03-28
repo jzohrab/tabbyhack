@@ -4,17 +4,15 @@
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <title>Hacktab</title>
+    <script src='./index.js'></script>
   </head>
   <body>
     <p>Hacktab</p>
 
-    <div class="rawnote">Current note: <span></span></div>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
-    <script src="./js/app.js"></script>
-    <button type="button" onclick="printRecord(); return true;">dump</input>
+    <button type="button" onclick="startRecord(); return true;">Start recording</button>
+    <button type="button" onclick="printRecord(); return true;">Print all notes</button>
 
-    <button type="button" onclick="listNeckStrings(); return true;">List strings</button>
-    <script src='./index.js'></script>
+    <div class="rawnote">Current note: <span></span></div>
 
     <div class="recorded">
       <p>All notes recorded:</p>

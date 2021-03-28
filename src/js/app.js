@@ -59,10 +59,8 @@ Application.prototype.start = function() {
 
   }
 
-  swal.fire('Start getting notes').then(function() {
-    self.tuner.init()
-    self.frequencyData = new Uint8Array(self.tuner.analyser.frequencyBinCount)
-  })
+  self.tuner.init()
+  self.frequencyData = new Uint8Array(self.tuner.analyser.frequencyBinCount)
 
 }
 
@@ -79,5 +77,4 @@ Application.prototype.toggleAutoMode = function() {
   this.notes.toggleAutoMode()
 }
 
-window.app = new Application()
-window.app.start()
+module.exports = { Application }
