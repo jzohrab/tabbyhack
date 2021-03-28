@@ -43,14 +43,13 @@ test('fret greater than max ignored', t => {
   t.end()
 })
 
+test('fret less than min ignored', t => {
+  const scribe = new Scribe([b], { min: 4, max: 10 } )
+  t.equal(scribe.tab([Bhz, Ehz, Ehz * 2, Bhz * 2]), "---5-----")
+  t.end()
+})
+
 /* TESTS
-
-single string:
-> max ignored
-ignored puts a blank in the tab
-same note repeated
-notes at or above 10th fret
-
 multiple strings
 multiple notes
 < 0 ignored
