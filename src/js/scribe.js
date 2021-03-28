@@ -1,5 +1,6 @@
-const Scribe = function(scribeOptions = {}) {
-  this.strings = scribeOptions.strings
+const Scribe = function(strings, scribeOptions = {}) {
+  this.strings = strings
+  this.opts = scribeOptions
 }
 
 

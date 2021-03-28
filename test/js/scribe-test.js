@@ -9,12 +9,10 @@ const { GuitarString } = require(join(js, 'GuitarString.js'))
 const Bhz = 246.94
 const Ehz = 329.63
 
+const b = new GuitarString('b', Bhz)
+
 test('single open string', t => {
-  const b = new GuitarString('b', Bhz)
-  const scribeOpts = {
-    strings: [b]
-  }
-  const scribe = new Scribe(scribeOpts)
+  const scribe = new Scribe([b])
   const actual = scribe.tab([Bhz])
   const expected = "-0-"
   t.equal(actual, expected)
@@ -22,11 +20,7 @@ test('single open string', t => {
 })
 
 test('single string multiple notes', t => {
-  const b = new GuitarString('b', Bhz)
-  const scribeOpts = {
-    strings: [b]
-  }
-  const scribe = new Scribe(scribeOpts)
+  const scribe = new Scribe([b])
   const actual = scribe.tab([Bhz, Ehz, Bhz * 2])
   const expected = "-0-5-12-"
   t.equal(actual, expected)
