@@ -44,6 +44,24 @@ Contributions would be super if it makes this more useful and interesting.
 
 Fork; clone; make you changes and be sure to run `npm run test`; PR back to main.
 
+# Deployment
+
+## To github pages
+
+ref https://www.sitepoint.com/parcel-hyperapp-github-pages/
+
+Currently, Parcel doesn't do the javascript sources correctly ... likely user error.  So, after build to `docs` and before commit and push to `origin/main` on GitHub, edit the index.html and add a `.` in front of the script src, eg:
+
+```
+-    <script src="/app.c3f9f951.js"></script>
++    <script src="./app.c3f9f951.js"></script>
+... 
+-    <script src="/src.e31bb0bc.js"></script>
++    <script src="./src.e31bb0bc.js"></script>
+```
+
+This can probably be configured in Parcel somewhere; if not, a v short script should fix it.
+
 # Licensing
 
 TODO - should be free and open.  Have to set the licensing correctly to account for the open-source elements that are included (aubio)
