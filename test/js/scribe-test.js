@@ -5,19 +5,34 @@ const js = join(process.cwd(), 'src', 'js')
 const { Scribe } = require(join(js, 'scribe.js'))
 const { GuitarString } = require(join(js, 'GuitarString.js'))
 
+// Useful frequencies (open strings)
+const Bhz = 246.94
+const Ehz = 329.63
+
 test('single open string', t => {
-  const b = new GuitarString('b', 246.94)
+  const b = new GuitarString('b', Bhz)
   const scribeOpts = {
     strings: [b]
   }
   const scribe = new Scribe(scribeOpts)
-  const actual = scribe.tab([246.94])
+  const actual = scribe.tab([Bhz])
   const expected = "-0-"
   t.equal(actual, expected)
   t.end()
 })
 
-
+test('single string multiple notes', t => {
+  const b = new GuitarString('b', Bhz)
+  const scribeOpts = {
+    strings: [b]
+  }
+  const scribe = new Scribe(scribeOpts)
+  const actual = scribe.tab([Bhz, Ehz, Bhz * 2])
+  const expected = "-0-5-12-"
+  t.equal(actual, expected)
+  t.end()
+})
+     
 /* TESTS
 
 frequencies:
