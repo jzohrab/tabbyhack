@@ -14,8 +14,11 @@ Scribe.prototype.tab = function(frequencies) {
 
   const topfret = (this.opts.max || 100)
   const bottomfret = (this.opts.min || 0)
+  const stafflength = this.opts.stafflength || 75
 
-  const result = this.strings.map(s => '-')
+  const result = []
+  let staff = this.strings.map(s => '-')
+  result.push(staff)
 
   for (var i = 0; i < frequencies.length; i++) {
     const freq = frequencies[i]
@@ -33,10 +36,15 @@ Scribe.prototype.tab = function(frequencies) {
           map(s => `${s}-`)
     // console.log(fretstring)
     for (var j = 0; j < fretstring.length; j++) {
-      result[j] += fretstring[j]
+      staff[j] += fretstring[j]
+    }
+
+    if (staff[0].length >= stafflength) {
+      staff = this.strings.map(s => '-')
+      result.push(staff)
     }
   }
-  return [result]
+  return result
 }
 
 

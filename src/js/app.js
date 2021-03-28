@@ -68,8 +68,9 @@ Application.prototype.start = function() {
 }
 
 Application.prototype.writeTab = function() {
-  const tab = this.scribe.tab(this.notes.map(n => n.frequency))
-  this.$tab.innerHTML = tab.join('<br />')
+  const rawtab = this.scribe.tab(this.notes.map(n => n.frequency))
+  const tabout = rawtab.map(a => a.join('<br />')).join('<br /><br /><br />')
+  this.$tab.innerHTML = tabout
 }
 
 Application.prototype.update = function(note) {

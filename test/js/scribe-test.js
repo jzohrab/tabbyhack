@@ -93,3 +93,21 @@ test('multistring out of range notes yields blank tab', t => {
   t.deepEqual(actual, expected)
   t.end()
 })
+
+
+test('can split tab to separate lines', t => {
+  const scribe = new Scribe([e, b], { stafflength: 7 })
+  const actual = scribe.tab([Bhz, Ehz, Bhz * 2, Ehz])
+  const expected = [
+    [
+      "---0--7-",
+      "-0-5-12-"
+    ],
+    [
+      "-0-",
+      "-5-"
+    ]
+  ]
+  t.deepEqual(actual, expected)
+  t.end()
+})
