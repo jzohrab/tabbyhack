@@ -1,12 +1,15 @@
 /** The table we're navigating. */
 const tbl = document.getElementById('scrap')
+const rows = tbl.getElementsByTagName('tr').length
+const cols = tbl.getElementsByTagName('tr')[0].getElementsByTagName('td').length
 
 /** The current cursor position in the table. */
 var curr = null
+var currRow = 0
+var currCol = 0
 
 /** The preferred strings selected by navigation. */
-const strings = new Array(tbl.getElementsByTagName('tr')[0].getElementsByTagName('td').length)
-// alert('strings: ' + strings.length)
+const strings = new Array(cols)
 
 /** Print highlighted cells. */
 window.showCells = function() {
@@ -14,59 +17,56 @@ window.showCells = function() {
 }
 
 /** Highlight the cursor cell (only one cell should be lit per column). */
-function updateView(sibling) {
-  if (sibling != null) {
-    clearColumn(sibling)
-    sibling.focus()
-    sibling.classList.add("highlight")
-    updateStrings(sibling)
-    curr = sibling
-  }
-}
-
-/** Update strings */
-function updateStrings(cell) {
-  const r = cell.parentNode.rowIndex
-  const c = cell.cellIndex
-  strings[c] = r
+function updateView() {
+  clearColumn()
+  const c = tbl.getElementsByTagName('tr')[currRow].getElementsByTagName('td')[currCol]
+  c.focus()
+  c.classList.add("highlight")
+  strings[currCol] = currRow
 }
 
 /** Clear all cells in column. */
-function clearColumn(e) {
-  const col = e.cellIndex
-  const rows = tbl.getElementsByTagName('tr').length
+function clearColumn() {
   for (var i = 0; i < rows; i++) {
-    const c = tbl.getElementsByTagName('tr')[i].getElementsByTagName('td')[col]
+    const c = tbl.getElementsByTagName('tr')[i].getElementsByTagName('td')[currCol]
     c.classList.remove("highlight")
   }
 }
 
 /** Keyboard handler. */
 function checkKey(e) {
+  const oldRow = currRow
+  const oldCol = currCol
+
   e = e || window.event
   if (e.keyCode == '38') {
     // up arrow
-    const r = curr.parentElement.previousElementSibling
-    if (r != null) {
-      updateView(r.cells[curr.cellIndex])
-    }
+    currRow -= 1
   } else if (e.keyCode == '40') {
     // down arrow
-    const r = curr.parentElement.nextElementSibling
-    if (r != null) {
-      updateView(r.cells[curr.cellIndex])
-    }
+    currRow += 1
   } else if (e.keyCode == '37') {
     // left arrow
-    updateView(curr.previousElementSibling)
+    currCol -= 1
   } else if (e.keyCode == '39') {
     // right arrow
-    updateView(curr.nextElementSibling)
+    currCol += 1
   }
+
+  /* Ensure curr row and column are within bounds. */
+  currRow = Math.max(0, currRow)  // not < 0
+  currRow = Math.min(currRow, rows - 1)  // not > rows - 1
+  currCol = Math.max(0, currCol)
+  currCol = Math.min(currCol, cols - 1)
+
+  if (currRow !== oldRow || currCol !== oldCol) {
+    updateView()
+  }
+
 }
 
 document.onkeydown = checkKey
 curr = document.getElementById('start')
-updateStrings(curr)
+strings[currCol] = currRow
 curr.focus()
 curr.classList.add("highlight")
