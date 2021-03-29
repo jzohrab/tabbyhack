@@ -16,16 +16,20 @@ window.showCells = function() {
 }
 
 /** Highlight the cursor cell (only one cell should be lit per column). */
-function updateView() {
+function updateView(oldRow, oldCol) {
   /** Clear all cells in column. */
   for (var i = 0; i < rows; i++) {
     const c = tbl.getElementsByTagName('tr')[i].getElementsByTagName('td')[currCol]
     c.classList.remove("highlight")
   }
 
+  const old = tbl.getElementsByTagName('tr')[oldRow].getElementsByTagName('td')[oldCol]
+  old.classList.remove("current")
+
   const c = tbl.getElementsByTagName('tr')[currRow].getElementsByTagName('td')[currCol]
   c.focus()
   c.classList.add("highlight")
+  c.classList.add("current")
   strings[currCol] = currRow
 }
 
@@ -59,7 +63,7 @@ function checkKey(e) {
   currCol = Math.min(currCol, cols - 1)
 
   if (currRow !== oldRow || currCol !== oldCol) {
-    updateView()
+    updateView(oldRow, oldCol)
   }
 
 }
@@ -69,3 +73,4 @@ curr = document.getElementById('start')
 strings[currCol] = currRow
 curr.focus()
 curr.classList.add("highlight")
+curr.classList.add("current")
