@@ -4,14 +4,31 @@ const tbl = document.getElementById('scrap')
 /** The current cursor position in the table. */
 var curr = null
 
+/** The preferred strings selected by navigation. */
+const strings = new Array(tbl.getElementsByTagName('tr')[0].getElementsByTagName('td').length)
+// alert('strings: ' + strings.length)
+
+/** Print highlighted cells. */
+window.showCells = function() {
+  alert('strings: ' + strings.join(','))
+}
+
 /** Highlight the cursor cell (only one cell should be lit per column). */
 function updateView(sibling) {
   if (sibling != null) {
     clearColumn(sibling)
     sibling.focus()
     sibling.classList.add("highlight")
+    updateStrings(sibling)
     curr = sibling
   }
+}
+
+/** Update strings */
+function updateStrings(cell) {
+  const r = cell.parentNode.rowIndex
+  const c = cell.cellIndex
+  strings[c] = r
 }
 
 /** Clear all cells in column. */
@@ -50,5 +67,6 @@ function checkKey(e) {
 
 document.onkeydown = checkKey
 curr = document.getElementById('start')
+updateStrings(curr)
 curr.focus()
 curr.classList.add("highlight")
