@@ -1,35 +1,22 @@
-var start = document.getElementById('start');
-const tbl = document.getElementById('scrap');
-start.focus();
-start.classList.add("highlight")
-// start.style.backgroundColor = 'green';
-// start.style.color = 'white';
+/** The table we're navigating. */
+const tbl = document.getElementById('scrap')
 
-function dotheneedful(sibling) {
+/** The current cursor position in the table. */
+var curr = null
+
+/** Highlight the cursor cell (only one cell should be lit per column). */
+function updateView(sibling) {
   if (sibling != null) {
-    // start.focus()
-    // start.classList.remove("highlight")
-    /*
-    start.style.backgroundColor = '';
-    start.style.color = '';
-    */
-
     clearColumn(sibling)
-
-    sibling.focus();
+    sibling.focus()
     sibling.classList.add("highlight")
-    /*
-    sibling.style.backgroundColor = 'green';
-    sibling.style.color = 'white';
-*/
-    start = sibling;
+    curr = sibling
   }
 }
 
-document.onkeydown = checkKey;
-
+/** Clear all cells in column. */
 function clearColumn(e) {
-  const col = e.cellIndex;
+  const col = e.cellIndex
   const rows = tbl.getElementsByTagName('tr').length
   for (var i = 0; i < rows; i++) {
     const c = tbl.getElementsByTagName('tr')[i].getElementsByTagName('td')[col]
@@ -37,35 +24,31 @@ function clearColumn(e) {
   }
 }
 
+/** Keyboard handler. */
 function checkKey(e) {
-  e = e || window.event;
+  e = e || window.event
   if (e.keyCode == '38') {
     // up arrow
-    start.classList.remove("highlight")
-    var nextrow = start.parentElement.previousElementSibling;
-    if (nextrow != null) {
-      var idx = start.cellIndex;
-      var sibling = nextrow.cells[idx];
-      dotheneedful(sibling);
+    const r = curr.parentElement.previousElementSibling
+    if (r != null) {
+      updateView(r.cells[curr.cellIndex])
     }
   } else if (e.keyCode == '40') {
     // down arrow
-    start.classList.remove("highlight")
-    var nextrow = start.parentElement.nextElementSibling;
-    if (nextrow != null) {
-      var idx = start.cellIndex;
-      var sibling = nextrow.cells[idx];
-      dotheneedful(sibling);
+    const r = curr.parentElement.nextElementSibling
+    if (r != null) {
+      updateView(r.cells[curr.cellIndex])
     }
   } else if (e.keyCode == '37') {
     // left arrow
-    // clearColumn(start)
-    var sibling = start.previousElementSibling;
-    dotheneedful(sibling);
+    updateView(curr.previousElementSibling)
   } else if (e.keyCode == '39') {
     // right arrow
-    var sibling = start.nextElementSibling;
-    dotheneedful(sibling);
-    // clearColumn(start)
+    updateView(curr.nextElementSibling)
   }
 }
+
+document.onkeydown = checkKey
+curr = document.getElementById('start')
+curr.focus()
+curr.classList.add("highlight")
