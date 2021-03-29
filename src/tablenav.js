@@ -29,6 +29,12 @@ function updateView() {
   strings[currCol] = currRow
 }
 
+function clearCurrent() {
+  const c = tbl.getElementsByTagName('tr')[currRow].getElementsByTagName('td')[currCol]
+  c.focus()
+  c.classList.remove("highlight")
+  strings[currCol] = null
+}
 
 /** Keyboard handler. */
 function checkKey(e) {
@@ -36,12 +42,13 @@ function checkKey(e) {
   const oldCol = currCol
 
   e = e || window.event
-  const [ DOWN, RIGHT, UP, LEFT ] = [ '40', '39', '38', '37' ]
+  const [ DOWN, RIGHT, UP, LEFT, SPACE ] = [ '40', '39', '38', '37', '32' ]
   switch(`${e.keyCode}`) {
   case UP: currRow -= 1; break
   case DOWN: currRow += 1; break
   case LEFT: currCol -= 1; break
   case RIGHT: currCol += 1; break
+  case SPACE: clearCurrent(); break
   default: return
   }
 
