@@ -6,10 +6,18 @@
     <title>Hacktab</title>
     <script src='./index.js'></script>
     <style>
-      h1   {color: blue;}
-      div  {padding: 5px;}
-      #rawnote {font-style: italic;}
-
+      h1   {
+          color: blue;
+      }
+      div  {
+          padding: 5px;
+      }
+      #rawnote {
+          font-style: italic;
+      }
+      #rawtab {
+          border-left: 1px solid black;
+      }
       .footer {
           position: fixed;
           left: 0;
@@ -34,6 +42,17 @@
 -- Cheers!<br />
       </span>
     </div>
+
+    <table id="rawtab">
+      <tbody>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+        <tr><td>&nbsp;</td></tr>
+      </tbody>
+    </table>
 
     <div id="controls-start-stop">
       <button type="button" onclick="startRecord(); return true;">Start</button>
