@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "tape 'test/**/*-test.js' | tap-spec",
-    "start": "parcel src/index.html aubio.wasm --out-dir dev",
+    "start": "parcel src/index.html src/tablenav.html aubio.wasm --out-dir dev",
     "build": "parcel build src/index.html aubio.wasm --out-dir docs --public-url ./",
     "deploy": "npm run build && git add docs && git commit -m 'Deploy' && git push origin main"
   },
