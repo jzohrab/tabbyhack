@@ -49,13 +49,23 @@ window.addRandom = function() {
 // Thanks to https://stackoverflow.com/questions/49968622/auto-scroll-a-horizontal-div
 // for rawtab autoscroll
 
-window.addEventListener('load', () => {
-  const rawtabContainer = document.getElementById('rawtabcontainer');
-  const rawtabScrollWidth = rawtabContainer.scrollWidth;
+var autoscrollInterval = null
 
-  self.setInterval(() => {
+window.addEventListener('load', () => {
+  const rawtabContainer = document.getElementById('rawtabcontainer')
+  const rawtabScrollWidth = rawtabContainer.scrollWidth
+
+  autoscrollInterval = self.setInterval(() => {
     if (rawtabContainer.scrollLeft !== rawtabScrollWidth) {
-      rawtabContainer.scrollTo(rawtabContainer.scrollLeft + 1, 0);
+      rawtabContainer.scrollTo(rawtabContainer.scrollLeft + 1, 0)
     }
-  }, 15);
-});
+  }, 15)
+})
+
+
+/** Stop the application */
+window.stopRecord = function() {
+  window.clearInterval(autoscrollInterval)
+  const rawtabContainer = document.getElementById('rawtabcontainer')
+  rawtabContainer.scrollTo(0,0)
+}
