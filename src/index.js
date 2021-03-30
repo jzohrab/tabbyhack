@@ -61,6 +61,7 @@ var tabselector = null
 
 /** Stop the application and scrolling */
 window.stopRecord = function() {
+  window.app.stop()
   window.clearInterval(autoscrollInterval)
   const rawtabContainer = document.getElementById('rawtabcontainer')
   rawtabContainer.scrollTo(0,0)

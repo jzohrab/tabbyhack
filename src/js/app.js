@@ -72,6 +72,10 @@ Application.prototype.start = function() {
 }
 
 
+Application.prototype.stop = function() {
+  this.tuner.onNoteDetected = function(note) { /* no-op */ }
+}
+
 Application.prototype.rawtabdata = function() {
   return this.rawtab.tab(this.notes.map(n => n.frequency))
 }
