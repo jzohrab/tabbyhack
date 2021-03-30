@@ -1,5 +1,6 @@
 import { Application } from './js/app.js'
 import { Tabselector } from './js/tabselector.js'
+import { Scribe } from './js/scribe.js'
 
 // All functions have "window." due to hint:
 // https://stackoverflow.com/questions/57602686/
@@ -99,4 +100,10 @@ window.getTab = function() {
   }
   window.alert(JSON.stringify(result))
   // TODO - create arrayscribe, write out data
+
+  const scribe = new Scribe(window.app.strings.length)
+  const scribetab = scribe.tab(result)
+  const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
+  const tabdest = document.getElementById('tabdest')
+  tabdest.innerHTML = tabout
 }
