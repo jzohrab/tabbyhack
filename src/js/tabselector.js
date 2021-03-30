@@ -79,6 +79,8 @@ Tabselector.prototype.clearCurrent = function() {
 }
 
 Tabselector.prototype.toggleChordTone = function() {
+  if (!this.activeCursor)
+    return
   this.clearHighlights(this.currRow, this.currCol)
   const newtype = (this.strings[this.currCol].type === 'tone') ?
         { type: 'chord', classname: 'chordtone' } :
