@@ -3,8 +3,9 @@
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <title>Hacktab</title>
     <script src='./index.js'></script>
+
+    <title>Hacktab</title>
     <style>
       h1   {
           color: blue;
@@ -18,6 +19,27 @@
       #rawtab {
           border-left: 1px solid black;
       }
+
+      #rawtabcontainer {
+          width: 600px;
+          overflow-x: scroll;
+          white-space: nowrap;
+          background-color: lightyellow;
+      }
+
+      table {
+          border-collapse: collapse;
+          border: 1px solid lightgrey;
+      }
+
+      table td {
+          border: 1px solid lightgrey;
+          font-family: courier;
+          font-size: 12pt;
+          text-align: right;
+          padding: 5px;
+      }
+
       .footer {
           position: fixed;
           left: 0;
@@ -43,17 +65,19 @@
       </span>
     </div>
 
-    <table id="rawtab">
-      <tbody>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>&nbsp;</td></tr>
-        <tr><td>&nbsp;</td></tr>
-      </tbody>
-    </table>
-
+    <div id="rawtabcontainer">
+      <table>
+        <tbody id="rawtab">
+          <tr><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td></tr>
+          <tr><td>&nbsp;</td></tr>
+        </tbody>
+      </table>
+    </div>
+    
     <div id="controls-start-stop">
       <button type="button" onclick="startRecord(); return true;">Start</button>
       <button type="button" id="btnAddRandom" onclick="addRandom(); return true;">Add random note (development)</button>

@@ -1,5 +1,6 @@
 import { GuitarString } from './guitarstring.js'
 import { Scribe } from './scribe.js'
+import { Rawtab } from './rawtab.js'
 import { Tuner } from './tuner.js'
 
 const Application = function() {
@@ -7,6 +8,7 @@ const Application = function() {
   this.tuner = new Tuner(a4)
   this.$rawnote = document.getElementById('rawnote')
   this.$tab = document.getElementById('tab')
+  this.$rawtab = document.getElementById('rawtab')
   this.notes = []
 
   // Frequencies from https://en.wikipedia.org/wiki/Guitar_tunings
@@ -20,6 +22,8 @@ const Application = function() {
   ]
   const strings = stringFreqs.map((f, i) => new GuitarString(i, f))
   this.scribe = new Scribe(strings, { max: 24 })
+
+  this.rawtab = new Rawtab(strings, { max: 24 })
 }
 
 
@@ -67,9 +71,26 @@ Application.prototype.start = function() {
 
 }
 
+/** This is terribly done, there is likely a much better way to do it. */
+Application.prototype.writeRawTab = function() {
+  const rawtab = this.rawtab.tabHtml(this.notes.map(n => n.frequency))
+  // console.log(this.$rawtab)
+
+  while (this.$rawtab.children.length > 0) {
+    const r = this.$rawtab.getElementsByTagName("tr")[0]
+    this.$rawtab.removeChild(r)
+  }
+
+  // console.log(rawtab)
+  for (var i = 0; i < rawtab.length; i++) {
+    // console.log(rawtab[i])
+    this.$rawtab.appendChild(rawtab[i])
+  }
+}
+
 Application.prototype.writeTab = function() {
-  const rawtab = this.scribe.tab(this.notes.map(n => n.frequency))
-  const tabout = rawtab.map(a => a.join('<br />')).join('<br /><br /><br />')
+  const scribetab = this.scribe.tab(this.notes.map(n => n.frequency))
+  const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
   this.$tab.innerHTML = tabout
 }
 
@@ -79,6 +100,7 @@ Application.prototype.update = function(note) {
     this.$rawnote.innerHTML = `Current: ${notedesc}`
     this.notes.push(note)
     this.writeTab()
+    this.writeRawTab()
   }
 }
 
