@@ -70,7 +70,7 @@ window.stopRecord = function() {
 
 
 /** Get tab */
-window.getTab = function() {
+window.renderTab = function() {
   const rawtab = window.app.rawtabdata()
   // console.log(rawtab)
   const strings = tabselector.strings
@@ -96,4 +96,17 @@ window.getTab = function() {
   const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
   const tabdest = document.getElementById('tabdest')
   tabdest.innerHTML = tabout
+}
+
+
+window.copyTab = function() {
+  var copyText = document.getElementById("tabdest")
+  var textArea = document.createElement("textarea")
+  textArea.value = copyText.innerHTML.
+    replace(/<br>/g, '\n').
+    replace(/<br \/>/g, '\n')
+  document.body.appendChild(textArea)
+  textArea.select()
+  document.execCommand("Copy")
+  textArea.remove()
 }
