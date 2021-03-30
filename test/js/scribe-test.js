@@ -18,98 +18,56 @@ test('single open string', t => {
   t.end()
 })
 
-/*
 test('single string multiple notes', t => {
-  const scribe = new Scribe([b])
-  const actual = scribe.tab([Bhz, Ehz, Bhz * 2])
+  const scribe = new Scribe(1)
+  const actual = scribe.tab([ { '0': 0 }, {0: 5}, {0: 12} ])
   const expected = [["-0-5-12-"]]
   t.deepEqual(actual, expected)
   t.end()
 })
 
-test('fret less than 0 ignored', t => {
-  const scribe = new Scribe([b])
-  t.deepEqual(scribe.tab([Bhz-100]), [["---"]])
+test('null tabbed as empty', t => {
+  const scribe = new Scribe(1)
+  t.deepEqual(scribe.tab([{0: 0}, {0: 5}, {0: null}, {0: 12}]), [["-0-5---12-"]])
   t.end()
 })
 
-test('fret can be very large if no max fret specified', t => {
-  const scribe = new Scribe([b])
-  t.deepEqual(scribe.tab([Bhz * 16]), [["-48-"]])
-  t.end()
-})
-
-test('fret greater than max ignored', t => {
-  const scribe = new Scribe([b], { max: 12 } )
-  t.deepEqual(scribe.tab([Bhz, Ehz, Ehz * 2, Bhz * 2]), [["-0-5---12-"]])
-  t.end()
-})
-
-test('fret less than min ignored', t => {
-  const scribe = new Scribe([b], { min: 4, max: 10 } )
-  t.deepEqual(scribe.tab([Bhz, Ehz, Ehz * 2, Bhz * 2]), [["---5-----"]])
-  t.end()
-})
-
-test('multistring open string', t => {
-  const scribe = new Scribe([e, b])
-  const actual = scribe.tab([Bhz, Ehz])
+test('multistring numbers aligned correctly', t => {
+  const scribe = new Scribe(2)
+  const actual = scribe.tab([{1: 0}, {0: 0, 1: 0}, {0: 7, 1: 12}, {1: 5}])
   const expected = [[
-    "---0-",
-    "-0-5-"
+    "---0--7---",
+    "-0-0-12-5-"
   ]]
   t.deepEqual(actual, expected)
   t.end()
 })
 
-test('multistring above 10th fret tab numbers aligned correctly', t => {
-  const scribe = new Scribe([e, b])
-  const actual = scribe.tab([Bhz, Ehz, Bhz * 2, Ehz])
+test('multistring null notes arent tabbed', t => {
+  const scribe = new Scribe(2)
+  const actual = scribe.tab([{1: 0}, {0: null, 1: 0}, {0: 7, 1: 12}, {1: 5}])
   const expected = [[
-    "---0--7-0-",
-    "-0-5-12-5-"
+    "------7---",
+    "-0-0-12-5-"
   ]]
   t.deepEqual(actual, expected)
   t.end()
 })
-
-test('multistring ignored notes arent tabbed', t => {
-  const scribe = new Scribe([e, b], { min: 4, max: 12 } )
-  const actual = scribe.tab([Bhz, Ehz, Bhz * 2, Bhz / 2, Ehz * 2])
-  const expected = [[
-    "------7---12-",
-    "---5-12------"
-  ]]
-  t.deepEqual(actual, expected)
-  t.end()
-})
-
-test('multistring out of range notes yields blank tab', t => {
-  const scribe = new Scribe([e, b], { min: 4, max: 12 } )
-  const actual = scribe.tab([Ehz * 8, Bhz * 8, Bhz / 2, Ehz * 8])
-  const expected = [[
-    "---------",
-    "---------"
-  ]]
-  t.deepEqual(actual, expected)
-  t.end()
-})
-
 
 test('can split tab to separate lines', t => {
-  const scribe = new Scribe([e, b], { stafflength: 7 })
-  const actual = scribe.tab([Bhz, Ehz, Bhz * 2, Ehz])
+  const scribe = new Scribe(2, { stafflength: 7 })
+  const actual = scribe.tab([{1: 0}, {0: null, 1: 0}, {0: 7, 1: 12}, {1: 5}])
   const expected = [
     [
-      "---0--7-",
-      "-0-5-12-"
+      "------7-",
+      "-0-0-12-"
     ],
     [
-      "-0-",
+      "---",
       "-5-"
     ]
   ]
   t.deepEqual(actual, expected)
   t.end()
 })
-*/
+
