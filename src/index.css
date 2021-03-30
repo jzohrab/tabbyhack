@@ -2,10 +2,6 @@ body {
     font-family: Arial
 }
 
-div  {
-    padding: 5px;
-}
-
 #rawnote {
     font-style: italic;
     font-size: 10pt;
@@ -24,6 +20,7 @@ div  {
 }
 
 #userControls {
+    padding: 5px;
     width: 600px;
 }
 
@@ -94,39 +91,49 @@ table td {
   left: 0;
   background-color: black;
   overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 20px;
+}
+
+.toolname {
+    max-height: 50px;
 }
 
 /* Title */
 .sidenav p {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 20px;
-  color: white;
-  display: block;
+    margin: 20px;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    display: block;
 }
 
 /* The navigation menu links */
 .sidenav a {
-  padding: 6px 8px 6px 16px;
-  text-decoration: none;
-  font-size: 18px;
-  color: #818181;
-  display: block;
+    margin: 0px;
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #818181;
+    display: block;
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #f1f1f1;
+    color: #f1f1f1;
 }
+
 
 /* Style page content */
 .main {
-    margin-top: 40px;
     margin-left: 160px; /* Same as the width of the sidebar */
     padding: 0px 10px;
 }
 
+#bannerDiv {
+    margin-bottom: 40px;
+    margin-top: 30px;
+    font-size: 12px;
+    font-style: italic;
+}
 
 /** Popup - based on https://html-online.com/articles/simple-popup-box/ */
 
