@@ -13,6 +13,10 @@ const Tabselector = function(rows, cols) {
   /** The preferred strings selected by navigation. */
   this.strings = new Array(cols)
   this.strings[this.currCol] = this.currRow
+
+  /** The cursor is active when it changes the preferred strings. */
+  this.activeCursor = true
+  this.cursorStyle = "current"
 }
 
 
@@ -25,25 +29,41 @@ Tabselector.prototype.init = function() {
   this.updateView(0, 0)
 }
 
+Tabselector.prototype.toggleCursor = function() {
+  const cl = this.cell(this.currRow, this.currCol).classList
+  cl.remove(this.cursorStyle)
+  this.activeCursor = !this.activeCursor
+  this.cursorStyle = (this.activeCursor ? "current" : "currentpassive")
+  cl.add(this.cursorStyle)
+
+  if (this.activeCursor) {
+    this.updateView(this.currRow, this.currCol)
+  }
+}
+
 Tabselector.prototype.cell = function(r, c) {
   return this.tbl.
     getElementsByTagName('tr')[r].
     getElementsByTagName('td')[c]
 }
-  
-/** Highlight the cursor cell (only one cell should be lit per column). */
+
+/** Highlight the cursor cell (only one cell should be highlighted per column). */
 Tabselector.prototype.updateView = function(oldRow, oldCol) {
+  this.cell(oldRow, oldCol).classList.remove(this.cursorStyle)
+  const c = this.cell(this.currRow, this.currCol)
+  c.focus()
+  c.classList.add(this.cursorStyle)
+
+  if (!this.activeCursor) {
+    return
+  }
+
   /** Clear all cells in column. */
   for (var i = 0; i < this.rows; i++) {
     this.cell(i, this.currCol).classList.remove("highlight")
   }
 
-  this.cell(oldRow, oldCol).classList.remove("current")
-
-  const c = this.cell(this.currRow, this.currCol)
-  c.focus()
   c.classList.add("highlight")
-  c.classList.add("current")
   this.strings[this.currCol] = this.currRow
 }
 
@@ -60,13 +80,14 @@ Tabselector.prototype.checkKey = function(e) {
   const oldCol = this.currCol
 
   e = e || window.event
-  const [ DOWN, RIGHT, UP, LEFT, SPACE ] = [ '40', '39', '38', '37', '32' ]
+  const [ DOWN, RIGHT, UP, LEFT, SPACE, T ] = [ '40', '39', '38', '37', '32', '84' ]
   switch(`${e.keyCode}`) {
   case UP: this.currRow -= 1; break
   case DOWN: this.currRow += 1; break
   case LEFT: this.currCol -= 1; break
   case RIGHT: this.currCol += 1; break
   case SPACE: clearCurrent(); break
+  case T: this.toggleCursor(); break
   default: return
   }
 
