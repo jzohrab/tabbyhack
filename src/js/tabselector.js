@@ -60,16 +60,31 @@ Tabselector.prototype.updateView = function(oldRow, oldCol) {
 
   /** Clear all cells in column. */
   for (var i = 0; i < this.rows; i++) {
-    this.cell(i, this.currCol).classList.remove("highlight")
+    this.clearHighlights(i, this.currCol)
   }
 
   c.classList.add("highlight")
-  this.strings[this.currCol] = this.currRow
+  this.strings[this.currCol] = { string: this.currRow, type: 'tone' }
+}
+
+Tabselector.prototype.clearHighlights = function(r, c) {
+  const cl = this.cell(r, c).classList
+  cl.remove("highlight")
+  cl.remove("chordtone")
 }
 
 Tabselector.prototype.clearCurrent = function() {
   this.cell(this.currRow, this.currCol).classList.remove("highlight")
   this.strings[this.currCol] = null
+}
+
+Tabselector.prototype.toggleChordTone = function() {
+  this.clearHighlights(this.currRow, this.currCol)
+  const newtype = (this.strings[this.currCol].type === 'tone') ?
+        { type: 'chord', classname: 'chordtone' } :
+        { type: 'tone', classname: 'highlight' }
+  this.strings[this.currCol].type = newtype.type
+  this.cell(this.currRow, this.currCol).classList.add(newtype.classname)  
 }
 
 /** Keyboard handler. */
@@ -88,6 +103,7 @@ Tabselector.prototype.checkKey = function(e) {
   case RIGHT: this.currCol += 1; break
   case SPACE: clearCurrent(); break
   case T: this.toggleCursor(); break
+  case C: this.toggleChordTone(); break
   default: return
   }
 
