@@ -77,6 +77,10 @@ window.renderTab = function() {
   const result = []
   for (var i = 0; i < rawtab.length; i++) {
     const s = strings[i]
+
+    if (!s)
+      continue;
+
     let curr = {}
     switch (s.type) {
     case 'chord':
