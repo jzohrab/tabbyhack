@@ -24,9 +24,10 @@
 
     <div class="main">
 
-    <div id="controls-start-stop">
+    <div id="userControls">
       <button type="button" id="btnStart" onclick="startRecord();">Start</button>
       <button type="button" id="btnStop" onclick="stopRecord();" disabled>Stop</button>
+      <span id="rawnote">Current note: </span>
     </div>
 
     <div id="rawtabcontainer">
@@ -104,13 +105,12 @@
     <!--
     <div id="devControls">
       <p>dev controls</p>
-      <p id="rawnote">&nbsp;</p>
       <button type="button" onclick="printRecord();">Raw data</button>
       <button type="button" onclick="addRandom();">Add random note</button>
       <span id="recorded"/>
     </div>
     -->
-    
+
     </div>
 
     <div id="popupDiv" style="display: none;">
