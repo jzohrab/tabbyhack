@@ -60,7 +60,7 @@ test('multistring open string', t => {
   t.end()
 })
 
-test('multistring above 10th fret tab numbers aligned correctly', t => {
+test('multistring above 10th fret', t => {
   const rawtab = new Rawtab([e, b])
   const actual = rawtab.tab([Bhz, Ehz, Bhz * 2, Ehz])
   const expected = [

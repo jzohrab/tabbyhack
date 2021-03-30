@@ -74,3 +74,16 @@ window.stopRecord = function() {
   tabselector = new Tabselector(window.app.strings.length, window.app.notes.length)
   tabselector.init()
 }
+
+
+/** Get tab */
+window.getTab = function() {
+  const rawtab = window.app.rawtabdata()
+  const strings = tabselector.strings
+  const result = rawtab.map((r, i) => {
+    const s = strings[i]
+    return [s, r[s]]
+  })
+  window.alert(JSON.stringify(result))
+  // TODO - create arrayscribe, write out data
+}

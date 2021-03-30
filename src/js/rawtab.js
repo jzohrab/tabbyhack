@@ -20,6 +20,8 @@ Rawtab.prototype.tab = function(frequencies) {
 
   const result = []
 
+  // NOTE: if the "layout" of result changes (e.g. data format change),
+  // app.js writeRawTab must change as well.
   for (var i = 0; i < frequencies.length; i++) {
     const freq = frequencies[i]
     const frets = this.strings.
@@ -32,20 +34,5 @@ Rawtab.prototype.tab = function(frequencies) {
   return result
 }
 
-
-Rawtab.prototype.tabHtml = function(frequencies) {
-  const data = this.tab(frequencies)
-  const rows = this.strings.map(s => document.createElement('tr'))
-  for (var i = 0; i < data.length; i++) {
-    for (s = 0; s < this.strings.length; s++) {
-      const td = document.createElement('td')
-      let v = data[i][s]
-      if (v === null) { v = '&nbsp;' }
-      td.innerHTML = v  // appendChild(document.createTextNode(v))
-      rows[s].appendChild(td)
-    }
-  }
-  return rows
-}
 
 module.exports = { Rawtab }

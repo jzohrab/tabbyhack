@@ -71,10 +71,24 @@ Application.prototype.start = function() {
 
 }
 
+
+Application.prototype.rawtabdata = function() {
+  return this.rawtab.tab(this.notes.map(n => n.frequency))
+}
+
 /** This is terribly done, there is likely a much better way to do it. */
 Application.prototype.writeRawTab = function() {
-  const rawtab = this.rawtab.tabHtml(this.notes.map(n => n.frequency))
-  // console.log(this.$rawtab)
+  const data = this.rawtabdata()
+  const rows = this.strings.map(s => document.createElement('tr'))
+  for (var i = 0; i < data.length; i++) {
+    for (var s = 0; s < this.strings.length; s++) {
+      const td = document.createElement('td')
+      let v = data[i][s]
+      if (v === null) { v = '&nbsp;' }
+      td.innerHTML = v
+      rows[s].appendChild(td)
+    }
+  }
 
   while (this.$rawtab.children.length > 0) {
     const r = this.$rawtab.getElementsByTagName("tr")[0]
@@ -82,9 +96,9 @@ Application.prototype.writeRawTab = function() {
   }
 
   // console.log(rawtab)
-  for (var i = 0; i < rawtab.length; i++) {
+  for (var i = 0; i < rows.length; i++) {
     // console.log(rawtab[i])
-    this.$rawtab.appendChild(rawtab[i])
+    this.$rawtab.appendChild(rows[i])
   }
 }
 
