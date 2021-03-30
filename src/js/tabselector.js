@@ -80,8 +80,8 @@ Tabselector.prototype.checkKey = function(e) {
   const oldCol = this.currCol
 
   e = e || window.event
-  const [ DOWN, RIGHT, UP, LEFT, SPACE, T ] = [ '40', '39', '38', '37', '32', '84' ]
-  switch(`${e.keyCode}`) {
+  const [ DOWN, RIGHT, UP, LEFT, SPACE, T, C ] = [ 40, 39, 38, 37, 32, 84, 67 ]
+  switch(0 + e.keyCode) {
   case UP: this.currRow -= 1; break
   case DOWN: this.currRow += 1; break
   case LEFT: this.currCol -= 1; break
