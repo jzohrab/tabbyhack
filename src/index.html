@@ -4,6 +4,7 @@
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='./index.js'></script>
+    <script src='./sidebar.js'></script>
     <link rel="stylesheet" type="text/css" href="./index.css">
     <title>Hacktab</title>
   </head>
@@ -14,10 +15,10 @@
         <p>Hacktab</p>
       </div>
       <div class="navlinks">
-        <a href="#">About</a>
-        <a href="#">Usage</a>
+        <a href="#" onclick="openPopup('menuUsage');">Usage</a>
         <a href="#">Demo</a>
-        <a href="#">FAQ/NAQ</a>
+        <a href="#" onclick="openPopup('menuFaq');">FAQ/NAQ</a>
+        <a href="#" onclick="showOverlay('overlay');">About</a>
       </div>
     </div>
 
@@ -54,6 +55,43 @@
       <span id="tabdest" />
     </div>
 
+    <!-- Popup content -->
+    <div id="menuUsage" class="popupContent">
+      <p>Usage</p>
+      <ol>
+        <li>Get your guitar, tune up, and get within earshot of your mic.</li>
+        <li>Click Start, and let this site access your mic.</li>
+        <li>Play one note at a time, slowly (about 1 note per 1/2 second).  Tab candidate notes will appear as they're recognized.  For chords, play the strings one at a time, and don't overlap the notes.</li>
+        <li>Click Stop when you're done.</li>
+        <li>Using the keyboard arrows, select the strings and frets you want to use for the tab.  'c' appends chord tones onto previous notes, and 't' toggles the cursor.  (Hard to explain ... perhaps see the demo).</li>
+        <li>When you've selected the notes you want, click 'Write tab'.  If it looks good, click 'Copy', and paste it wherever you need it.  If you need to fix it, either keep using the keyboard, or edit the tab you've already exported.</li>
+      </ol>
+    </div>
+
+    <div id="menuFaq" class="popupContent">
+      <p>FAQs and NAQs (Never Asked Questions) which I'm answering preemptively.</p>
+      <p>
+        <b>"Who is this for?"</b><br />
+        A: Teachers, people who want to get quick tabs, whoever finds it useful, really.
+      </p>
+      <p>
+        <b>"Why is this so primitive?"</b><br />
+        A: There are existing fully-featured tab things out there, but I wanted something that I could "dictate to" with my guitar, and that would let me quickly make ascii tabs.
+      </p>
+      <p>
+        <b>"Why can't I play chords?"</b><br />
+        A: I haven't looked into this much, but the library that this uses only distinguishes individual tones.  It's possible to extract multiple frequencies from a single chord, but that's beyond the scope of this little project.
+      </p>
+      <p>
+        <b>"Can you make this software do x, y, z, [feature request here]?"</b><br />
+        A: I welcome code contributions to the GitHub repo! (see "About" in the menu)  Unfortunately I'm dealing with a medical issue that makes extensive coding tough, so I doubt I'll be investing <i>serious</i> time into this project, unless there is a real need.  I don't know how many people will use it, though!
+      </p>
+      <p>
+        <b>"I love it!  Where can I donate a pile of money to?"</b><br />
+        A: This is a small project, done for fun and as a small contribution to any guitarists who find it interesting.  But if you <i>really</i> want to give me money, please donate that same sum to your nearest women's health org, animal shelter, or any worthy cause.  Or call that friend you've been meaning to and say hi.  Or surprise a stranger with a free coffee.  Then send me a virtual high-five, and we'll call it even.  Cheers!
+      </p>
+    </div>
+
     <!-- hidden in prod -->
     <div id="devControls">
       <p>dev controls</p>
@@ -63,32 +101,20 @@
       <span id="recorded"/>
     </div>
 
-    <div id="overlay" onclick="off()">
-      <div id="text">Overlay Text</div>
-          <div>
-      <ul>
-        <li>Get your guitar.</li>
-        <li>Click Start, and let this site access your mic.</li>
-        <li>Play one note at a time, slowly (1 note per 1/2 second), and this area will update with tab.</li>
-        <li>All processing takes place in your browser, no data is collected.</li>
-      </ul>
-    </div>
-    </div>
-
-    <script>
-function on() {
-  document.getElementById("overlay").style.display = "block";
-}
-
-function off() {
-  document.getElementById("overlay").style.display = "none";
-}
-    </script>
-    
     <div class="footer">
       <p><a href="https://github.com/jzohrab/hacktab">GitHub repo</a> - code contributions are very welcome!</p>
     </div>
 
     </div>
+
+    <div id="popupDiv" style="display: none;">
+      <div id="popupBox">
+        <div class="popupCloseButton" onclick="closePopup();">&times;</div>
+        <div id="popupText" />
+      </div>
+    </div>
+
+
   </body>
 </html>
+
