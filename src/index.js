@@ -30,6 +30,16 @@ window.printRecord = function() {
   display.innerHTML = content
 }
 
+window.restartApp = function() {
+  window.app = null
+  tabselector = null
+  enableButtons({ btnStart: true, btnStop: false, btnWrite: false, btnCopy: false })
+  const tabdest = document.getElementById('tabdest')
+  tabdest.innerHTML = ''
+  startRecord()
+}
+
+
 window.onloadBody = function() {
   // In prod, hide dev tools.
   // there is probably a much better way to do this,
