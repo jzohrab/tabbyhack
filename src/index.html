@@ -31,7 +31,6 @@
           width: 600px;
           overflow-x: scroll;
           white-space: nowrap;
-          background-color: lightyellow;
       }
 
       table {
@@ -105,7 +104,7 @@
     </div>
 
     <div id="rawtabcontainer">
-      <table>
+      <table style="background-color: lightyellow;">
         <tbody id="rawtab">
           <tr><td>&nbsp;</td></tr>
           <tr><td>&nbsp;</td></tr>
@@ -117,8 +116,6 @@
       </table>
     </div>
 
-    <p id="rawnote">&nbsp;</p>
-
     <div id="finaltab">
       <span id="tabdest" />
     </div>
@@ -126,6 +123,7 @@
     <!-- hidden in prod -->
     <div id="devControls">
       <p>dev controls</p>
+      <p id="rawnote">&nbsp;</p>
       <button type="button" onclick="printRecord(); return true;">Raw data</button>
       <button type="button" onclick="addRandom(); return true;">Add random note</button>
       <span id="recorded"/>
