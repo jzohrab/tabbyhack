@@ -53,7 +53,7 @@ Tabselector.prototype.updateView = function(oldRow, oldCol) {
   const c = this.cell(this.currRow, this.currCol)
   c.focus()
   c.classList.add(this.cursorStyle)
-  c.scrollIntoView(true)
+  c.scrollIntoView({inline: "nearest"})
 
   if (!this.activeCursor) {
     return
