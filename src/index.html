@@ -104,8 +104,8 @@
     </div>
 
     <div id="controls-start-stop">
-      <button type="button" onclick="startRecord();">Start</button>
-      <button type="button" onclick="stopRecord();">Stop</button>
+      <button type="button" id="btnStart" onclick="startRecord();">Start</button>
+      <button type="button" id="btnStop" onclick="stopRecord();" disabled>Stop</button>
     </div>
 
     <div id="rawtabcontainer">
@@ -126,8 +126,8 @@
     </div>
 
     <div id="controls-tab">
-      <button type="button" onclick="renderTab();">Write tab</button>
-      <button type="button" onclick="copyTab();">Copy</button>&nbsp;<span id="copied">Copied!</span>
+      <button type="button" id="btnWrite" onclick="renderTab();" disabled>Write tab</button>
+      <button type="button" id="btnCopy" onclick="copyTab();" disabled>Copy</button>&nbsp;<span id="copied">Copied!</span>
     </div>
 
     <div id="finaltab">

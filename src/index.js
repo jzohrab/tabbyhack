@@ -6,6 +6,14 @@ import { Scribe } from './js/scribe.js'
 // https://stackoverflow.com/questions/57602686/
 //   javascript-function-wont-trigger-when-called-in-html-file-during-parcel-build
 
+const enableButtons = function(hsh) {
+  const es = Object.entries(hsh)
+  for (var i = 0; i < es.length; i++) {
+    const e = es[i]
+    document.getElementById(e[0]).disabled = !e[1]
+  }
+}
+
 /** Start the application */
 window.startRecord = function() {
   if (window.app) {
@@ -13,6 +21,7 @@ window.startRecord = function() {
   }
   window.app = new Application()
   window.app.start()
+  enableButtons({ btnStart: false, btnStop: true })
 }
 
 window.printRecord = function() {
@@ -62,6 +71,7 @@ var tabselector = null
 /** Stop the application and scrolling */
 window.stopRecord = function() {
   window.app.stop()
+  enableButtons({ btnStop: false, btnWrite: true })
   window.clearInterval(autoscrollInterval)
   const rawtabContainer = document.getElementById('rawtabcontainer')
   rawtabContainer.scrollTo(0,0)
@@ -101,6 +111,7 @@ window.renderTab = function() {
   const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
   const tabdest = document.getElementById('tabdest')
   tabdest.innerHTML = tabout
+  enableButtons({ btnCopy: true })
 }
 
 
