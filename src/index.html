@@ -106,8 +106,6 @@
     <div id="controls-start-stop">
       <button type="button" onclick="startRecord(); return true;">Start</button>
       <button type="button" onclick="stopRecord(); return true;">Stop</button>
-      <button type="button" onclick="renderTab(); return true;">Tab</button>
-      <button type="button" onclick="copyTab(); return true;">Copy</button>&nbsp;<span id="copied">Copied!</span>
     </div>
 
     <div id="rawtabcontainer">
@@ -125,6 +123,11 @@
 
     <div id="keyboardcontrols">
       <p>Arrow keys: navigate &mdash; t: toggle cursor &mdash; c: chord tone &mdash; space: toggle current cell</p>
+    </div>
+
+    <div id="controls-tab">
+      <button type="button" onclick="renderTab(); return true;">Write tab</button>
+      <button type="button" onclick="copyTab(); return true;">Copy</button>&nbsp;<span id="copied">Copied!</span>
     </div>
 
     <div id="finaltab">
