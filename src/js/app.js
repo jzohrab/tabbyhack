@@ -3,8 +3,11 @@ import { GuitarString } from './guitarstring.js'
 import { Rawtab } from './rawtab.js'
 import { Tuner } from './tuner.js'
 
-const Application = function() {
+const Application = function(opts = {}) {
   const a4 = 440
+  this.options = opts
+  this.options.min = this.options.min || 0
+  this.options.max = this.options.max || 12
   this.tuner = new Tuner(a4)
   this.$rawnote = document.getElementById('rawnote')
   // this.$tab = document.getElementById('tab')
@@ -23,7 +26,7 @@ const Application = function() {
   this.strings = stringFreqs.map((f, i) => new GuitarString(i, f))
   // this.scribe = new Scribe(this.strings, { max: 24 })
 
-  this.rawtab = new Rawtab(this.strings, { max: 24 })
+  this.rawtab = new Rawtab(this.strings, this.options)
 }
 
 

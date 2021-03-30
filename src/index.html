@@ -27,7 +27,14 @@
       <div id="bannerDiv">
         <p>Play your guitar and generate tab &mdash; see <a href="#" onclick="openPopup('menuUsage');">Usage</a> if you're new.  Welcome and good luck!</p>
       </div>
-      
+
+      <div id="userSpecsDiv">
+        <p>Use fret range:
+          min = <input type="text" style="width: 20px;" id="minFret" value="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />,
+          max = <input type="text" style="width: 20px;" id="maxFret" value="12" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+        </p>
+      </div>
+
       <div id="userControls">
         <button type="button" id="btnStart" onclick="startRecord();">Start</button>
         <button type="button" id="btnStop" onclick="stopRecord();" disabled>Stop</button>
@@ -66,6 +73,7 @@
         <p class="title">Usage</p>
         <ol>
           <li>Get your guitar, tune up, and get within earshot of your mic.</li>
+          <li><i>(Optional)</i> Enter the fret range -- this reduces the possible number of fretting options that the tabber will find.</li>
           <li>Click Start, and let this site access your mic.</li>
           <li>Play one note at a time, slowly (about 1 note per 1/2 second).  Tab candidate notes will appear as they're recognized.  For chords, play the strings one at a time, and don't overlap the notes.</li>
           <li>Click Stop when you're done.</li>

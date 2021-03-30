@@ -19,7 +19,10 @@ window.startRecord = function() {
   if (window.app) {
     return
   }
-  window.app = new Application()
+  const minfret = document.getElementById('minFret').value || 0
+  const maxfret = document.getElementById('maxFret').value || 12
+  const opts = { min: minfret, max: maxfret }
+  window.app = new Application(opts)
   window.app.start()
   enableButtons({ btnStart: false, btnStop: true })
 }
