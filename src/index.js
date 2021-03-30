@@ -109,4 +109,5 @@ window.copyTab = function() {
   textArea.select()
   document.execCommand("Copy")
   textArea.remove()
+  document.getElementById("copied").style.display = 'inline'
 }

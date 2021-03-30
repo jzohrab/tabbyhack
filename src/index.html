@@ -20,6 +20,13 @@
           border-left: 1px solid black;
       }
 
+      #copied {
+          font-size: 10pt;
+          font-style: italic;
+          color: green;
+          display: none;
+      }
+
       #rawtabcontainer {
           width: 600px;
           overflow-x: scroll;
@@ -94,7 +101,7 @@
       <button type="button" onclick="startRecord(); return true;">Start</button>
       <button type="button" onclick="stopRecord(); return true;">Stop</button>
       <button type="button" onclick="renderTab(); return true;">Tab</button>
-      <button type="button" onclick="copyTab(); return true;">Copy</button>
+      <button type="button" onclick="copyTab(); return true;">Copy</button>&nbsp;<span id="copied">Copied!</span>
     </div>
 
     <div id="rawtabcontainer">
