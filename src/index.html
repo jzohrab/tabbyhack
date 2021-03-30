@@ -90,6 +90,13 @@
       </ul>
     </div>
 
+    <div id="controls-start-stop">
+      <button type="button" onclick="startRecord(); return true;">Start</button>
+      <button type="button" onclick="stopRecord(); return true;">Stop</button>
+      <button type="button" onclick="renderTab(); return true;">Tab</button>
+      <button type="button" onclick="copyTab(); return true;">Copy</button>
+    </div>
+
     <div id="rawtabcontainer">
       <table>
         <tbody id="rawtab">
@@ -102,14 +109,8 @@
         </tbody>
       </table>
     </div>
-    
-    <div id="controls-start-stop">
-      <button type="button" onclick="startRecord(); return true;">Start</button>
-      &nbsp;<span id="rawnote"></span>
-      <button type="button" onclick="stopRecord(); return true;">Stop</button>
-      <button type="button" onclick="renderTab(); return true;">Tab</button>
-      <button type="button" onclick="copyTab(); return true;">Copy</button>
-    </div>
+
+    <p id="rawnote">&nbsp;</p>
 
     <div id="finaltab">
       <span id="tabdest" />
