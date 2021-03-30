@@ -35,7 +35,10 @@ window.onloadBody = function() {
   // there is probably a much better way to do this,
   // but this is fine for now.
   if (process.env.NODE_ENV === 'development') {
-    document.getElementById('devControls').style.display = 'block';
+    const el = document.getElementById('devControls')
+    if (el) {
+      el.style.display = 'block';
+    }
   }
 }
 

@@ -76,16 +76,6 @@ table td {
     display: none;
 }
 
-.footer {
-    position: fixed;
-    left: 0;
-    width: 100%;
-    font-style: italic;
-    padding: 10px;
-    border-left: 6px solid green;
-    background-color: lightgrey;
-}
-
 
 /* The sidebar menu */
 /* Thanks, https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp */
@@ -165,6 +155,11 @@ table td {
 
 #popupText p {
     margin-bottom: 12px;
+}
+
+#popupText p.title {
+    font-weight: bold;
+    border-bottom: 1px solid grey;
 }
 
 #popupText li {
