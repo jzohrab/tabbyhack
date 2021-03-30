@@ -25,8 +25,8 @@ window.onloadBody = function() {
   // In prod, hide dev tools.
   // there is probably a much better way to do this,
   // but this is fine for now.
-  if (process.env.NODE_ENV !== 'development') {
-    document.getElementById('btnAddRandom').style.display = 'none';
+  if (process.env.NODE_ENV === 'development') {
+    document.getElementById('devControls').style.display = 'block';
   }
 }
 

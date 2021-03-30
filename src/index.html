@@ -62,6 +62,11 @@
           font-family: courier;
       }
 
+      #devControls {
+          border-style: inset;
+          display: none;
+      }
+
       .footer {
           position: fixed;
           left: 0;
@@ -73,7 +78,7 @@
       }
     </style>
   </head>
-  <body>
+  <body onload="onloadBody()">
     <h1>Hacktab</h1>
 
     <div>
@@ -100,22 +105,21 @@
     
     <div id="controls-start-stop">
       <button type="button" onclick="startRecord(); return true;">Start</button>
-      <button type="button" id="btnAddRandom" onclick="addRandom(); return true;">Add random note (development)</button>
       &nbsp;<span id="rawnote"></span>
       <button type="button" onclick="stopRecord(); return true;">Stop</button>
       <button type="button" onclick="getTab(); return true;">Tab</button>
     </div>
 
-    <div id="controls-render">
-      <button type="button" onclick="printRecord(); return true;">Raw data</button>
-    </div>
-
-    <div>
-      <span id="recorded"/>
-    </div>
-
     <div id="finaltab">
       <span id="tabdest" />
+    </div>
+
+    <!-- hidden in prod -->
+    <div id="devControls">
+      <p>dev controls</p>
+      <button type="button" onclick="printRecord(); return true;">Raw data</button>
+      <button type="button" onclick="addRandom(); return true;">Add random note</button>
+      <span id="recorded"/>
     </div>
 
     <div class="footer">
