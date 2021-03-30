@@ -5,12 +5,15 @@ body {
 h1   {
     color: blue;
 }
+
 div  {
     padding: 5px;
 }
+
 #rawnote {
     font-style: italic;
 }
+
 #rawtab {
     border-left: 1px solid black;
 }
@@ -102,29 +105,37 @@ table td {
 }
 
 
-/* The side navigation menu */
+
+/* The sidebar menu */
+/* Thanks, https://www.w3schools.com/howto/howto_css_fixed_sidebar.asp */
 .sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 100px; /* 0 width - change this with JavaScript */
-  float: left;
-  /* position: fixed; /* Stay in place */
-  /* z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
+  height: 100%;
+  width: 140px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
   left: 0;
-  /* background-color: #111; /* Black*/
-  /* overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 10px;
-  transition: 0.5s;
+  background-color: black;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 20px;
+}
+
+/* Title */
+.sidenav p {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  display: block;
 }
 
 /* The navigation menu links */
 .sidenav a {
-  padding: 8px 8px 8px 32px;
+  padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 12px;
+  font-size: 18px;
   color: #818181;
   display: block;
-  transition: 0.3s;
 }
 
 /* When you mouse over the navigation links, change their color */
@@ -132,6 +143,61 @@ table td {
   color: #f1f1f1;
 }
 
+/* Style page content */
 .main {
-    margin-left:120px;
+    margin-top: 40px;
+    margin-left: 160px; /* Same as the width of the sidebar */
+    padding: 0px 10px;
 }
+
+/* ** 
+/* ** /* The side navigation menu */
+/* ** .sidenav {
+/* **   height: 100%; /* 100% Full-height */
+/* **   width: 150px; /* 0 width - change this with JavaScript */
+/* **   float: left;
+/* **   /* position: fixed; /* Stay in place */
+/* **   /* z-index: 1; /* Stay on top */
+/* **   top: 0; /* Stay at the top */
+/* **   left: 0;
+/* **   /* background-color: #111; /* Black*/
+/* **   /* overflow-x: hidden; /* Disable horizontal scroll */
+/* **   padding-top: 10px;
+/* **   transition: 0.5s;
+/* ** }
+/* ** 
+/* ** .toolname {
+/* **   /* padding: 8px 8px 8px 8px; */
+/* **   /* text-decoration: none; */
+/* **   font-size: 20px;
+/* **   color: white;
+/* **   /* display: block; */
+/* **   background-color: grey;
+/* **   transition: 0.3s;
+/* ** }
+/* ** 
+/* ** .navlinks {
+/* **   height: 100%; /* 100% Full-height */
+/* **   background-color: lightgrey;
+/* ** }
+/* ** 
+/* ** /* The navigation menu links */
+/* ** .sidenav a {
+/* **   /* padding: 8px 8px 8px 8px; */
+/* **   text-decoration: none;
+/* **   font-size: 12px;
+/* **   background-color: lightgrey;
+/* **   color: white;
+/* **   display: block;
+/* **   transition: 0.3s;
+/* ** }
+/* ** 
+/* ** /* When you mouse over the navigation links, change their color */
+/* ** .sidenav a:hover {
+/* **   color: #f1f1f1;
+/* ** }
+/* ** 
+/* ** .main {
+/* **     margin-left:120px;
+/* ** }
+/* ** */
