@@ -20,10 +20,10 @@ const Application = function() {
     110.00,
     82.41
   ]
-  const strings = stringFreqs.map((f, i) => new GuitarString(i, f))
-  this.scribe = new Scribe(strings, { max: 24 })
+  this.strings = stringFreqs.map((f, i) => new GuitarString(i, f))
+  this.scribe = new Scribe(this.strings, { max: 24 })
 
-  this.rawtab = new Rawtab(strings, { max: 24 })
+  this.rawtab = new Rawtab(this.strings, { max: 24 })
 }
 
 

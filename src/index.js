@@ -1,4 +1,5 @@
 import { Application } from './js/app.js'
+import { Tabselector } from './js/tabselector.js'
 
 // All functions have "window." due to hint:
 // https://stackoverflow.com/questions/57602686/
@@ -63,9 +64,13 @@ window.addEventListener('load', () => {
 })
 
 
+var tabselector = null
+
 /** Stop the application */
 window.stopRecord = function() {
   window.clearInterval(autoscrollInterval)
   const rawtabContainer = document.getElementById('rawtabcontainer')
   rawtabContainer.scrollTo(0,0)
+  tabselector = new Tabselector(window.app.strings.length, window.app.notes.length)
+  tabselector.init()
 }
