@@ -79,11 +79,24 @@ window.stopRecord = function() {
 /** Get tab */
 window.getTab = function() {
   const rawtab = window.app.rawtabdata()
+  // console.log(rawtab)
   const strings = tabselector.strings
-  const result = rawtab.map((r, i) => {
+  const result = []
+  for (var i = 0; i < rawtab.length; i++) {
     const s = strings[i]
-    return [s, r[s]]
-  })
+    let curr = {}
+    switch (s.type) {
+    case 'chord':
+      curr = result[result.length - 1]
+      break
+    case 'tone':
+      result.push(curr)
+      break
+    default:
+      throw `Bad type ${s.type}`
+    }
+    curr[s.string] = rawtab[i][s.string]
+  }
   window.alert(JSON.stringify(result))
   // TODO - create arrayscribe, write out data
 }
