@@ -6,13 +6,6 @@ import { Scribe } from './js/scribe.js'
 // https://stackoverflow.com/questions/57602686/
 //   javascript-function-wont-trigger-when-called-in-html-file-during-parcel-build
 
-/**  sample code only
-window.listNeckStrings = function() {
-  const n = new GuitarNeck()
-  alert(n.listStrings())
-}
-*/
-
 /** Start the application */
 window.startRecord = function() {
   if (window.app) {
@@ -56,7 +49,6 @@ var autoscrollInterval = null
 window.addEventListener('load', () => {
   const rawtabContainer = document.getElementById('rawtabcontainer')
   const rawtabScrollWidth = rawtabContainer.scrollWidth
-
   autoscrollInterval = self.setInterval(() => {
     if (rawtabContainer.scrollLeft !== rawtabScrollWidth) {
       rawtabContainer.scrollTo(rawtabContainer.scrollLeft + 1, 0)
@@ -67,7 +59,7 @@ window.addEventListener('load', () => {
 
 var tabselector = null
 
-/** Stop the application */
+/** Stop the application and scrolling */
 window.stopRecord = function() {
   window.clearInterval(autoscrollInterval)
   const rawtabContainer = document.getElementById('rawtabcontainer')
@@ -98,8 +90,6 @@ window.getTab = function() {
     }
     curr[s.string] = rawtab[i][s.string]
   }
-  window.alert(JSON.stringify(result))
-  // TODO - create arrayscribe, write out data
 
   const scribe = new Scribe(window.app.strings.length)
   const scribetab = scribe.tab(result)
