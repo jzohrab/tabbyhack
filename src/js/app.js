@@ -1,5 +1,5 @@
 import { GuitarString } from './guitarstring.js'
-import { Scribe } from './scribe.js'
+// import { Scribe } from './scribe.js'
 import { Rawtab } from './rawtab.js'
 import { Tuner } from './tuner.js'
 
@@ -7,7 +7,7 @@ const Application = function() {
   const a4 = 440
   this.tuner = new Tuner(a4)
   this.$rawnote = document.getElementById('rawnote')
-  this.$tab = document.getElementById('tab')
+  // this.$tab = document.getElementById('tab')
   this.$rawtab = document.getElementById('rawtab')
   this.notes = []
 
@@ -21,7 +21,7 @@ const Application = function() {
     82.41
   ]
   this.strings = stringFreqs.map((f, i) => new GuitarString(i, f))
-  this.scribe = new Scribe(this.strings, { max: 24 })
+  // this.scribe = new Scribe(this.strings, { max: 24 })
 
   this.rawtab = new Rawtab(this.strings, { max: 24 })
 }
@@ -102,18 +102,20 @@ Application.prototype.writeRawTab = function() {
   }
 }
 
+/*
 Application.prototype.writeTab = function() {
   const scribetab = this.scribe.tab(this.notes.map(n => n.frequency))
   const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
   this.$tab.innerHTML = tabout
 }
+*/
 
 Application.prototype.update = function(note) {
   if (note.standard !== 0) {
     const notedesc = `${note.name}${note.octave} (${note.frequency.toFixed(2)} Hz)`
     this.$rawnote.innerHTML = `Current: ${notedesc}`
     this.notes.push(note)
-    this.writeTab()
+    // this.writeTab()
     this.writeRawTab()
   }
 }
