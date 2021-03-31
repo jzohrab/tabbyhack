@@ -7,9 +7,17 @@ window.openPopup = function(contentDivID) {
   const popup = document.getElementById('popupDiv')
   const popupText = document.getElementById('popupText')
   popupText.innerHTML = content
-  popup.style.display = "block";
+  popup.style.display = "block"
 }
 
 window.closePopup = function() {
-  document.getElementById('popupDiv').style.display = "none";
+  // Hack to stop youtube vid from playing.
+  // Tried various solutions but none worked, e.g.
+  // ref https://magento.stackexchange.com/questions/263376/
+  //    modal-window-with-youtube-video-stop-video-playing
+  // They perhaps failed due to my popup method here being
+  // unorthodox ... not sure.
+  const popupText = document.getElementById('popupText')
+  popupText.innerHTML = '<p>Closing ...</p>'  // replace existing player.
+  document.getElementById('popupDiv').style.display = "none"
 }
