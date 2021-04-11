@@ -4,7 +4,7 @@
 
 A work-in-progress tool to generate guitar TAB from audio input.  This could be useful for teachers and guitar hackers to get quick TAB snippets.
 
-Visit its site and click start, allow mic access, and start playing -- slowly, and only a single note at a time (no chords).  It will generate some candidate TAB, after which you can select the notes you really want, and export ascii TAB.
+Visit its site and click start, allow mic access, and start playing -- slowly, and only a single note at a time (no chords).  It will generate some candidate TAB, after which you can select the notes you really want, and export ascii TAB.  It also generates simple tab notation using Vextab (https://github.com/0xfe/vextab)
 
 ## Demos
 
@@ -36,6 +36,7 @@ See the not-super-slick video at https://youtu.be/K6aIzLHKdnU .
 
 This is a basic tool -- it's not a fully functional tab solution -- but it's still pretty useful.  It will never be a full tabber, that's not the intent.  Possible improvements:
 
+* add vexflow export (ref https://groups.google.com/g/vexflow/c/9di-x3ASLd0/m/XTB4l-_6AgAJ)
 * edit the tab, removing bad notes etc
 * low priority: output raw data in some other form so it can be imported into other software (?)
 * low priority for me, but maybe fun: styling & make it pretty
