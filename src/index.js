@@ -1,6 +1,7 @@
 import { Application } from './js/app.js'
 import { Tabselector } from './js/tabselector.js'
 import { Scribe } from './js/scribe.js'
+import { VextabScribe } from './js/vextabscribe.js'
 
 // All functions have "window." due to hint:
 // https://stackoverflow.com/questions/57602686/
@@ -127,6 +128,12 @@ window.renderTab = function() {
   const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
   const tabdest = document.getElementById('tabdest')
   tabdest.innerHTML = tabout
+
+  const vextabscribe = new VextabScribe()
+  const vextabout = vextabscribe.tab(result)
+  const vextabdest = document.getElementById('vextabdest')
+  vextabdest.innerHTML = vextabout
+
   enableButtons({ btnCopy: true })
 }
 
