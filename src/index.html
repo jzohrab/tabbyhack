@@ -74,12 +74,18 @@
         <button type="button" id="btnWrite" onclick="renderTab();" disabled>Write tab</button>
         <button type="button" id="btnCopy" onclick="copyTab();" disabled>Copy</button>&nbsp;<span id="copied">Copied!</span>
       </div>
-      
-      <div id="finaltab">
+
+      <!-- Tab links -->
+      <div class="tab">
+        <button id="btnAscii" class="tablinks" onclick="openTab('btnAscii', 'finaltab')">Ascii</button>
+        <button id="btnVextab" class="tablinks" onclick="openTab('btnVextab', 'finalvextab')">Vextab</button>
+      </div>
+
+      <div id="finaltab" class="tabcontent">
         <span id="tabdest" />
       </div>
 
-      <div id="finalvextab">
+      <div id="finalvextab" class="tabcontent">
         <div id="vextabdest" class="vextab-auto" width=680 scale=1.0 editor="true" editor-width=680 editor-height=100>
         </div>
       </div>
@@ -140,14 +146,14 @@
       </div>
       
       <!-- hidden in prod -->
-      <!--
+
           <div id="devControls">
             <p>dev controls</p>
             <button type="button" onclick="printRecord();">Raw data</button>
             <button type="button" onclick="addRandom();">Add random note</button>
             <span id="recorded"/>
           </div>
-          -->
+
           
     </div>
     

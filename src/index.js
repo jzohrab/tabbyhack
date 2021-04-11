@@ -54,6 +54,7 @@ window.onloadBody = function() {
       el.style.display = 'block';
     }
   }
+  window.openTab('btnAscii', 'finaltab')
 }
 
 /** Hack helper during dev, add a random frequency. */
@@ -94,6 +95,28 @@ window.stopRecord = function() {
   rawtabContainer.scrollTo(0,0)
   tabselector = new Tabselector(window.app.strings.length, window.app.notes.length)
   tabselector.init()
+}
+
+
+/** Toggle tabs.
+ * ref https://www.w3schools.com/howto/howto_js_tabs.asp
+ */
+window.openTab = function(btnName, tabName) {
+  // Get all elements with class="tabcontent" and hide them
+  var tabcontent = document.getElementsByClassName("tabcontent");
+  for (var i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  var tablinks = document.getElementsByClassName("tablinks");
+  for (var i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "block";
+  document.getElementById(btnName).className += " active";
 }
 
 
