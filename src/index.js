@@ -132,7 +132,14 @@ window.renderTab = function() {
   const vextabscribe = new VextabScribe()
   const vextabout = vextabscribe.tab(result)
   const vextabdest = document.getElementById('vextabdest')
-  vextabdest.innerHTML = vextabout
+  const vextabcontent = `
+options space=20
+tabstave notation=true
+notes :q ${vextabout}
+options space=25
+`
+
+  vextabdest.innerHTML = vextcontent
 
   enableButtons({ btnCopy: true })
 }

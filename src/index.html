@@ -5,7 +5,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='./index.js'></script>
     <script src='./sidebar.js'></script>
-    <script src='./js/vendor/vextab/dist/div.prod.js'></script>
+    <script src='./vendor/vextab/div.dev.js'></script>
     <link rel="stylesheet" type="text/css" href="./index.css">
     <title>Tabbyhack</title>
 
@@ -21,19 +21,6 @@
   </head>
   <body onload="onloadBody()">
 
-          <div class="vextab-auto"
-    width=680 scale=1.0 editor="true"
-    editor-width=680 editor-height=330>
-    options space=20
-    tabstave notation=true key=A time=4/4
-
-    notes :q =|: (5/2.5/3.7/4) :8 7-5h6/3 ^3^ 5h6-7/5 ^3^ :q 7V/4 |
-    notes :8 t12p7/4 s5s3/4 :8 3s:16:5-7/5 :h p5/4
-    text :w, |#segno, ,|, :hd, , #tr
-
-    options space=25
-      </div>
-      
     <div class="sidenav">
       <div class="toolname">
         <p>Tabbyhack</p>
@@ -93,7 +80,12 @@
       </div>
 
       <div id="finalvextab">
-        <span id="vextabdest" />
+        <div id="vextabdest" class="vextab-auto" width=680 scale=1.0 editor="true" editor-width=680 editor-height=330>
+options space=20
+tabstave notation=true
+notes :q
+options space=25
+        </div>
       </div>
 
       <!-- Popup content -->

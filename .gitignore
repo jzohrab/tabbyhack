@@ -8,3 +8,15 @@ dev/*.js.map
 dev/*.html
 dev/*.css
 dev/*.css.map
+dev/vendor/**/*.js
+
+# Vendoring vexflow (from npm run copyassets)
+#
+# vexflow vendoring was odd for src ... during a build,
+# it appeared to be referencing src, so ignoring that too.
+#
+# We're not ignoring the vendored js for production (docs), I'm not sure
+# about the deployment to GH pages.  That increases repo size, but
+# that's not a huge deal.
+#
+src/vendor/**/*.js
