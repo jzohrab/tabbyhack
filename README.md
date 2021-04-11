@@ -76,6 +76,10 @@ npm start
 
 `npm run test`
 
+## Misc dev notes
+
+* The vexflow library is included in deployment (in `npm run copyassets`).  I'm using the `div.dev.js` release file, because Parcel didn't seem to like the minified `div.prod.js` (raised errors during build).
+
 ## Contributing
 
 Contributions would be super if it makes this more useful and interesting.
