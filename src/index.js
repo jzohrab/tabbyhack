@@ -54,7 +54,7 @@ window.onloadBody = function() {
       el.style.display = 'block';
     }
   }
-  window.openTab('btnAscii', 'finaltab')
+  window.openTab('btnVextab', 'finalvextab')
 }
 
 /** Hack helper during dev, add a random frequency. */
@@ -94,6 +94,7 @@ window.stopRecord = function() {
   rawtabContainer.scrollTo(0,0)
   tabselector = new Tabselector(window.app.strings.length, window.app.notes.length)
   tabselector.init()
+  tabselector.callUpdate = window.renderTab
 }
 
 
@@ -160,10 +161,8 @@ window.renderTab = function() {
 
   const vextabscribe = new VextabScribe()
   const vextabout = vextabscribe.tab(result)
-  const vextabcontent = `options space=20
-tabstave notation=true
-notes :q ${vextabout}
-options space=25`
+  const vextabcontent = `tabstave notation=true
+notes :q ${vextabout}`
   vextabeditor.value = vextabcontent
 
   // Simulate a keypress in the vextab editor so that the canvas is updated.

@@ -17,6 +17,9 @@ const Tabselector = function(rows, cols) {
   /** The cursor is active when it changes the preferred strings. */
   this.activeCursor = true
   this.cursorStyle = "current"
+
+  /** A callback for when something updates. */
+  this.callUpdate = null
 }
 
 
@@ -118,6 +121,10 @@ Tabselector.prototype.checkKey = function(e) {
   // console.log(`r = ${this.currRow}, c = ${this.currCol}`)
   if (this.currRow !== oldRow || this.currCol !== oldCol) {
     this.updateView(oldRow, oldCol)
+  }
+
+  if (this.callUpdate) {
+    this.callUpdate()
   }
 }
 
