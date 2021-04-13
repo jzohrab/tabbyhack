@@ -60,11 +60,13 @@ window.onloadBody = function() {
 /** Hack helper during dev, add a random frequency. */
 window.addRandom = function() {
   startRecord()
-  const freq = Math.floor(Math.random() * 200) + 200
-  const n = {
-    name: '?', value: '?', cents: 0, octave: 0, frequency: freq, standard: freq
+  for (var i = 0; i < 10; i++) {
+    const freq = Math.floor(Math.random() * 200) + 200
+    const n = {
+      name: '?', value: '?', cents: 0, octave: 0, frequency: freq, standard: freq
+    }
+    window.app.update(n)
   }
-  window.app.update(n)
 }
 
 
