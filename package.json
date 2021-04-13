@@ -9,7 +9,7 @@
     "copyassetsdev": "mkdir -p dev/vendor/vextab && cp node_modules/vextab/releases/div.dev.js dev/vendor/vextab/",
     "copyassetsprod": "mkdir -p docs/vendor/vextab && cp node_modules/vextab/releases/div.dev.js docs/vendor/vextab/",
     "copyassets": "npm run copyassetsdev && npm run copyassetssrc && npm run copyassetsprod",
-    "start": "npm run copyassets && parcel src/index.html aubio.wasm --out-dir dev",
+    "start": "npm run copyassets && NODE_ENV=development parcel src/index.html aubio.wasm --out-dir dev",
     "build": "npm run copyassets && parcel build src/index.html aubio.wasm --out-dir docs --public-url ./",
     "deploy": "npm run build && git add docs && git commit -m 'Deploy' && git push origin main"
   },
