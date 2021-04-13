@@ -69,25 +69,10 @@ Tuner.prototype.startRecord = function () {
           event.inputBuffer.getChannelData(0)
         )
         if (frequency && self.onNoteDetected) {
-          const note = self.getNote(frequency)
-          self.onNoteDetected({
-            name: self.noteStrings[note % 12],
-            value: note,
-            cents: self.getCents(frequency, note),
-            octave: parseInt(note / 12) - 1,
-            frequency: frequency,
-            standard: self.getStandardFrequency(note)
-          })
+          self.onNoteDetected(self.buildNoteStruct(frequency))
         }
         if (!frequency && self.onNoteDetected) {
-          self.onNoteDetected({
-            name: 'rest',
-            value: 0,
-            cents: 0,
-            octave: 0,
-            frequency: 0,
-            standard: 0
-          })
+          self.onNoteDetected(self.buildNoteStruct(0))
         }
       })
     })
@@ -116,6 +101,33 @@ Tuner.prototype.init = function() {
     )
     self.startRecord()
   })
+}
+
+/**
+ * Build full note struct from frequency.
+ */
+Tuner.prototype.buildNoteStruct = function(frequency) {
+
+  if (!frequency) {
+    return {
+      name: 'rest',
+      value: 0,
+      cents: 0,
+      octave: 0,
+      frequency: 0,
+      standard: 0
+    }
+  }
+
+  const note = this.getNote(frequency)
+  return {
+    name: this.noteStrings[note % 12],
+    value: note,
+    cents: this.getCents(frequency, note),
+    octave: parseInt(note / 12) - 1,
+    frequency: frequency,
+    standard: this.getStandardFrequency(note)
+  }
 }
 
 /**

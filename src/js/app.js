@@ -109,14 +109,11 @@ Application.prototype.writeRawTab = function() {
   }
 }
 
-/*
-Application.prototype.writeTab = function() {
-  const scribetab = this.scribe.tab(this.notes.map(n => n.frequency))
-  const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
-  this.$tab.innerHTML = tabout
+/** Dev helper for adding random notes. */
+Application.prototype.add_frequency = function(f) {
+  this.update(this.tuner.buildNoteStruct(f))
 }
-*/
-
+  
 Application.prototype.update = function(note) {
   if (note.standard !== 0) {
     const notedesc = `${note.name}${note.octave} (${note.frequency.toFixed(2)} Hz)`
