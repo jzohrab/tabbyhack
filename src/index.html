@@ -70,11 +70,6 @@
         <p>Arrow keys: navigate &mdash; t: toggle cursor &mdash; c: chord tone &mdash; space: toggle current cell</p>
       </div>
       
-      <div id="controls-tab">
-        <button type="button" id="btnWrite" onclick="renderTab();" disabled>Write tab</button>
-        <button type="button" id="btnCopy" onclick="copyTab();" disabled>Copy</button>&nbsp;<span id="copied">Copied!</span>
-      </div>
-
       <!-- Tab links -->
       <div class="tab">
         <button id="btnVextab" class="tablinks" onclick="openTab('btnVextab', 'finalvextab')">Vextab</button>
@@ -82,7 +77,10 @@
       </div>
 
       <div id="finaltab" class="tabcontent">
-        <span id="tabdest" />
+        <div id="tabdest"></div>
+        <div id="controls-tab">
+          <button type="button" id="btnCopy" onclick="copyTab();" disabled>Copy</button>&nbsp;<span id="copied">Copied!</span>
+        </div>
       </div>
 
       <div id="finalvextab" class="tabcontent">

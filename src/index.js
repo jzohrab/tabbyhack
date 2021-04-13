@@ -37,7 +37,7 @@ window.printRecord = function() {
 window.restartApp = function() {
   window.app = null
   tabselector = null
-  enableButtons({ btnStart: true, btnStop: false, btnWrite: false, btnCopy: false })
+  enableButtons({ btnStart: true, btnStop: false, btnCopy: false })
   const tabdest = document.getElementById('tabdest')
   tabdest.innerHTML = ''
   startRecord()
@@ -88,7 +88,7 @@ var tabselector = null
 /** Stop the application and scrolling */
 window.stopRecord = function() {
   window.app.stop()
-  enableButtons({ btnStop: false, btnWrite: true })
+  enableButtons({ btnStop: false })
   window.clearInterval(autoscrollInterval)
   const rawtabContainer = document.getElementById('rawtabcontainer')
   rawtabContainer.scrollTo(0,0)
