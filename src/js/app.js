@@ -83,7 +83,14 @@ Application.prototype.rawtabdata = function() {
   return this.rawtab.tab(this.notes.map(n => n.frequency))
 }
 
-/** This is terribly done, there is likely a much better way to do it. */
+/**
+ * Write the table of candidate tab numbers onscreen.
+ *
+ * This simply recreates the full table.  Each string is a <tr>,
+ * and given played note is a new <td> added to the <tr>, with the
+ * candidate fret for that string in the <td>.
+ * There may be a much better way to do it.
+ */
 Application.prototype.writeRawTab = function() {
   const data = this.rawtabdata()
   const rows = this.strings.map(s => document.createElement('tr'))
