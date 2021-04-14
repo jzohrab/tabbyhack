@@ -116,6 +116,20 @@ Application.prototype.writeRawTab = function() {
   }
 }
 
+/**
+ * Update the text box that shows the raw data of what's currently played.
+ */
+Application.prototype.updateCurrentNoteDisplay = function() {
+  const note = this.notes[this.notes.length - 1]
+  const notedesc = `${note.name}${note.octave} (${note.frequency.toFixed(2)} Hz)`
+  this.$rawnote.innerHTML = `Current: ${notedesc}`
+}
+
+Application.prototype.updateUI = function() {
+  this.writeRawTab()
+  this.updateCurrentNoteDisplay()
+}
+
 /** Dev helper for adding random notes. */
 Application.prototype.add_frequency = function(f) {
   this.update(this.tuner.buildNoteStruct(f))
@@ -123,11 +137,8 @@ Application.prototype.add_frequency = function(f) {
   
 Application.prototype.update = function(note) {
   if (note.standard !== 0) {
-    const notedesc = `${note.name}${note.octave} (${note.frequency.toFixed(2)} Hz)`
-    this.$rawnote.innerHTML = `Current: ${notedesc}`
     this.notes.push(note)
-    // this.writeTab()
-    this.writeRawTab()
+    this.updateUI()
   }
 }
 
