@@ -100,6 +100,13 @@ window.stopRecord = function() {
 }
 
 
+/** Remove keyboard listener. */
+window.stopTabSelect = function() {
+  if (!tabselector)
+    return
+  tabselector.stop()
+}
+
 /** Toggle tabs.
  * ref https://www.w3schools.com/howto/howto_js_tabs.asp
  */

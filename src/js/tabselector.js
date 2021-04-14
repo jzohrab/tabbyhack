@@ -20,16 +20,23 @@ const Tabselector = function(rows, cols) {
 
   /** A callback for when something updates. */
   this.callUpdate = null
-}
 
-
-Tabselector.prototype.init = function() {
+  /** Listen to keyboard events. */
   // bind required here to ensure that "this" in the checkKey method
   // refers to the Tabselector, and not the window.
   // ref https://www.html5gamedevs.com/topic/
   //   9765-javascript-keydown-addeventlistener-will-not-call-my-class-method/
-  window.addEventListener("keydown", this.checkKey.bind(this))
+  this.eventListener = this.checkKey.bind(this)
+}
+
+
+Tabselector.prototype.init = function() {
+  window.addEventListener("keydown", this.eventListener)
   this.updateView(0, 0)
+}
+
+Tabselector.prototype.stop = function() {
+  window.removeEventListener("keydown", this.eventListener)
 }
 
 Tabselector.prototype.toggleCursor = function() {
