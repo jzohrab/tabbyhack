@@ -1,29 +1,11 @@
 import Aubio from './aubio.js'
 
 const Tuner = function(a4) {
-  this.middleA = a4 || 440
+  this.bufferSize = 4096
+  this.initGetUserMedia()
 
   /** Callback for when a frequency is heard. */
   this.onFrequencyDetected = null
-
-  this.semitone = 69
-  this.bufferSize = 4096
-  this.noteStrings = [
-    'C',
-    'C♯',
-    'D',
-    'D♯',
-    'E',
-    'F',
-    'F♯',
-    'G',
-    'G♯',
-    'A',
-    'A♯',
-    'B'
-  ]
-
-  this.initGetUserMedia()
 }
 
 Tuner.prototype.initGetUserMedia = function() {
@@ -100,67 +82,6 @@ Tuner.prototype.init = function() {
     )
     self.startRecord()
   })
-}
-
-/**
- * Build full note struct from frequency.
- */
-Tuner.prototype.buildNoteStruct = function(frequency) {
-
-  if (!frequency) {
-    return {
-      name: 'rest',
-      value: 0,
-      cents: 0,
-      octave: 0,
-      frequency: 0,
-      standard: 0
-    }
-  }
-
-  const note = this.getNote(frequency)
-  return {
-    name: this.noteStrings[note % 12],
-    value: note,
-    cents: this.getCents(frequency, note),
-    octave: parseInt(note / 12) - 1,
-    frequency: frequency,
-    standard: this.getStandardFrequency(note)
-  }
-}
-
-/**
- * get musical note from frequency
- *
- * @param {number} frequency
- * @returns {number}
- */
-Tuner.prototype.getNote = function(frequency) {
-  const note = 12 * (Math.log(frequency / this.middleA) / Math.log(2))
-  return Math.round(note) + this.semitone
-}
-
-/**
- * get the musical note's standard frequency
- *
- * @param note
- * @returns {number}
- */
-Tuner.prototype.getStandardFrequency = function(note) {
-  return this.middleA * Math.pow(2, (note - this.semitone) / 12)
-}
-
-/**
- * get cents difference between given frequency and musical note's standard frequency
- *
- * @param {number} frequency
- * @param {number} note
- * @returns {number}
- */
-Tuner.prototype.getCents = function(frequency, note) {
-  return Math.floor(
-    (1200 * Math.log(frequency / this.getStandardFrequency(note))) / Math.log(2)
-  )
 }
 
 /**
