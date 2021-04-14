@@ -2,6 +2,10 @@ import Aubio from './aubio.js'
 
 const Tuner = function(a4) {
   this.middleA = a4 || 440
+
+  /** Callback for when a frequency is heard. */
+  this.onFrequencyDetected = null
+
   this.semitone = 69
   this.bufferSize = 4096
   this.noteStrings = [
@@ -68,12 +72,7 @@ Tuner.prototype.startRecord = function () {
         const frequency = self.pitchDetector.do(
           event.inputBuffer.getChannelData(0)
         )
-        if (frequency && self.onNoteDetected) {
-          self.onNoteDetected(self.buildNoteStruct(frequency))
-        }
-        if (!frequency && self.onNoteDetected) {
-          self.onNoteDetected(self.buildNoteStruct(0))
-        }
+        self.onFrequencyDetected(frequency || 0)
       })
     })
     .catch(function(error) {

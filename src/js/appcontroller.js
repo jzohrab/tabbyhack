@@ -15,7 +15,6 @@ const ApplicationController = function(app) {
 
 
 ApplicationController.prototype.start = function() {
-  const self = this
   this.currNote = null
   this.currNoteStart = null
 
@@ -26,8 +25,10 @@ ApplicationController.prototype.start = function() {
   // duration.
   this.currNoteProcessed = false
 
-  this.tuner.onNoteDetected = function(note) {
+  const self = this
+  this.tuner.onFrequencyDetected = function(frequency) {
     const now = Date.now()
+    const note = self.app.buildNoteStruct(frequency)
 
     // Ignore first sample, as we can't do anything with a note until it
     // reaches MIN_DURATION.
@@ -61,7 +62,7 @@ ApplicationController.prototype.start = function() {
 
 
 ApplicationController.prototype.stop = function() {
-  this.tuner.onNoteDetected = function(note) { /* no-op */ }
+  this.tuner.onFrequencyDetected = function(note) { /* no-op */ }
 }
 
 /**
@@ -74,6 +75,8 @@ ApplicationController.prototype.stop = function() {
  */
 ApplicationController.prototype.writeRawTab = function() {
   const data = this.app.rawtabdata()
+  if (data.length == 0)
+    return
   const rows = this.app.strings.map(s => document.createElement('tr'))
   for (var i = 0; i < data.length; i++) {
     for (var s = 0; s < this.app.strings.length; s++) {
@@ -101,7 +104,10 @@ ApplicationController.prototype.writeRawTab = function() {
  * Update the text box that shows the raw data of what's currently played.
  */
 ApplicationController.prototype.updateCurrentNoteDisplay = function() {
-  const note = this.app.notes[this.app.notes.length - 1]
+  const nl = this.app.notes.length
+  if (nl == 0)
+    return
+  const note = this.app.notes[nl - 1]
   const notedesc = `${note.name}${note.octave} (${note.frequency.toFixed(2)} Hz)`
   this.$rawnote.innerHTML = `Current: ${notedesc}`
 }
