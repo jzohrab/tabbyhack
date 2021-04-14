@@ -1,4 +1,5 @@
 import { Application } from './js/app.js'
+import { ApplicationController } from './js/appcontroller.js'
 import { Tabselector } from './js/tabselector.js'
 import { Scribe } from './js/scribe.js'
 import { VextabScribe } from './js/vextabscribe.js'
@@ -24,7 +25,8 @@ window.startRecord = function() {
   const maxfret = document.getElementById('maxFret').value || 12
   const opts = { min: minfret, max: maxfret }
   window.app = new Application(opts)
-  window.app.start()
+  window.appcontroller = new ApplicationController(window.app)
+  window.appcontroller.start()
   enableButtons({ btnStart: false, btnStop: true })
 }
 
@@ -87,7 +89,7 @@ var tabselector = null
 
 /** Stop the application and scrolling */
 window.stopRecord = function() {
-  window.app.stop()
+  window.appcontroller.stop()
   enableButtons({ btnStop: false })
   window.clearInterval(autoscrollInterval)
   const rawtabContainer = document.getElementById('rawtabcontainer')
