@@ -56,7 +56,7 @@ Application.prototype.start = function() {
     const currNoteAge = (now - self.currNoteStart)
     if (!self.currNoteProcessed && currNoteAge > MIN_DURATION) {
       // console.log(`Curr note duration ${duration} exceeds min, updating`)
-      self.update(self.currNote)
+      self.addNote(self.currNote)
       self.currNoteProcessed = true
     }
 
@@ -132,10 +132,11 @@ Application.prototype.updateUI = function() {
 
 /** Dev helper for adding random notes. */
 Application.prototype.add_frequency = function(f) {
-  this.update(this.tuner.buildNoteStruct(f))
+  this.addNote(this.tuner.buildNoteStruct(f))
 }
-  
-Application.prototype.update = function(note) {
+
+/** Add a new note. */
+Application.prototype.addNote = function(note) {
   if (note.standard !== 0) {
     this.notes.push(note)
     this.updateUI()
