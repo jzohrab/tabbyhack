@@ -1,7 +1,5 @@
-import { GuitarString } from './guitarstring.js'
-// import { Scribe } from './scribe.js'
-import { Rawtab } from './rawtab.js'
-import { Tuner } from './tuner.js'
+const { GuitarString } = require('./guitarstring.js')
+const { Rawtab } = require('./rawtab.js')
 
 
 /**
