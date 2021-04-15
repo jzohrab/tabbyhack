@@ -5,6 +5,7 @@ const js = join(process.cwd(), 'src', 'js')
 const { Application } = require(join(js, 'app.js'))
 
 const Ehz = 329.63
+const Bhz = 246.94
 
 test('add_frequency adds a note', t => {
   const app = new Application()
@@ -14,9 +15,38 @@ test('add_frequency adds a note', t => {
   t.end()
 })
 
+test('add_frequency adds some note data', t => {
+  const app = new Application()
+  app.add_frequency(Ehz)
+  const n = app.notes[0]
+  t.equal(n.frequency, Ehz)
+  t.equal(n.name, "E")
+  t.equal(n.octave, 4, "octave")
+  t.end()
+})
+
+test('add_frequency adds fret candidates to note', t => {
+  const app = new Application()
+  app.add_frequency(Ehz)
+  const n = app.notes[0]
+  const hsh = n.frets
+  t.ok(hsh, 'have frets')
+  const expected = {
+    0: 0,
+    1: 5,
+    2: 9,
+    3: 14,
+    4: 19,
+    5: 24
+  }
+  t.deepEqual(hsh, expected)
+  t.end()
+})
+
+// fret candidates out of range
+
 /*
 // Useful frequencies (open strings)
-const Bhz = 246.94
 
 const b = new GuitarString('b', Bhz)
 const e = new GuitarString('e', Ehz)

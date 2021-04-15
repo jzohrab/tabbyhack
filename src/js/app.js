@@ -76,18 +76,24 @@ Application.prototype.buildNoteStruct = function(frequency) {
       cents: 0,
       octave: 0,
       frequency: 0,
-      standard: 0
+      standard: 0,
+      frets: {}
     }
   }
 
   const note = this.getNote(frequency)
+  const frets = this.strings.reduce((result, s) => {
+    result[s.stringNumber] = s.getFret(frequency)
+    return result
+  },{})
   return {
     name: this.noteStrings[note % 12],
     value: note,
     cents: this.getCents(frequency, note),
     octave: parseInt(note / 12) - 1,
     frequency: frequency,
-    standard: this.getStandardFrequency(note)
+    standard: this.getStandardFrequency(note),
+    frets
   }
 }
 
