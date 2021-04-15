@@ -26,7 +26,7 @@ test('add_frequency adds some note data', t => {
 })
 
 test('add_frequency adds fret candidates to note', t => {
-  const app = new Application()
+  const app = new Application({min: 0, max: 24})
   app.add_frequency(Ehz)
   const n = app.notes[0]
   const hsh = n.frets
@@ -45,7 +45,7 @@ test('add_frequency adds fret candidates to note', t => {
 
 
 test('add_frequency only returns valid frets', t => {
-  const app = new Application()
+  const app = new Application({ min: 0, max: 24})
   app.add_frequency(Bhz)
   const n = app.notes[0]
   const hsh = n.frets
@@ -55,6 +55,22 @@ test('add_frequency only returns valid frets', t => {
     3: 9,
     4: 14,
     5: 19
+  }
+  t.deepEqual(hsh, expected)
+  t.end()
+})
+
+test('add_frequency: frets out of range arent included', t => {
+  const app = new Application({ min: 4, max: 12 })
+  app.add_frequency(Bhz)
+  const n = app.notes[0]
+  const hsh = n.frets
+  const expected = {
+    // 1: 0,
+    2: 4,
+    3: 9,
+    // 4: 14,
+    // 5: 19
   }
   t.deepEqual(hsh, expected)
   t.end()

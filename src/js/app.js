@@ -84,7 +84,7 @@ Application.prototype.buildNoteStruct = function(frequency) {
   const note = this.getNote(frequency)
   const frets = this.strings.reduce((result, s) => {
     const f = s.getFret(frequency)
-    if (f >= 0)
+    if (f >= this.options.min && f <= this.options.max)
       result[s.stringNumber] = f
     return result
   },{})
