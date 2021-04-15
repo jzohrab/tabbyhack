@@ -83,7 +83,9 @@ Application.prototype.buildNoteStruct = function(frequency) {
 
   const note = this.getNote(frequency)
   const frets = this.strings.reduce((result, s) => {
-    result[s.stringNumber] = s.getFret(frequency)
+    const f = s.getFret(frequency)
+    if (f >= 0)
+      result[s.stringNumber] = f
     return result
   },{})
   return {
