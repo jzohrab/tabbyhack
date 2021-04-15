@@ -1,6 +1,4 @@
 const { GuitarString } = require('./guitarstring.js')
-const { Rawtab } = require('./rawtab.js')
-
 
 /**
  * Main application.
@@ -41,13 +39,6 @@ const Application = function(opts = {}) {
   ]
   this.strings = stringFreqs.map((f, i) => new GuitarString(i, f))
   // this.scribe = new Scribe(this.strings, { max: 24 })
-
-  this.rawtab = new Rawtab(this.strings, this.options)
-}
-
-
-Application.prototype.rawtabdata = function() {
-  return this.rawtab.tab(this.notes.map(n => n.frequency))
 }
 
 

@@ -131,11 +131,11 @@ window.openTab = function(btnName, tabName) {
 
 /** Get tab */
 window.renderTab = function() {
-  const rawtab = window.app.rawtabdata()
+  const notes = window.app.notes
   // console.log(rawtab)
   const strings = tabselector.strings
   const result = []
-  for (var i = 0; i < rawtab.length; i++) {
+  for (var i = 0; i < notes.length; i++) {
     const s = strings[i]
 
     if (!s)
@@ -152,7 +152,7 @@ window.renderTab = function() {
     default:
       throw `Bad type ${s.type}`
     }
-    curr[s.string] = rawtab[i][s.string]
+    curr[s.string] = notes[i].frets[`${s.string}`]
   }
 
   const scribe = new Scribe(window.app.strings.length)

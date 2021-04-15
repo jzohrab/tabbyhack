@@ -1,7 +1,6 @@
 import { Application } from './app.js'
 import { GuitarString } from './guitarstring.js'
 // import { Scribe } from './scribe.js'
-import { Rawtab } from './rawtab.js'
 import { Tuner } from './tuner.js'
 
 const ApplicationController = function(app) {
@@ -74,15 +73,15 @@ ApplicationController.prototype.stop = function() {
  * There may be a much better way to do it.
  */
 ApplicationController.prototype.writeRawTab = function() {
-  const data = this.app.rawtabdata()
+  const data = this.app.notes
   if (data.length == 0)
     return
   const rows = this.app.strings.map(s => document.createElement('tr'))
   for (var i = 0; i < data.length; i++) {
     for (var s = 0; s < this.app.strings.length; s++) {
       const td = document.createElement('td')
-      let v = data[i][s]
-      if (v === null) { v = '&nbsp;' }
+      let v = data[i].frets[`${s}`]
+      if (v === null || v === undefined) { v = '&nbsp;' }
       td.innerHTML = v
       rows[s].appendChild(td)
     }
