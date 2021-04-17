@@ -1,17 +1,17 @@
 /** The "keyboard navigator" to select the strings to use from the rawtab. */
 
-const Tabselector = function(rows, cols) {
+const Tabselector = function(app) {
   /** The table we're navigating. */
   this.tbl = document.getElementById('rawtab')
-  this.rows = rows
-  this.cols = cols
+  this.rows = app.strings.length
+  this.cols = app.notes.length
 
   /** The current cursor position in the table. */
   this.currRow = 0
   this.currCol = 0
 
   /** The preferred strings selected by navigation. */
-  this.strings = new Array(cols)
+  this.strings = new Array(this.cols)
   this.strings[this.currCol] = this.currRow
 
   /** The cursor is active when it changes the preferred strings. */

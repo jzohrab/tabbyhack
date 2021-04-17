@@ -94,7 +94,7 @@ window.stopRecord = function() {
   window.clearInterval(autoscrollInterval)
   const rawtabContainer = document.getElementById('rawtabcontainer')
   rawtabContainer.scrollTo(0,0)
-  tabselector = new Tabselector(window.app.strings.length, window.app.notes.length)
+  tabselector = new Tabselector(window.app)
   tabselector.init()
   tabselector.callUpdate = window.renderTab
 }
