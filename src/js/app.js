@@ -141,8 +141,9 @@ Application.prototype.vextab = function() {
       continue
     }
 
+    const string = t.string + 1
     const fret = n.frets[`${t.string}`]
-    text = `${fret}/${t.string}`
+    text = `${fret}/${string}`
 
     switch (t.type) {
     case 'tone':

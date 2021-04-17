@@ -81,8 +81,19 @@ test('can generate vextab from notes', t => {
   app.add_frequency(Bhz)
   const n = app.notes[0]
   t.equal(app.vextab(), ':q B/3', 'B 3rd octave')
-  n.tab = { string: 2, type: 'tone' }
-  t.equal(app.vextab(), ':q 4/2', 'B on 2nd string')
+  n.tab = { string: 1, type: 'tone' }
+  t.equal(app.vextab(), ':q 0/2', 'B on 2nd string (strings indexed from 0 in code)')
+  t.end()
+})
+
+test('vextab can handle chords from notes', t => {
+  const app = new Application()
+  app.add_frequency(Bhz)
+  app.add_frequency(Ehz)
+  t.equal(app.vextab(), ':q B/3 E/4', 'melody')
+  app.notes[0].tab = { string: 2, type: 'tone' }
+  app.notes[1].tab = { string: 0, type: 'chord' }
+  t.equal(app.vextab(), ':q (4/3.0/1)', 'chord: B on 2nd string, E on 1st')
   t.end()
 })
 
