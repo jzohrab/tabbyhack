@@ -125,4 +125,44 @@ Application.prototype.getCents = function(frequency, note) {
 }
 
 
+/**
+ * Generate vextab "notes" string.
+ */
+Application.prototype.vextab = function() {
+  const notes = this.notes
+  const result = []
+  for (var i = 0; i < notes.length; i++) {
+    const n = notes[i]
+    let text = `${n.name}/${n.octave}`
+
+    const t = notes[i].tab
+    if (!t) {
+      result.push([text])
+      continue
+    }
+
+    const fret = n.frets[`${t.string}`]
+    text = `${fret}/${t.string}`
+
+    switch (t.type) {
+    case 'tone':
+      result.push([text])
+      break
+    case 'chord':
+      const chord = result[result.length - 1]
+      chord.push(text)
+      break
+    default:
+      throw `Bad type ${s.type}`
+    }
+
+  }
+
+  const vt = result.
+        map(e => e.length > 1 ? '(' + e.join('.') + ')' : e[0]).
+        join(' ')
+  return ':q ' + vt
+}
+
+
 module.exports = { Application }

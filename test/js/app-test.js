@@ -76,6 +76,16 @@ test('add_frequency: frets out of range arent included', t => {
   t.end()
 })
 
+test('can generate vextab from notes', t => {
+  const app = new Application()
+  app.add_frequency(Bhz)
+  const n = app.notes[0]
+  t.equal(app.vextab(), ':q B/3', 'B 3rd octave')
+  n.tab = { string: 2, type: 'tone' }
+  t.equal(app.vextab(), ':q 4/2', 'B on 2nd string')
+  t.end()
+})
+
 /*
 // Useful frequencies (open strings)
 
