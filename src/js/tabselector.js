@@ -3,16 +3,14 @@
 const Tabselector = function(app) {
   /** The table we're navigating. */
   this.tbl = document.getElementById('rawtab')
-  this.rows = app.strings.length
-  this.cols = app.notes.length
 
   /** The current cursor position in the table. */
-  this.currRow = 0
-  this.currCol = 0
+  this.currString = 0
+  this.currNote = 0
 
   /** The preferred strings selected by navigation. */
-  this.strings = new Array(this.cols)
-  this.strings[this.currCol] = this.currRow
+  this.strings = new Array(app.notes.length)
+  this.strings[this.currNote] = this.currString
 
   /** The cursor is active when it changes the preferred strings. */
   this.activeCursor = true
@@ -40,14 +38,14 @@ Tabselector.prototype.stop = function() {
 }
 
 Tabselector.prototype.toggleCursor = function() {
-  const cl = this.cell(this.currRow, this.currCol).classList
+  const cl = this.cell(this.currString, this.currNote).classList
   cl.remove(this.cursorStyle)
   this.activeCursor = !this.activeCursor
   this.cursorStyle = (this.activeCursor ? "current" : "currentpassive")
   cl.add(this.cursorStyle)
 
   if (this.activeCursor) {
-    this.updateView(this.currRow, this.currCol)
+    this.updateView(this.currString, this.currNote)
   }
 }
 
@@ -58,9 +56,9 @@ Tabselector.prototype.cell = function(r, c) {
 }
 
 /** Highlight the cursor cell (only one cell should be highlighted per column). */
-Tabselector.prototype.updateView = function(oldRow, oldCol) {
-  this.cell(oldRow, oldCol).classList.remove(this.cursorStyle)
-  const c = this.cell(this.currRow, this.currCol)
+Tabselector.prototype.updateView = function(oldString, oldNote) {
+  this.cell(oldString, oldNote).classList.remove(this.cursorStyle)
+  const c = this.cell(this.currString, this.currNote)
   c.focus()
   c.classList.add(this.cursorStyle)
   c.scrollIntoView({inline: "nearest"})
@@ -70,12 +68,12 @@ Tabselector.prototype.updateView = function(oldRow, oldCol) {
   }
 
   /** Clear all cells in column. */
-  for (var i = 0; i < this.rows; i++) {
-    this.clearHighlights(i, this.currCol)
+  for (var i = 0; i < app.strings.length; i++) {
+    this.clearHighlights(i, this.currNote)
   }
 
   c.classList.add("highlight")
-  this.strings[this.currCol] = { string: this.currRow, type: 'tone' }
+  this.strings[this.currNote] = { string: this.currString, type: 'tone' }
 }
 
 Tabselector.prototype.clearHighlights = function(r, c) {
@@ -85,35 +83,35 @@ Tabselector.prototype.clearHighlights = function(r, c) {
 }
 
 Tabselector.prototype.clearCurrent = function() {
-  this.cell(this.currRow, this.currCol).classList.remove("highlight")
-  this.strings[this.currCol] = null
+  this.cell(this.currString, this.currNote).classList.remove("highlight")
+  this.strings[this.currNote] = null
 }
 
 Tabselector.prototype.toggleChordTone = function() {
   if (!this.activeCursor)
     return
-  this.clearHighlights(this.currRow, this.currCol)
-  const newtype = (this.strings[this.currCol].type === 'tone') ?
+  this.clearHighlights(this.currString, this.currNote)
+  const newtype = (this.strings[this.currNote].type === 'tone') ?
         { type: 'chord', classname: 'chordtone' } :
         { type: 'tone', classname: 'highlight' }
-  this.strings[this.currCol].type = newtype.type
-  this.cell(this.currRow, this.currCol).classList.add(newtype.classname)  
+  this.strings[this.currNote].type = newtype.type
+  this.cell(this.currString, this.currNote).classList.add(newtype.classname)  
 }
 
 /** Keyboard handler. */
 Tabselector.prototype.checkKey = function(e) {
-  // console.log(`initial: r = ${this.currRow}, c = ${this.currCol}`)
+  // console.log(`initial: r = ${this.currString}, c = ${this.currNote}`)
   
-  const oldRow = this.currRow
-  const oldCol = this.currCol
+  const oldString = this.currString
+  const oldNote = this.currNote
 
   e = e || window.event
   const [ DOWN, RIGHT, UP, LEFT, SPACE, T, C ] = [ 40, 39, 38, 37, 32, 84, 67 ]
   switch(0 + e.keyCode) {
-  case UP: this.currRow -= 1; break
-  case DOWN: this.currRow += 1; break
-  case LEFT: this.currCol -= 1; break
-  case RIGHT: this.currCol += 1; break
+  case UP: this.currString -= 1; break
+  case DOWN: this.currString += 1; break
+  case LEFT: this.currNote -= 1; break
+  case RIGHT: this.currNote += 1; break
   case SPACE: clearCurrent(); break
   case T: this.toggleCursor(); break
   case C: this.toggleChordTone(); break
@@ -121,13 +119,13 @@ Tabselector.prototype.checkKey = function(e) {
   }
 
   /* Ensure curr row and column are within bounds. */
-  this.currRow = Math.max(0, this.currRow)  // not < 0
-  this.currRow = Math.min(this.currRow, this.rows - 1)  // not > rows - 1
-  this.currCol = Math.max(0, this.currCol)
-  this.currCol = Math.min(this.currCol, this.cols - 1)
-  // console.log(`r = ${this.currRow}, c = ${this.currCol}`)
-  if (this.currRow !== oldRow || this.currCol !== oldCol) {
-    this.updateView(oldRow, oldCol)
+  this.currString = Math.max(0, this.currString)  // not < 0
+  this.currString = Math.min(this.currString, app.strings.length - 1)  // not > rows - 1
+  this.currNote = Math.max(0, this.currNote)
+  this.currNote = Math.min(this.currNote, app.notes.length - 1)
+  // console.log(`r = ${this.currString}, c = ${this.currNote}`)
+  if (this.currString !== oldString || this.currNote !== oldNote) {
+    this.updateView(oldString, oldNote)
   }
 
   if (this.callUpdate) {
