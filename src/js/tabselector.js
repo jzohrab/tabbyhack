@@ -12,6 +12,8 @@ const Tabselector = function(app) {
   this.strings = new Array(app.notes.length)
   this.strings[this.currNote] = this.currString
 
+  app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
+
   /** The cursor is active when it changes the preferred strings. */
   this.activeCursor = true
   this.cursorStyle = "current"
@@ -74,6 +76,7 @@ Tabselector.prototype.updateView = function(oldString, oldNote) {
 
   c.classList.add("highlight")
   this.strings[this.currNote] = { string: this.currString, type: 'tone' }
+  app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
 }
 
 Tabselector.prototype.clearHighlights = function(r, c) {
@@ -85,6 +88,7 @@ Tabselector.prototype.clearHighlights = function(r, c) {
 Tabselector.prototype.clearCurrent = function() {
   this.cell(this.currString, this.currNote).classList.remove("highlight")
   this.strings[this.currNote] = null
+  app.notes[this.currNote].tab = { string: null, type: 'tone' }
 }
 
 Tabselector.prototype.toggleChordTone = function() {
@@ -95,6 +99,7 @@ Tabselector.prototype.toggleChordTone = function() {
         { type: 'chord', classname: 'chordtone' } :
         { type: 'tone', classname: 'highlight' }
   this.strings[this.currNote].type = newtype.type
+  app.notes[this.currNote].tab.type = newtype.type
   this.cell(this.currString, this.currNote).classList.add(newtype.classname)  
 }
 
