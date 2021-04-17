@@ -97,6 +97,21 @@ test('vextab can handle chords from notes', t => {
   t.end()
 })
 
+test('vextab can handle note timings', t => {
+  const app = new Application()
+  app.add_frequency(Bhz)
+  app.add_frequency(Ehz)
+  t.equal(app.vextab(), ':q B/3 E/4', 'melody')
+  app.notes[0].tab = { string: 2, type: 'tone' }
+  app.notes[1].tab = { string: 0, type: 'tone', duration: '16' }
+  t.equal(app.vextab(), ':q 4/3 :16 0/1')
+  t.end()
+})
+
+// next tests:
+// 1st note can't be a chord
+// add cursor indicator for vextab output - eg - notes :q 1/2 7/3 6/3 F#/5 $.a@u/bottom.$ E/5
+
 /*
 // Useful frequencies (open strings)
 
