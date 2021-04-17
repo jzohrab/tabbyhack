@@ -132,17 +132,15 @@ window.openTab = function(btnName, tabName) {
 /** Get tab */
 window.renderTab = function() {
   const notes = window.app.notes
-  // console.log(rawtab)
-  const strings = tabselector.strings
   const result = []
   for (var i = 0; i < notes.length; i++) {
-    const s = strings[i]
+    const t = notes[i].tab
 
-    if (!s)
+    if (!t)
       continue;
 
     let curr = {}
-    switch (s.type) {
+    switch (t.type) {
     case 'chord':
       curr = result[result.length - 1]
       break
@@ -152,7 +150,7 @@ window.renderTab = function() {
     default:
       throw `Bad type ${s.type}`
     }
-    curr[s.string] = notes[i].frets[`${s.string}`]
+    curr[t.string] = notes[i].frets[`${t.string}`]
   }
 
   const scribe = new Scribe(window.app.strings.length)
