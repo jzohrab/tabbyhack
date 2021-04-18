@@ -43,9 +43,12 @@ const Application = function(opts = {}) {
   ]
   this.strings = stringFreqs.map((f, i) => new GuitarString(i, f))
 
-
   // The notes played.
   this.notes = []
+
+  // The "cursor position" when editing notes.
+  this.cursorIndicator = '$.a@u/bottom.$'  // default fermata
+  this.cursor = null
 }
 
 
@@ -151,44 +154,40 @@ Application.prototype.vextab = function() {
     }
   }
 
+  noteText = function(note) {
+    if (!note.tab) {
+      return `${note.name}/${note.octave}`
+    }
+
+    const string = note.tab.string + 1
+    const fret = note.frets[`${note.tab.string}`]
+    return `${fret}/${string}`
+  }
+
   for (var i = 0; i < notes.length; i++) {
     const n = notes[i]
 
-    let text = `${n.name}/${n.octave}`
+    const text = noteText(n)
+    const is_chord = (n.tab && n.tab.type === 'chord')
 
-    const t = n.tab
-    if (!t) {
+    if (!is_chord) {
       addDuration(n)
       result.push(text)
-      continue
     }
-
-    const string = t.string + 1
-    const fret = n.frets[`${t.string}`]
-    text = `${fret}/${string}`
-
-    switch (t.type) {
-    case 'tone':
-      addDuration(n)
-      result.push(text)
-      break
-    case 'chord':
+    else {
       let chord = result[result.length - 1]
       if (!(chord instanceof Array))
         chord = [ chord ]
       chord.push(text)
       result[result.length - 1] = chord
-      break
-    default:
-      throw `Bad type ${s.type}`
     }
 
   }
 
-  const vt = result.
-        map(e => (e instanceof Array) ? '(' + e.join('.') + ')' : e).
-        join(' ')
-  return vt
+  const entries = result.map(e => (e instanceof Array) ? '(' + e.join('.') + ')' : e)
+  if (this.cursor !== null && this.cursor < this.notes.length)
+    entries.splice(this.cursor + 1, 0, this.cursorIndicator)
+  return entries.join(' ')
 }
 
 

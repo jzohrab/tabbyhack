@@ -109,9 +109,30 @@ test('vextab can handle note timings', t => {
   t.end()
 })
 
+/*
+test('app has cursor for current edit position', t => {
+  const app = new Application()
+  app.add_frequency(Bhz)
+  app.add_frequency(Bhz)
+  app.add_frequency(Ehz)
+  t.equal(app.vextab(), ':q B/3 B/3 E/4', 'initial melody')
+  app.cursorIndicator = 'HERE'
+  app.cursor = 0
+  t.equal(app.vextab(), ':q B/3 HERE B/3 E/4', 'cursor indicated')
+  app.cursor = 0
+  t.equal(app.vextab(), ':q B/3 B/3 HERE E/4', 'next note')
+  app.cursor = null
+  t.equal(app.vextab(), ':q B/3 B/3 E/4', 'no cursor')
+  app.cursor = 42
+  t.equal(app.vextab(), ':q B/3 B/3 E/4', 'cursor out of bounds')
+  // cursor with chord
+  t.end()
+})
+*/
+
 // next tests:
 // 1st note can't be a chord
-// add cursor indicator for vextab output - eg - notes :q 1/2 7/3 6/3 F#/5 $.a@u/bottom.$ E/5
+// add cursor indicator for vextab output - eg - notes :q 1/2 7/3 6/3 F#/5 HERE E/5
 // duration chords - is for first note
 // duration changes for notes pulled into chord
 
