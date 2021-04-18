@@ -9,7 +9,6 @@ const Application = function(opts = {}) {
   this.options = opts
   this.options.min = this.options.min || 0
   this.options.max = this.options.max || 12
-  this.notes = []
   this.semitone = 69
   this.middleA = 440
 
@@ -28,6 +27,11 @@ const Application = function(opts = {}) {
     'B'
   ]
 
+  // Allowable durations
+  this.noteDurations = [
+    'w', 'h', 'q', '8', '16', '32'
+  ]
+
   // Frequencies from https://en.wikipedia.org/wiki/Guitar_tunings
   const stringFreqs = [
     329.63,
@@ -38,7 +42,10 @@ const Application = function(opts = {}) {
     82.41
   ]
   this.strings = stringFreqs.map((f, i) => new GuitarString(i, f))
-  // this.scribe = new Scribe(this.strings, { max: 24 })
+
+
+  // The notes played.
+  this.notes = []
 }
 
 
@@ -49,9 +56,15 @@ Application.prototype.add_frequency = function(f) {
 
 /** Add a new note. */
 Application.prototype.addNote = function(note) {
-  if (note.standard !== 0) {
-    this.notes.push(note)
+  if (note.standard == 0) {
+    return
   }
+
+  // Default to quarter note for first note.
+  if (this.notes.length == 0)
+    note.duration = 'q'
+
+  this.notes.push(note)
 }
 
 
@@ -131,13 +144,22 @@ Application.prototype.getCents = function(frequency, note) {
 Application.prototype.vextab = function() {
   const notes = this.notes
   const result = []
+
+  addDuration = function(note) {
+    if (note.duration) {
+      result.push(`:${note.duration}`)
+    }
+  }
+
   for (var i = 0; i < notes.length; i++) {
     const n = notes[i]
+
     let text = `${n.name}/${n.octave}`
 
-    const t = notes[i].tab
+    const t = n.tab
     if (!t) {
-      result.push([text])
+      addDuration(n)
+      result.push(text)
       continue
     }
 
@@ -147,11 +169,15 @@ Application.prototype.vextab = function() {
 
     switch (t.type) {
     case 'tone':
-      result.push([text])
+      addDuration(n)
+      result.push(text)
       break
     case 'chord':
-      const chord = result[result.length - 1]
+      let chord = result[result.length - 1]
+      if (!(chord instanceof Array))
+        chord = [ chord ]
       chord.push(text)
+      result[result.length - 1] = chord
       break
     default:
       throw `Bad type ${s.type}`
@@ -160,9 +186,9 @@ Application.prototype.vextab = function() {
   }
 
   const vt = result.
-        map(e => e.length > 1 ? '(' + e.join('.') + ')' : e[0]).
+        map(e => (e instanceof Array) ? '(' + e.join('.') + ')' : e).
         join(' ')
-  return ':q ' + vt
+  return vt
 }
 
 
