@@ -124,6 +124,13 @@ test('app has cursor for current edit position', t => {
   t.equal(app.vextab(), ':q B/3 B/3 E/4', 'no cursor')
   app.cursor = 42
   t.equal(app.vextab(), ':q B/3 B/3 E/4', 'cursor out of bounds')
+
+  app.notes[0].tab = { string: 2, type: 'tone' }
+  app.notes[1].tab = { string: 2, type: 'tone' }
+  app.notes[2].tab = { string: 0, type: 'chord' }
+  app.cursor = 2
+  t.equal(app.vextab(), ':q 4/3 (4/3.0/1) HERE', 'note and chord')
+
   // cursor with chord
   t.end()
 })
