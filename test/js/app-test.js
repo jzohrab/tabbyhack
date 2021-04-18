@@ -109,7 +109,6 @@ test('vextab can handle note timings', t => {
   t.end()
 })
 
-/*
 test('app has cursor for current edit position', t => {
   const app = new Application()
   app.add_frequency(Bhz)
@@ -119,7 +118,7 @@ test('app has cursor for current edit position', t => {
   app.cursorIndicator = 'HERE'
   app.cursor = 0
   t.equal(app.vextab(), ':q B/3 HERE B/3 E/4', 'cursor indicated')
-  app.cursor = 0
+  app.cursor = 1
   t.equal(app.vextab(), ':q B/3 B/3 HERE E/4', 'next note')
   app.cursor = null
   t.equal(app.vextab(), ':q B/3 B/3 E/4', 'no cursor')
@@ -128,7 +127,7 @@ test('app has cursor for current edit position', t => {
   // cursor with chord
   t.end()
 })
-*/
+
 
 // next tests:
 // 1st note can't be a chord

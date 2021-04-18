@@ -182,11 +182,11 @@ Application.prototype.vextab = function() {
       result[result.length - 1] = chord
     }
 
+    if (this.cursor !== null && this.cursor == i)
+      result.push(this.cursorIndicator)
   }
 
   const entries = result.map(e => (e instanceof Array) ? '(' + e.join('.') + ')' : e)
-  if (this.cursor !== null && this.cursor < this.notes.length)
-    entries.splice(this.cursor + 1, 0, this.cursorIndicator)
   return entries.join(' ')
 }
 
