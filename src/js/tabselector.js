@@ -8,6 +8,9 @@ const Tabselector = function(app) {
   this.currString = 0
   this.currNote = 0
 
+  /** This class changes the app notes. */
+  this.app = app
+
   /** The preferred strings selected by navigation. */
   app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
 
@@ -122,6 +125,10 @@ Tabselector.prototype.checkKey = function(e) {
   this.currString = Math.min(this.currString, app.strings.length - 1)  // not > rows - 1
   this.currNote = Math.max(0, this.currNote)
   this.currNote = Math.min(this.currNote, app.notes.length - 1)
+
+  /* Update the app, so vextab can be updated. */
+  this.app.cursor = this.currNote
+
   // console.log(`r = ${this.currString}, c = ${this.currNote}`)
   if (this.currString !== oldString || this.currNote !== oldNote) {
     this.updateView(oldString, oldNote)
