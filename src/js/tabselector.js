@@ -4,12 +4,12 @@ const Tabselector = function(app) {
   /** The table we're navigating. */
   this.tbl = document.getElementById('rawtab')
 
-  /** The current cursor position in the table. */
-  this.currString = 0
-  this.currNote = 0
-
   /** This class changes the app notes. */
   this.app = app
+
+  /** The current cursor position in the table. */
+  this.currNote = 0
+  this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], 0)
 
   /** The preferred strings selected by navigation. */
   app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
@@ -27,6 +27,21 @@ const Tabselector = function(app) {
   // ref https://www.html5gamedevs.com/topic/
   //   9765-javascript-keydown-addeventlistener-will-not-call-my-class-method/
   this.eventListener = this.checkKey.bind(this)
+}
+
+
+/**
+ * If the given string can be used to fret the given note, use it;
+ * otherwise, return the lowest string value.
+ */
+Tabselector.prototype.getGoodStringForNote = function(note, suggestedString) {
+  const possibleStrings = Object.keys(note.frets).map(n => parseInt(n, 10)).sort()
+  if (possibleStrings.includes(suggestedString))
+    return suggestedString
+  maxString = possibleStrings[possibleStrings.length - 1]
+  if (suggestedString > maxString)
+    return maxString
+  return possibleStrings[0]
 }
 
 
@@ -121,8 +136,7 @@ Tabselector.prototype.checkKey = function(e) {
   }
 
   /* Ensure curr row and column are within bounds. */
-  this.currString = Math.max(0, this.currString)  // not < 0
-  this.currString = Math.min(this.currString, app.strings.length - 1)  // not > rows - 1
+  this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], this.currString)
   this.currNote = Math.max(0, this.currNote)
   this.currNote = Math.min(this.currNote, app.notes.length - 1)
 
