@@ -131,14 +131,12 @@ test('app has cursor for current edit position', t => {
   app.cursor = 2
   t.equal(app.vextab(), ':q 4/3 (4/3.0/1) HERE', 'note and chord')
 
-  // cursor with chord
   t.end()
 })
 
 
 // next tests:
 // 1st note can't be a chord
-// add cursor indicator for vextab output - eg - notes :q 1/2 7/3 6/3 F#/5 HERE E/5
 // duration chords - is for first note
 // duration changes for notes pulled into chord
 

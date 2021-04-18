@@ -31,9 +31,10 @@ window.startRecord = function() {
 }
 
 window.printRecord = function() {
-  const content = JSON.stringify(window.app.notes)
+  const vextab = window.app.vextab()
+  const notes = JSON.stringify(window.app.notes)
   const display = document.getElementById('recorded')
-  display.innerHTML = content
+  display.innerHTML = vextab + "<br />" + notes
 }
 
 window.restartApp = function() {
@@ -62,7 +63,7 @@ window.onloadBody = function() {
 /** Hack helper during dev, add a random frequency. */
 window.addRandom = function() {
   startRecord()
-  for (var i = 0; i < 10; i++) {
+  for (var i = 0; i < 5; i++) {
     const freq = Math.floor(Math.random() * 200) + 200
     window.app.add_frequency(freq)
   }
