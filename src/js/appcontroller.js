@@ -9,6 +9,8 @@ const ApplicationController = function(app) {
   this.$rawnote = document.getElementById('rawnote')
   // this.$tab = document.getElementById('tab')
   this.$rawtab = document.getElementById('rawtab')
+  this.sensitivity = document.getElementById('micsensitivity').value || 400
+
   this.app = app
 
   // Vextab creates a textarea with class "editor"
@@ -25,7 +27,7 @@ ApplicationController.prototype.start = function() {
   this.currNoteStart = null
 
   // Milliseconds duration note must reach before being processed.
-  const MIN_DURATION = 400
+  const MIN_DURATION = this.sensitivity
 
   // Only add the current note _once_ after it has lasted the min
   // duration.
