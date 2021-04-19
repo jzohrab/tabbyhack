@@ -1,6 +1,6 @@
 /** The "keyboard navigator" to select the strings to use from the rawtab. */
 
-const Tabselector = function(app) {
+const Tabselector = function(app, updateCallback) {
   /** The table we're navigating. */
   this.tbl = document.getElementById('rawtab')
 
@@ -10,6 +10,7 @@ const Tabselector = function(app) {
   /** The current cursor position in the table. */
   this.currNote = 0
   this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], 0, false)
+  this.app.cursor = 0
 
   /** The preferred strings selected by navigation. */
   app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
@@ -19,7 +20,8 @@ const Tabselector = function(app) {
   this.cursorStyle = "current"
 
   /** A callback for when something updates. */
-  this.callUpdate = null
+  this.callUpdate = updateCallback
+  this.callUpdate()
 
   /** Listen to keyboard events. */
   // bind required here to ensure that "this" in the checkKey method
@@ -36,6 +38,8 @@ const Tabselector = function(app) {
  * work, return the lowest string value.
  */
 Tabselector.prototype.getGoodStringForNote = function(note, suggestedString, changingString) {
+  if (!note)
+    return
   if (!changingString && note.tab && note.tab.string !== null)
     return note.tab.string
 
@@ -56,6 +60,9 @@ Tabselector.prototype.init = function() {
 
 Tabselector.prototype.stop = function() {
   window.removeEventListener("keydown", this.eventListener)
+  /* Update the app, so vextab can be updated. */
+  this.app.cursor = null
+  this.callUpdate()
 }
 
 Tabselector.prototype.toggleCursor = function() {
