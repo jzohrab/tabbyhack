@@ -166,6 +166,27 @@ Tabselector.prototype.toggleChordTone = function() {
   */
 }
 
+
+/**
+ * Delete the current note.
+ */
+Tabselector.prototype.deleteCurrent = function() {
+  if (!this.activeCursor)
+    return
+
+  console.log('deleting note at index ' + this.currNote)
+  const scorenotes = this.app.scorenotes()
+  const sn = scorenotes[this.app.cursor]
+  if (sn instanceof Array) {
+    console.log('chord deletion not implemented')
+    return
+  }
+
+  // Delete the current note.  Leave everything else (cursor positions etc) as-is.
+  const n = this.app.notes.splice(this.currNote, 1)
+  console.log(`Deleted note ${JSON.stringify(n)}`)
+}
+
 // Allowable durations
 noteDurations = [
   'w', 'h', 'q', '8', '16', '32'
@@ -226,6 +247,8 @@ Tabselector.prototype.checkKey = function(e) {
   const [ C ] = [ 67 ]
   // Tempo
   const [ PLUS, MINUS, DOT ] = [ 187, 189, 190 ]
+  // Misc
+  const [ DELETE ] = [ 8 ]
   let changingString = false
   switch(0 + e.keyCode) {
   case UP: this.currString -= 1; break
@@ -235,6 +258,7 @@ Tabselector.prototype.checkKey = function(e) {
   case PLUS: this.speedUp(); break
   case MINUS: this.slowDown(); break;
   case DOT: this.toggleDot(); break;
+  case DELETE: this.deleteCurrent(); break;
   case SPACE: this.clearCurrent(); break
   case T: this.toggleCursor(); break
   case C: this.toggleChordTone(); break
