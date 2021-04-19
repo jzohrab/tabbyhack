@@ -166,6 +166,52 @@ Tabselector.prototype.toggleChordTone = function() {
   */
 }
 
+// Allowable durations
+noteDurations = [
+  'w', 'h', 'q', '8', '16', '32'
+]
+
+// Count backwards until you find a note with a duration, and return it.
+Tabselector.prototype.mostRecentDuration = function(stripDot = true) {
+  const ret = this.app.notes[this.currNote].duration
+  for (var i = this.currNote; i >= 0; i--) {
+    const d = this.app.notes[this.currNote].duration
+    if (d) {
+      if (stripDot)
+        return d.replace(/d$/, '')  // remove dotted rhythm
+      return d
+    }
+  }
+  return 'q'  // default
+}
+
+Tabselector.prototype.speedUp = function() {
+  let i = noteDurations.indexOf(this.mostRecentDuration())
+  i += 1
+  i = Math.min(i, noteDurations.length - 1)
+  this.app.notes[this.currNote].duration = noteDurations[i]
+}
+
+Tabselector.prototype.slowDown = function() {
+  let i = noteDurations.indexOf(this.mostRecentDuration())
+  i -= 1
+  i = Math.max(i, 0)
+  this.app.notes[this.currNote].duration = noteDurations[i]
+}
+
+Tabselector.prototype.toggleDot = function() {
+  let d = this.mostRecentDuration(false)
+  console.log(`most recent = ${d}`)
+  const n = this.app.notes[this.currNote]
+  let newduration = d
+  if (d.endsWith('d'))
+    newduration = d.replace(/d$/, '')
+  else
+    newduration = `${d}d`
+  console.log(`updating to = ${newduration}`)
+  n.duration = newduration
+}
+
 /** Keyboard handler. */
 Tabselector.prototype.checkKey = function(e) {
   // console.log(`initial: r = ${this.currString}, c = ${this.currNote}`)
@@ -174,13 +220,21 @@ Tabselector.prototype.checkKey = function(e) {
   const oldNote = this.currNote
 
   e = e || window.event
-  const [ DOWN, RIGHT, UP, LEFT, SPACE, T, C ] = [ 40, 39, 38, 37, 32, 84, 67 ]
+  // Movement
+  const [ DOWN, RIGHT, UP, LEFT, SPACE, T ] = [ 40, 39, 38, 37, 32, 84 ]
+  // Chords
+  const [ C ] = [ 67 ]
+  // Tempo
+  const [ PLUS, MINUS, DOT ] = [ 187, 189, 190 ]
   let changingString = false
   switch(0 + e.keyCode) {
   case UP: this.currString -= 1; break
   case DOWN: this.currString += 1; break
   case LEFT: this.currNote -= 1; this.app.cursor -= 1; break
   case RIGHT: this.currNote += 1; this.app.cursor += 1; break
+  case PLUS: this.speedUp(); break
+  case MINUS: this.slowDown(); break;
+  case DOT: this.toggleDot(); break;
   case SPACE: this.clearCurrent(); break
   case T: this.toggleCursor(); break
   case C: this.toggleChordTone(); break
