@@ -87,6 +87,15 @@ test('can generate vextab from notes', t => {
   t.end()
 })
 
+test('can specify vextab options', t => {
+  const app = new Application( { vextabopts: 'blah' } )
+  app.add_frequency(Bhz)
+  const n = app.notes[0]
+  n.tab = { string: 1, type: 'tone' }
+  t.equal(app.vextab('tabstave notation=true'), 'tabstave notation=true blah\nnotes :q 0/2')
+  t.end()
+})
+
 test('no notes = empty stave', t => {
   const app = new Application()
   t.equal(app.vextab('tabstave notation=true'), 'tabstave notation=true')

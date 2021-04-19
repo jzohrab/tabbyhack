@@ -219,6 +219,8 @@ Application.prototype.vextab = function(header = '', opts = {}) {
   }
 
   let heading = header || ''
+  if (this.options.vextabopts)
+    heading = `${heading} ${this.options.vextabopts}`
   if (heading !== '' && scorenotes.length > 0)
     heading += '\nnotes '
 

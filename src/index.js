@@ -23,7 +23,8 @@ window.startRecord = function() {
   }
   const minfret = document.getElementById('minFret').value || 0
   const maxfret = document.getElementById('maxFret').value || 12
-  const opts = { min: minfret, max: maxfret }
+  const vextabopts = document.getElementById('vextabopts').value || null
+  const opts = { min: minfret, max: maxfret, vextabopts: vextabopts }
   window.app = new Application(opts)
   window.appcontroller = new ApplicationController(window.app)
   window.appcontroller.start()
