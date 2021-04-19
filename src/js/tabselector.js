@@ -9,7 +9,7 @@ const Tabselector = function(app) {
 
   /** The current cursor position in the table. */
   this.currNote = 0
-  this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], 0)
+  this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], 0, false)
 
   /** The preferred strings selected by navigation. */
   app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
@@ -31,10 +31,14 @@ const Tabselector = function(app) {
 
 
 /**
- * If the given string can be used to fret the given note, use it;
- * otherwise, return the lowest string value.
+ * If not changing string and the given note already has a string selected, keep it;
+ * otherwise, try to use the suggested string, and if that doesn't
+ * work, return the lowest string value.
  */
-Tabselector.prototype.getGoodStringForNote = function(note, suggestedString) {
+Tabselector.prototype.getGoodStringForNote = function(note, suggestedString, changingString) {
+  if (!changingString && note.tab && note.tab.string !== null)
+    return note.tab.string
+
   const possibleStrings = Object.keys(note.frets).map(n => parseInt(n, 10)).sort()
   if (possibleStrings.includes(suggestedString))
     return suggestedString
@@ -124,6 +128,7 @@ Tabselector.prototype.checkKey = function(e) {
 
   e = e || window.event
   const [ DOWN, RIGHT, UP, LEFT, SPACE, T, C ] = [ 40, 39, 38, 37, 32, 84, 67 ]
+  let changingString = false
   switch(0 + e.keyCode) {
   case UP: this.currString -= 1; break
   case DOWN: this.currString += 1; break
@@ -135,8 +140,10 @@ Tabselector.prototype.checkKey = function(e) {
   default: return
   }
 
+  changingString = (oldString !== this.currString)
+
   /* Ensure curr row and column are within bounds. */
-  this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], this.currString)
+  this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], this.currString, changingString)
   this.currNote = Math.max(0, this.currNote)
   this.currNote = Math.min(this.currNote, app.notes.length - 1)
 

@@ -99,7 +99,7 @@ Application.prototype.buildNoteStruct = function(frequency) {
     name: this.noteStrings[note % 12],
     value: note,
     cents: this.getCents(frequency, note),
-    octave: parseInt(note / 12) - 1,
+    octave: parseInt(note / 12),
     frequency: frequency,
     standard: this.getStandardFrequency(note),
     frets
