@@ -109,7 +109,25 @@ test('vextab can handle note timings', t => {
   t.end()
 })
 
-test('app has cursor for current edit position', t => {
+test('scorenotes', t => {
+  const app = new Application()
+  app.add_frequency(Bhz)
+  app.add_frequency(Bhz)
+  app.add_frequency(Ehz)
+  app.add_frequency(Ehz)
+  const [ n1, n2, n3, n4 ] = app.notes
+  n1.tab = { string: 2, type: 'tone' }
+  n2.tab = { string: 2, type: 'tone' }
+  n3.tab = { string: 0, type: 'chord' }
+  n4.tab = { string: 0, type: 'tone' }
+  t.equal(app.vextab(), ':q 4/3 (4/3.0/1) 0/1', 'sanity check')
+  sn = app.scorenotes()
+  expected = [ n1, [ n2, n3 ], n4 ]
+  t.deepEqual(sn, expected)
+  t.end()
+})
+
+test('app has cursor based off of scorenotes for current edit position', t => {
   const app = new Application()
   app.add_frequency(Bhz)
   app.add_frequency(Bhz)
@@ -128,27 +146,9 @@ test('app has cursor for current edit position', t => {
   app.notes[0].tab = { string: 2, type: 'tone' }
   app.notes[1].tab = { string: 2, type: 'tone' }
   app.notes[2].tab = { string: 0, type: 'chord' }
-  app.cursor = 2
+  app.cursor = 1
   t.equal(app.vextab(), ':q 4/3 (4/3.0/1) HERE', 'note and chord')
 
-  t.end()
-})
-
-test('scorenotes', t => {
-  const app = new Application()
-  app.add_frequency(Bhz)
-  app.add_frequency(Bhz)
-  app.add_frequency(Ehz)
-  app.add_frequency(Ehz)
-  const [ n1, n2, n3, n4 ] = app.notes
-  n1.tab = { string: 2, type: 'tone' }
-  n2.tab = { string: 2, type: 'tone' }
-  n3.tab = { string: 0, type: 'chord' }
-  n4.tab = { string: 0, type: 'tone' }
-  t.equal(app.vextab(), ':q 4/3 (4/3.0/1) 0/1', 'sanity check')
-  sn = app.scorenotes()
-  expected = [ n1, [ n2, n3 ], n4 ]
-  t.deepEqual(sn, expected)
   t.end()
 })
 

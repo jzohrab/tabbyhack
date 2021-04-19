@@ -163,10 +163,10 @@ Application.prototype.scorenotes = function() {
 
 
 /**
- * Generate vextab "notes" string.
+ * Generate vextab "notes" string from scorenotes.
  */
 Application.prototype.vextab = function() {
-  const notes = this.notes
+  const scorenotes = this.scorenotes()
   const result = []
 
   addDuration = function(note) {
@@ -185,30 +185,26 @@ Application.prototype.vextab = function() {
     return `${fret}/${string}`
   }
 
-  for (var i = 0; i < notes.length; i++) {
-    const n = notes[i]
+  for (var i = 0; i < scorenotes.length; i++) {
+    const sn = scorenotes[i]
 
-    const text = noteText(n)
-    const is_chord = (n.tab && n.tab.type === 'chord')
+    const is_chord = (sn instanceof Array)
 
     if (!is_chord) {
-      addDuration(n)
-      result.push(text)
+      addDuration(sn)
+      result.push(noteText(sn))
     }
     else {
-      let chord = result[result.length - 1]
-      if (!(chord instanceof Array))
-        chord = [ chord ]
-      chord.push(text)
-      result[result.length - 1] = chord
+      addDuration(sn[0])
+      const t = '(' + sn.map(n => noteText(n)).join('.') + ')'
+      result.push(t)
     }
 
     if (this.cursor !== null && this.cursor == i)
       result.push(this.cursorIndicator)
   }
 
-  const entries = result.map(e => (e instanceof Array) ? '(' + e.join('.') + ')' : e)
-  return entries.join(' ')
+  return result.join(' ')
 }
 
 
