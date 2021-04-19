@@ -62,8 +62,10 @@ window.onloadBody = function() {
 
 /** Hack helper during dev, add a random frequency. */
 window.addRandom = function() {
+  var count = window. prompt("Number of notes to add:", 5)
+  count = parseInt(count, 10)
   startRecord()
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < count; i++) {
     const freq = Math.floor(Math.random() * 200) + 200
     window.app.add_frequency(freq)
   }
