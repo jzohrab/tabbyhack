@@ -160,6 +160,8 @@ window.renderTab = function() {
   const tabdest = document.getElementById('tabdest')
   tabdest.innerHTML = tabout
 
+  window.appcontroller.writeVextab()
+  /*
   // Vextab creates a textarea with class "editor"
   const editors = document.getElementsByClassName("editor")
   if (editors.length !== 1) {
@@ -176,6 +178,7 @@ notes :q ${vextabout}`
   // Simulate a keypress in the vextab editor so that the canvas is updated.
   // ref https://github.com/0xfe/vextab/blob/master/src/div.js
   vextabeditor.dispatchEvent(new KeyboardEvent('keyup'));
+  */
 
   enableButtons({ btnCopy: true })
 }
