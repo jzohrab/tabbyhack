@@ -165,13 +165,20 @@ Application.prototype.scorenotes = function() {
 /**
  * Generate vextab "notes" string from scorenotes.
  */
-Application.prototype.vextab = function(header = '') {
+Application.prototype.vextab = function(header = '', opts = {}) {
   const scorenotes = this.scorenotes()
-  const result = []
+  if (scorenotes.length == 0) {
+    return header
+  }
 
-  addDuration = function(note) {
+  const maxstafflength = opts.stafflength || 24
+  const result = []
+  let currstaff = []
+  result.push(currstaff)
+
+  addDuration = function(s, note) {
     if (note.duration) {
-      result.push(`:${note.duration}`)
+      s.push(`:${note.duration}`)
     }
   }
 
@@ -191,27 +198,33 @@ Application.prototype.vextab = function(header = '') {
     const is_chord = (sn instanceof Array)
 
     if (!is_chord) {
-      addDuration(sn)
-      result.push(noteText(sn))
+      addDuration(currstaff, sn)
+      currstaff.push(noteText(sn))
     }
     else {
-      addDuration(sn[0])
+      addDuration(currstaff, sn[0])
       const t = '(' + sn.map(n => noteText(n)).join('.') + ')'
-      result.push(t)
+      currstaff.push(t)
     }
 
     if (this.cursor !== null && this.cursor == i)
-      result.push(this.cursorIndicator)
+      currstaff.push(this.cursorIndicator)
+
+    const isLastNote = (i == scorenotes.length - 1)
+    if (currstaff.length >= maxstafflength && !isLastNote) {
+      currstaff = []
+      result.push(currstaff)
+    }
+
   }
 
-  let ret = header || ''
-  if (result.length == 0)
-    return ret
+  let heading = header || ''
+  if (heading !== '' && scorenotes.length > 0)
+    heading += '\nnotes '
 
-  if (ret !== '')
-    ret += '\nnotes '
-
-  return `${ret}${result.join(' ')}`
+  return result.
+    map(staff => `${heading}${staff.join(' ')}`).
+    join('\n\n')
 }
 
 
