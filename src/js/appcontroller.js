@@ -126,9 +126,7 @@ ApplicationController.prototype.writeVextab = function() {
   if (vt === '') {
     return
   }
-  const vextabcontent = `tabstave notation=true
-notes ${vt}`
-  this.vextabeditor.value = vextabcontent
+  this.vextabeditor.value = vt
 
   // Simulate a keypress in the vextab editor so that the canvas is updated.
   // ref https://github.com/0xfe/vextab/blob/master/src/div.js
