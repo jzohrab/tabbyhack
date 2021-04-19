@@ -83,7 +83,7 @@ Application.prototype.buildNoteStruct = function(frequency) {
       // cents: 0,
       octave: 0,
       frequency: 0,
-      // standard: 0,
+      standard: 0,  // required, as this controls whether the current note has changed or not.
       frets: {}
     }
   }
@@ -101,7 +101,7 @@ Application.prototype.buildNoteStruct = function(frequency) {
     // cents: this.getCents(frequency, note),
     octave: parseInt(note / 12),
     frequency: frequency,
-    // standard: this.getStandardFrequency(note),
+    standard: this.getStandardFrequency(note),
     frets
   }
 }

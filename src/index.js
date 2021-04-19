@@ -32,10 +32,11 @@ window.startRecord = function() {
 }
 
 window.printRecord = function() {
+  let ts = tabselector || { currNote: '(not editing)' }
   const output = [
     `VEXTAB: ${window.app.vextab()}`,
     `APP CURSOR: ${window.app.cursor}`,
-    `TABSEL CURSOR: ${tabselector.currNote}`,
+    `TABSEL CURSOR: ${ts.currNote}`,
     `SCORENOTES:<br /><pre>${JSON.stringify(window.app.scorenotes(), null, 2)}</pre>`,
     `NOTES:<br /><pre>${JSON.stringify(window.app.notes, null, 2)}</pre>`,
   ]
