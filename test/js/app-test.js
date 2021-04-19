@@ -93,6 +93,32 @@ test('no notes = empty stave', t => {
   t.end()
 })
 
+test('can generate multiple staves of vextab', t => {
+  const app = new Application()
+  app.add_frequency(Bhz)
+  app.add_frequency(Bhz)
+  app.add_frequency(Ehz)
+  app.add_frequency(Ehz)
+  const [ n1, n2, n3, n4 ] = app.notes
+  n1.tab = { string: 2, type: 'tone' }
+  n2.tab = { string: 2, type: 'tone' }
+  n3.tab = { string: 0, type: 'chord' }
+  n4.tab = { string: 0, type: 'tone' }
+
+  const expected = `tabstave notation=true
+notes :q 4/3
+
+tabstave notation=true
+notes (4/3.0/1)
+
+tabstave notation=true
+notes 0/1`
+
+  t.equal(app.vextab('tabstave notation=true', { stafflength: 1 }), expected, '3 staves generated')
+  t.end()
+})
+
+
 test('vextab can handle chords from notes', t => {
   const app = new Application()
   app.add_frequency(Bhz)
