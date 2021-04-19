@@ -59,7 +59,7 @@ Application.prototype.add_frequency = function(f) {
 
 /** Add a new note. */
 Application.prototype.addNote = function(note) {
-  if (note.standard == 0) {
+  if (note.frequency == 0) {
     return
   }
 
@@ -80,10 +80,10 @@ Application.prototype.buildNoteStruct = function(frequency) {
     return {
       name: 'rest',
       value: 0,
-      cents: 0,
+      // cents: 0,
       octave: 0,
       frequency: 0,
-      standard: 0,
+      // standard: 0,
       frets: {}
     }
   }
@@ -98,10 +98,10 @@ Application.prototype.buildNoteStruct = function(frequency) {
   return {
     name: this.noteStrings[note % 12],
     value: note,
-    cents: this.getCents(frequency, note),
+    // cents: this.getCents(frequency, note),
     octave: parseInt(note / 12),
     frequency: frequency,
-    standard: this.getStandardFrequency(note),
+    // standard: this.getStandardFrequency(note),
     frets
   }
 }

@@ -13,7 +13,7 @@ const Tabselector = function(app, updateCallback) {
   this.app.cursor = 0
 
   /** The preferred strings selected by navigation. */
-  app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
+  this.app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
 
   /** The cursor is active when it changes the preferred strings. */
   this.activeCursor = true
@@ -85,6 +85,9 @@ Tabselector.prototype.cell = function(r, c) {
 
 /** Highlight the cursor cell (only one cell should be highlighted per column). */
 Tabselector.prototype.updateView = function(oldString, oldNote) {
+  return
+  // TODO - remove this method
+
   this.cell(oldString, oldNote).classList.remove(this.cursorStyle)
   const c = this.cell(this.currString, this.currNote)
   c.focus()
@@ -96,12 +99,11 @@ Tabselector.prototype.updateView = function(oldString, oldNote) {
   }
 
   /** Clear all cells in column. */
-  for (var i = 0; i < app.strings.length; i++) {
+  for (var i = 0; i < this.app.strings.length; i++) {
     this.clearHighlights(i, this.currNote)
   }
 
   c.classList.add("highlight")
-  app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
 }
 
 Tabselector.prototype.clearHighlights = function(r, c) {
@@ -112,18 +114,56 @@ Tabselector.prototype.clearHighlights = function(r, c) {
 
 Tabselector.prototype.clearCurrent = function() {
   this.cell(this.currString, this.currNote).classList.remove("highlight")
-  app.notes[this.currNote].tab = { string: null, type: 'tone' }
+  this.app.notes[this.currNote].tab = { string: null, type: 'tone' }
 }
 
 Tabselector.prototype.toggleChordTone = function() {
   if (!this.activeCursor)
     return
   this.clearHighlights(this.currString, this.currNote)
-  const newtype = (app.notes[this.currNote].tab.type === 'tone') ?
+
+  const scorenotes = this.app.scorenotes()
+  const sn = scorenotes[this.app.cursor]
+  if (sn instanceof Array) {
+    sn.map(n => n.tab.type = 'tone')
+    // keep app.cursor in current position, should be at the start of the chord notes.
+    
+    // The tabsel cursor should be at the first note of this chord ...
+    // so find all notes up to that.
+    // Tricky code = bad code.
+    this.currNote = scorenotes.slice(0, this.app.cursor + 1).flat().length
+  }
+  else {
+    // Can't make the 0th tone a chord.
+    if (this.app.cursor == 0)
+      return
+
+    // If the prior thing is a chord, and the chord already has this
+    // string, don't allow the toggle.
+    const chord = this.app.scorenotes()[this.app.cursor - 1]
+    if (chord instanceof Array) {
+      const chordstrings = chord.map(n => n.tab.string)
+      if (chordstrings.includes(sn.tab.string)) {
+        console.log('chord already has that string')
+        return
+      }
+    }
+      
+    this.app.notes[this.currNote].tab.type = 'chord'
+
+    // keep app.cursor where it is, now it's at the next note.
+    // tabselector cursor should go to the next note.
+    this.currNote += 1
+  }
+
+  /*
+  const currType = this.app.notes[this.currNote].tab.type
+  const newtype = (this.app.notes[this.currNote].tab.type === 'tone') ?
         { type: 'chord', classname: 'chordtone' } :
         { type: 'tone', classname: 'highlight' }
-  app.notes[this.currNote].tab.type = newtype.type
+  this.app.notes[this.currNote].tab.type = newtype.type
   this.cell(this.currString, this.currNote).classList.add(newtype.classname)  
+  */
 }
 
 /** Keyboard handler. */
@@ -139,9 +179,9 @@ Tabselector.prototype.checkKey = function(e) {
   switch(0 + e.keyCode) {
   case UP: this.currString -= 1; break
   case DOWN: this.currString += 1; break
-  case LEFT: this.currNote -= 1; break
-  case RIGHT: this.currNote += 1; break
-  case SPACE: clearCurrent(); break
+  case LEFT: this.currNote -= 1; this.app.cursor -= 1; break
+  case RIGHT: this.currNote += 1; this.app.cursor += 1; break
+  case SPACE: this.clearCurrent(); break
   case T: this.toggleCursor(); break
   case C: this.toggleChordTone(); break
   default: return
@@ -152,14 +192,17 @@ Tabselector.prototype.checkKey = function(e) {
   /* Ensure curr row and column are within bounds. */
   this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], this.currString, changingString)
   this.currNote = Math.max(0, this.currNote)
-  this.currNote = Math.min(this.currNote, app.notes.length - 1)
-
-  /* Update the app, so vextab can be updated. */
-  this.app.cursor = this.currNote
+  this.currNote = Math.min(this.currNote, this.app.notes.length - 1)
 
   // console.log(`r = ${this.currString}, c = ${this.currNote}`)
   if (this.currString !== oldString || this.currNote !== oldNote) {
     this.updateView(oldString, oldNote)
+
+    const an = this.app.notes[this.currNote]
+    if (an.tab == null) {
+      an.tab = { type: 'tone' }
+    }
+    an.tab.string = this.currString
   }
 
   if (this.callUpdate) {

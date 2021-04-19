@@ -31,10 +31,15 @@ window.startRecord = function() {
 }
 
 window.printRecord = function() {
-  const vextab = window.app.vextab()
-  const notes = JSON.stringify(window.app.notes)
+  const output = [
+    `VEXTAB: ${window.app.vextab()}`,
+    `APP CURSOR: ${window.app.cursor}`,
+    `TABSEL CURSOR: ${tabselector.currNote}`,
+    `SCORENOTES:<br /><pre>${JSON.stringify(window.app.scorenotes(), null, 2)}</pre>`,
+    `NOTES:<br /><pre>${JSON.stringify(window.app.notes, null, 2)}</pre>`,
+  ]
   const display = document.getElementById('recorded')
-  display.innerHTML = vextab + "<br />" + notes
+  display.innerHTML = '<br />' + output.join("<hr />")
 }
 
 window.restartApp = function() {
