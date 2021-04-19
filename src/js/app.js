@@ -47,7 +47,7 @@ const Application = function(opts = {}) {
   this.notes = []
 
   // The "cursor position" when editing notes.
-  this.cursorIndicator = '$.a@u/bottom.$'  // default fermata
+  this.cursorIndicator = '$.a-/bottom.$'  // default fermata
   this.cursor = null
 }
 
