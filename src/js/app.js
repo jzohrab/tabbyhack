@@ -142,6 +142,29 @@ Application.prototype.getCents = function(frequency, note) {
 
 
 /**
+ * Groups notes for scoring.
+ */
+Application.prototype.scorenotes = function() {
+  const result = []
+  for (var i = 0; i < this.notes.length; i++) {
+    const n = this.notes[i]
+    const is_chord = (n.tab && n.tab.type === 'chord')
+    if (!is_chord) {
+      result.push(n)
+    }
+    else {
+      let chord = result[result.length - 1]
+      if (!(chord instanceof Array))
+        chord = [ chord ]
+      chord.push(n)
+      result[result.length - 1] = chord
+    }
+  }
+  return result
+}
+
+
+/**
  * Generate vextab "notes" string.
  */
 Application.prototype.vextab = function() {

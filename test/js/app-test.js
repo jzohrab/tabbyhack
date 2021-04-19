@@ -134,13 +134,12 @@ test('app has cursor for current edit position', t => {
   t.end()
 })
 
-/*
 test('scorenotes', t => {
   const app = new Application()
   app.add_frequency(Bhz)
   app.add_frequency(Bhz)
   app.add_frequency(Ehz)
-  [ n1, n2, n3 ] = app.notes
+  const [ n1, n2, n3 ] = app.notes
   n1.tab = { string: 2, type: 'tone' }
   n2.tab = { string: 2, type: 'tone' }
   n3.tab = { string: 0, type: 'chord' }
@@ -150,7 +149,6 @@ test('scorenotes', t => {
   t.deepEqual(sn, expected)
   t.end()
 })
-*/
 
 // next tests:
 // 1st note can't be a chord
