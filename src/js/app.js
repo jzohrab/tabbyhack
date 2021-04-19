@@ -148,17 +148,15 @@ Application.prototype.scorenotes = function() {
   const result = []
   for (var i = 0; i < this.notes.length; i++) {
     const n = this.notes[i]
+    let entry = n
     const is_chord = (n.tab && n.tab.type === 'chord')
-    if (!is_chord) {
-      result.push(n)
+    if (is_chord) {
+      entry = result.pop()
+      if (!(entry instanceof Array))
+        entry = [ entry ]
+      entry.push(n)
     }
-    else {
-      let chord = result[result.length - 1]
-      if (!(chord instanceof Array))
-        chord = [ chord ]
-      chord.push(n)
-      result[result.length - 1] = chord
-    }
+    result.push(entry)
   }
   return result
 }

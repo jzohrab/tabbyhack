@@ -139,13 +139,15 @@ test('scorenotes', t => {
   app.add_frequency(Bhz)
   app.add_frequency(Bhz)
   app.add_frequency(Ehz)
-  const [ n1, n2, n3 ] = app.notes
+  app.add_frequency(Ehz)
+  const [ n1, n2, n3, n4 ] = app.notes
   n1.tab = { string: 2, type: 'tone' }
   n2.tab = { string: 2, type: 'tone' }
   n3.tab = { string: 0, type: 'chord' }
-  t.equal(app.vextab(), ':q 4/3 (4/3.0/1)', 'sanity check')
+  n4.tab = { string: 0, type: 'tone' }
+  t.equal(app.vextab(), ':q 4/3 (4/3.0/1) 0/1', 'sanity check')
   sn = app.scorenotes()
-  expected = [ n1, [ n2, n3 ] ]
+  expected = [ n1, [ n2, n3 ], n4 ]
   t.deepEqual(sn, expected)
   t.end()
 })
