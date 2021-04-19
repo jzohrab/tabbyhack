@@ -14,16 +14,16 @@ const Application = function(opts = {}) {
 
   this.noteStrings = [
     'C',
-    'C♯',
+    'C#',
     'D',
-    'D♯',
+    'D#',
     'E',
     'F',
-    'F♯',
+    'F#',
     'G',
-    'G♯',
+    'G#',
     'A',
-    'A♯',
+    'A#',
     'B'
   ]
 

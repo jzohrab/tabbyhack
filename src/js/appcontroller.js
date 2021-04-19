@@ -10,6 +10,13 @@ const ApplicationController = function(app) {
   // this.$tab = document.getElementById('tab')
   this.$rawtab = document.getElementById('rawtab')
   this.app = app
+
+  // Vextab creates a textarea with class "editor"
+  const editors = document.getElementsByClassName("editor")
+  if (editors.length !== 1) {
+    throw "no unique 'editor' class found"
+  }
+  this.vextabeditor = editors[0]
 }
 
 
@@ -111,9 +118,28 @@ ApplicationController.prototype.updateCurrentNoteDisplay = function() {
   this.$rawnote.innerHTML = `Current: ${notedesc}`
 }
 
+/**
+ * Update the vextab editor.
+ */
+ApplicationController.prototype.writeVextab = function() {
+  const vt = this.app.vextab()
+  if (vt === '') {
+    return
+  }
+  const vextabcontent = `tabstave notation=true
+notes ${vt}`
+  this.vextabeditor.value = vextabcontent
+
+  // Simulate a keypress in the vextab editor so that the canvas is updated.
+  // ref https://github.com/0xfe/vextab/blob/master/src/div.js
+  this.vextabeditor.dispatchEvent(new KeyboardEvent('keyup'));
+}
+
+
 ApplicationController.prototype.updateUI = function() {
   this.writeRawTab()
   this.updateCurrentNoteDisplay()
+  this.writeVextab()
 }
 
 module.exports = { ApplicationController }
