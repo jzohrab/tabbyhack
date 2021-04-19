@@ -83,6 +83,13 @@ test('can generate vextab from notes', t => {
   t.equal(app.vextab(), ':q B/4', 'B 4th octave')
   n.tab = { string: 1, type: 'tone' }
   t.equal(app.vextab(), ':q 0/2', 'B on 2nd string (strings indexed from 0 in code)')
+  t.equal(app.vextab('tabstave notation=true'), 'tabstave notation=true\nnotes :q 0/2', 'can add header, notes is added automagically')
+  t.end()
+})
+
+test('no notes = empty stave', t => {
+  const app = new Application()
+  t.equal(app.vextab('tabstave notation=true'), 'tabstave notation=true')
   t.end()
 })
 

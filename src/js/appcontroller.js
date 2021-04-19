@@ -122,7 +122,7 @@ ApplicationController.prototype.updateCurrentNoteDisplay = function() {
  * Update the vextab editor.
  */
 ApplicationController.prototype.writeVextab = function() {
-  const vt = this.app.vextab()
+  const vt = this.app.vextab('tabstave notation=true')
   if (vt === '') {
     return
   }

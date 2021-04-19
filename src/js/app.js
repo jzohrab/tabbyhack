@@ -165,7 +165,7 @@ Application.prototype.scorenotes = function() {
 /**
  * Generate vextab "notes" string from scorenotes.
  */
-Application.prototype.vextab = function() {
+Application.prototype.vextab = function(header = '') {
   const scorenotes = this.scorenotes()
   const result = []
 
@@ -204,7 +204,14 @@ Application.prototype.vextab = function() {
       result.push(this.cursorIndicator)
   }
 
-  return result.join(' ')
+  let ret = header || ''
+  if (result.length == 0)
+    return ret
+
+  if (ret !== '')
+    ret += '\nnotes '
+
+  return `${ret}${result.join(' ')}`
 }
 
 
