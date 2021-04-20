@@ -76,34 +76,35 @@ Application.prototype.addNote = function(note) {
  */
 Application.prototype.buildNoteStruct = function(frequency) {
 
+  const ret = {
+    name: 'rest',
+    value: 0,
+    // cents: 0,
+    octave: 0,
+    frequency: 0,
+    standard: 0,  // required, as this controls whether the current note has changed or not.
+    type: 'tone',
+    frets: {}
+  }
+
   if (!frequency) {
-    return {
-      name: 'rest',
-      value: 0,
-      // cents: 0,
-      octave: 0,
-      frequency: 0,
-      standard: 0,  // required, as this controls whether the current note has changed or not.
-      frets: {}
-    }
+    return ret
   }
 
   const note = this.getNote(frequency)
-  const frets = this.strings.reduce((result, s) => {
+  ret.name = this.noteStrings[note % 12]
+  ret.value = note
+  ret.octave = parseInt(note / 12)
+  ret.frequency = frequency
+  ret.standard = this.getStandardFrequency(note)
+  ret.frets = this.strings.reduce((result, s) => {
     const f = s.getFret(frequency)
     if (f >= this.options.min && f <= this.options.max)
       result[s.stringNumber] = f
     return result
   },{})
-  return {
-    name: this.noteStrings[note % 12],
-    value: note,
-    // cents: this.getCents(frequency, note),
-    octave: parseInt(note / 12),
-    frequency: frequency,
-    standard: this.getStandardFrequency(note),
-    frets
-  }
+
+  return ret
 }
 
 /**
@@ -161,6 +162,13 @@ Application.prototype.scorenotes = function() {
   return result
 }
 
+
+/**
+ * Toggle a note into a chord, or explode a chord into individual notes.
+ */
+Application.prototype.toggleChord = function(i) {
+  this.notes[i].type = 'chord'
+}
 
 /**
  * Generate vextab "notes" string from scorenotes.
