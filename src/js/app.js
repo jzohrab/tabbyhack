@@ -83,8 +83,12 @@ Application.prototype.buildNoteStruct = function(frequency) {
     octave: 0,
     frequency: 0,
     standard: 0,  // required, as this controls whether the current note has changed or not.
+    frets: {},
+
+    // User can change these values later.
     type: 'tone',
-    frets: {}
+    string: null,
+    duration: null
   }
 
   if (!frequency) {
@@ -167,7 +171,10 @@ Application.prototype.scorenotes = function() {
  * Toggle a note into a chord, or explode a chord into individual notes.
  */
 Application.prototype.toggleChord = function(i) {
-  this.notes[i].type = 'chord'
+  const n = this.notes[i]
+  if (n.string == null)
+    throw 'must assign string'
+  n.type = 'chord'
 }
 
 /**
