@@ -194,72 +194,39 @@ test('app has cursor based off of scorenotes for current edit position', t => {
   t.end()
 })
 
-// next tests:
-// 1st note can't be a chord
-// duration chords - is for first note
-// duration changes for notes pulled into chord
+test('blah', t => {
+  t.skip('aoeu')
+  t.end()
+})
+
 
 /*
-// Useful frequencies (open strings)
 
-const b = new GuitarString('b', Bhz)
-const e = new GuitarString('e', Ehz)
+TODO Tabbyhack tests
 
-test('single string multiple notes', t => {
-  const rawtab = new Rawtab([b])
-  const actual = rawtab.tab([Bhz, Ehz, Bhz * 2])
-  const expected = [[0], [5], [12]]
-  t.deepEqual(actual, expected)
-  t.end()
-})
+Toggle chord
 
-test('multistring open string', t => {
-  const rawtab = new Rawtab([e, b])
-  const actual = rawtab.tab([Bhz, Ehz])
-  const expected = [
-    [null, 0], [0, 5]
-  ]
-  t.deepEqual(actual, expected)
-  t.end()
-})
+1st note can't be a chord
+If currently on cord, sets all notes to tone, app cursor stays the same, note cursor points at the first note.
+If note, and cord already contains note on string, does nothing, or raises error
+if last note, app cursor points at cord
+If not last note, app cursor stays the same
 
-test('multistring above 10th fret', t => {
-  const rawtab = new Rawtab([e, b])
-  const actual = rawtab.tab([Bhz, Ehz, Bhz * 2, Ehz])
-  const expected = [
-    [null, 0],
-    [0, 5],
-    [7, 12],
-    [0, 5]
-  ]
-  t.deepEqual(actual, expected)
-  t.end()
-})
 
-test('multistring ignored notes arent tabbed', t => {
-  const rawtab = new Rawtab([e, b], { min: 4, max: 12 } )
-  const actual = rawtab.tab([Bhz, Ehz, Bhz * 2, Bhz / 2, Ehz * 2])
-  const expected = [
-    [null, null],
-    [null, 5],
-    [7, 12],
-    [null, null],
-    [12, null]
-  ]
-  t.deepEqual(actual, expected)
-  t.end()
-})
+Deletion
 
-test('multistring out of range notes yields blank tab', t => {
-  const rawtab = new Rawtab([e, b], { min: 4, max: 12 } )
-  const actual = rawtab.tab([Ehz * 8, Bhz * 8, Bhz / 2, Ehz * 8])
-  const expected = [
-    [null, null],
-    [null, null],
-    [null, null],
-    [null, null]
-  ]
-  t.deepEqual(actual, expected)
-  t.end()
-})
-*/
+If chord, all notes are deleted, and app cursor is on the next note
+If last cord, or is last note, app cursor is at the last note
+If not last note or not last cord app cursor stays the same
+If first note or first cord, second is first
+If no cursor does nothing
+If no notes does nothing
+
+Setting time
+
+F chord, only the duration of the first note is set
+If note duration is set
+Uses the duration of most recently specified note
+If note has same duration as previous note, the duration is removed, because it’s implicit
+
+ */
