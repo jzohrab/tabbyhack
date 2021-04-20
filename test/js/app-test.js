@@ -211,16 +211,22 @@ test('cannot toggle a note into a chord until it has been assigned a string', t 
   t.end()
 })
 
-// Test: prior note must also have a string.
-
 test('can toggle chord for note at cursor', t => {
   app = appWithFreqs(Bhz, Ehz)
   t.equal(2, app.notes.length, 'sanity check')
   t.deepEqual(['tone', 'tone'], app.notes.map(n => n.type), 'all tones')
   app.notes[0].string = 1
-  app.notes[1].string = 2
+  app.notes[1].string = 0
   app.toggleChord(1)
   t.deepEqual(['tone', 'chord'], app.notes.map(n => n.type), 'is chord')
+  t.end()
+})
+
+// Need strings for all notes to ensure no clashes.
+test('prior note must also have a string', t => {
+  app = appWithFreqs(Bhz, Ehz)
+  app.notes[1].string = 0
+  t.throws(() => { app.toggleChord(1) }, /prior note must have string assigned/)
   t.end()
 })
 
