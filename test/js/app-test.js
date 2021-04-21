@@ -343,15 +343,6 @@ test('deletion', t => {
 /*
 TODO Tabbyhack tests
 
-Deletion
-
-If chord, all notes are deleted, and app cursor is on the next note
-If last cord, or is last note, app cursor is at the last note
-If not last note or not last cord app cursor stays the same
-If first note or first cord, second is first
-If no cursor does nothing
-If no notes does nothing
-
 Setting time
 
 F chord, only the duration of the first note is set
