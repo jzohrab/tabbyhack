@@ -351,7 +351,7 @@ test('setting duration on note', t => {
   t.end()
 })
 
-test.skip('setting duration on note', t => {
+test('setting duration on chord', t => {
   app = appWithFreqs(Ghz, Bhz, Ehz, Ghz, Bhz)
   strings = [2,1,0, 2, 1]
   for (var i = 0; i < strings.length; i++) {
@@ -361,19 +361,15 @@ test.skip('setting duration on note', t => {
   app.toggleChord(2)
   assertAppLineEquals(t, [ Ghz, [ Bhz, Ehz ], Ghz, Bhz ], 'chorded')
 
-  app.deleteAt(0)
-  assertAppLineEquals(t, [ Ehz, Ghz, Bhz ], 'chord deleted')
+  app.setDuration(1, '32')
 
-  app.deleteAt(1)
-  assertAppLineEquals(t, [ Ehz, Bhz ], 'g gone')
+  t.equal(app.notes[0].duration, 'q', 'default q')
+  t.equal(app.notes[1].duration, '32', 'first note in chord')
 
-  app.deleteAt(1)
-  assertAppLineEquals(t, [ Ehz ], 'b gone')
-
-  app.deleteAt(0)
-  assertAppLineEquals(t, [ ], 'empty')
+  const n2 = app.notes[2]
+  t.equal(n2.frequency, Ehz, 'sanity check')
+  t.equal(n2.duration, null, 'second note in chord does not get duration')
   t.end()
-
 })
 
   /*
