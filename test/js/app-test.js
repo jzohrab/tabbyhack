@@ -240,26 +240,24 @@ test('can toggle chord for note', t => {
   app.notes[1].string = 0
   app.toggleChord(1)
   t.deepEqual(['tone', 'chord'], app.notes.map(n => n.type), 'is chord')
-  assertAppLineEquals(t, [ [ Bhz, Ehz ] ], 'ungrouped')
+  assertAppLineEquals(t, [ [ Bhz, Ehz ] ], 'grouped')
   t.end()
 })
 
 
-test('can get all notes in chord ending with current chord note', t => {
+test('toggling appends notes to existing chord', t => {
   // open strings
-  app = appWithFreqs(Ghz, Bhz, Ehz, Bhz, Ghz, Bhz, Ghz)
-  strings = [2,1,0,1,2,1,2]
+  app = appWithFreqs(Ghz, Bhz, Ehz, Bhz, Ghz)
+  strings = [2,1,0,1,2]
   for (var i = 0; i < strings.length; i++) {
     app.notes[i].string = strings[i]
   }
-  for (var i = 3; i <= 4; i++)
-    app.notes[i].type = 'chord'
 
-  const chordFreqs = (i) => app.chordNotes(i).map(n => n.frequency)
-
-  t.deepEqual([], chordFreqs(2), 'tone only, no chord')
-  t.deepEqual([ Ehz, Bhz ], chordFreqs(3), 'E and B chord')
-  t.deepEqual([ Ehz, Bhz, Ghz ], chordFreqs(4), 'all strings')
+  assertAppLineEquals(t, [ Ghz, Bhz, Ehz, Bhz, Ghz ], 'ungrouped')
+  app.toggleChord(1)
+  assertAppLineEquals(t, [ [ Ghz, Bhz ], Ehz, Bhz, Ghz ], 'chord 1')
+  app.toggleChord(1)
+  assertAppLineEquals(t, [ [ Ghz, Bhz, Ehz ], Bhz, Ghz ], 'chord increased')
   t.end()
 })
 

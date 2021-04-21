@@ -205,7 +205,8 @@ Application.prototype.toggleChord = function(i) {
   const prior = this.line[i - 1]
   if (prior instanceof Array) {
     console.log('Adding to chord')
-    throw 'TODO adding to existing chord'
+    this.line[i - 1].push(e)
+    this.line.splice(i, 1)
   }
   else {
     console.log('Adding to prior note')
