@@ -212,7 +212,7 @@ test('cannot toggle a note into a chord until it has been assigned a string', t 
   t.end()
 })
 
-test('can toggle chord for note at cursor', t => {
+test('can toggle chord for note', t => {
   app = appWithFreqs(Bhz, Ehz)
   t.equal(2, app.notes.length, 'sanity check')
   t.deepEqual(['tone', 'tone'], app.notes.map(n => n.type), 'all tones')
@@ -226,19 +226,19 @@ test('can toggle chord for note at cursor', t => {
 
 test('can get all notes in chord ending with current chord note', t => {
   // open strings
-  app = appWithFreqs(Ehz, Bhz, Ghz)
-  for (var i = 0; i < 3; i++) {
-    let n = app.notes[i]
-    n.string = i
-    n.type = (i !== 0 ? 'chord' : n.type)
+  app = appWithFreqs(Ghz, Bhz, Ehz, Bhz, Ghz, Bhz, Ghz)
+  strings = [2,1,0,1,2,1,2]
+  for (var i = 0; i < strings.length; i++) {
+    app.notes[i].string = strings[i]
   }
+  for (var i = 3; i <= 4; i++)
+    app.notes[i].type = 'chord'
 
   const chordFreqs = (i) => app.chordNotes(i).map(n => n.frequency)
 
-  c = app.chordNotes(0)
-  t.deepEqual([], chordFreqs(0), 'tone only, no chord')
-  t.deepEqual([ Ehz, Bhz ], chordFreqs(1), 'E and B chord')
-  t.deepEqual([ Ehz, Bhz, Ghz ], chordFreqs(2), 'all strings')
+  t.deepEqual([], chordFreqs(2), 'tone only, no chord')
+  t.deepEqual([ Ehz, Bhz ], chordFreqs(3), 'E and B chord')
+  t.deepEqual([ Ehz, Bhz, Ghz ], chordFreqs(4), 'all strings')
   t.end()
 })
 
@@ -250,6 +250,13 @@ test('prior note must also have a string', t => {
   t.end()
 })
 
+test('cant make very first note a chord', t => {
+  app = appWithFreqs(Bhz, Ehz)
+  app.notes[0].string = 1
+  t.throws(() => { app.toggleChord(0) }, /first note cannot be a chord tone/)
+  t.end()
+})
+
 
 /*
 
@@ -257,9 +264,8 @@ TODO Tabbyhack tests
 
 Toggle chord
 
-1st note can't be a chord
-If currently on cord, sets all notes to tone, app cursor stays the same, note cursor points at the first note.
 If note, and cord already contains note on string, does nothing, or raises error
+If currently on cord, sets all notes to tone, app cursor stays the same, note cursor points at the first note.
 if last note, app cursor points at cord
 If not last note, app cursor stays the same
 

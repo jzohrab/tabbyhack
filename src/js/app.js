@@ -188,6 +188,8 @@ Application.prototype.chordNotes = function(i) {
  * Toggle a note into a chord, or explode a chord into individual notes.
  */
 Application.prototype.toggleChord = function(i) {
+  if (i <= 0)
+    throw 'first note cannot be a chord tone'
   const n = this.notes[i]
   if (n.string == null)
     throw 'must assign string'
