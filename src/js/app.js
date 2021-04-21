@@ -1,4 +1,5 @@
 const { GuitarString } = require('./guitarstring.js')
+const { Note } = require('./note.js')
 
 /**
  * Main application.
@@ -9,23 +10,6 @@ const Application = function(opts = {}) {
   this.options = opts
   this.options.min = this.options.min || 0
   this.options.max = this.options.max || 12
-  this.semitone = 69
-  this.middleA = 440
-
-  this.noteStrings = [
-    'C',
-    'C#',
-    'D',
-    'D#',
-    'E',
-    'F',
-    'F#',
-    'G',
-    'G#',
-    'A',
-    'A#',
-    'B'
-  ]
 
   // Allowable durations
   this.noteDurations = [
@@ -60,7 +44,7 @@ Application.prototype.notes = function(f) {
 
 /** Dev helper for adding random notes. */
 Application.prototype.add_frequency = function(f) {
-  this.addNote(this.buildNoteStruct(f))
+  this.addNote(new Note(f))
 }
 
 /** Add a new note. */
@@ -73,84 +57,15 @@ Application.prototype.addNote = function(note) {
   if (this.line.length == 0)
     note.duration = 'q'
 
-  this.line.push(note)
-}
-
-
-/**
- * Build full note struct from frequency.
- */
-Application.prototype.buildNoteStruct = function(frequency) {
-
-  const ret = {
-    name: 'rest',
-    value: 0,
-    // cents: 0,
-    octave: 0,
-    frequency: 0,
-    standard: 0,  // required, as this controls whether the current note has changed or not.
-    frets: {},
-
-    // User can change these values later.
-    type: 'tone',
-    string: null,
-    duration: null
-  }
-
-  if (!frequency) {
-    return ret
-  }
-
-  const note = this.getNote(frequency)
-  ret.name = this.noteStrings[note % 12]
-  ret.value = note
-  ret.octave = parseInt(note / 12)
-  ret.frequency = frequency
-  ret.standard = this.getStandardFrequency(note)
-  ret.frets = this.strings.reduce((result, s) => {
-    const f = s.getFret(frequency)
+  note.frets = this.strings.reduce((result, s) => {
+    const f = s.getFret(note.frequency)
     if (f >= this.options.min && f <= this.options.max)
       result[s.stringNumber] = f
-    return result
+      return result
   },{})
-
-  return ret
+  
+  this.line.push(note)
 }
-
-/**
- * get musical note from frequency
- *
- * @param {number} frequency
- * @returns {number}
- */
-Application.prototype.getNote = function(frequency) {
-  const note = 12 * (Math.log(frequency / this.middleA) / Math.log(2))
-  return Math.round(note) + this.semitone
-}
-
-/**
- * get the musical note's standard frequency
- *
- * @param note
- * @returns {number}
- */
-Application.prototype.getStandardFrequency = function(note) {
-  return this.middleA * Math.pow(2, (note - this.semitone) / 12)
-}
-
-/**
- * get cents difference between given frequency and musical note's standard frequency
- *
- * @param {number} frequency
- * @param {number} note
- * @returns {number}
- */
-Application.prototype.getCents = function(frequency, note) {
-  return Math.floor(
-    (1200 * Math.log(frequency / this.getStandardFrequency(note))) / Math.log(2)
-  )
-}
-
 
 /**
  * Groups notes for scoring.
@@ -271,16 +186,6 @@ Application.prototype.vextab = function(header = '', opts = {}) {
     }
   }
 
-  noteText = function(note) {
-    if (note.string == null) {
-      return `${note.name}/${note.octave}`
-    }
-
-    const string = note.string + 1
-    const fret = note.frets[`${note.string}`]
-    return `${fret}/${string}`
-  }
-
   for (var i = 0; i < scorenotes.length; i++) {
     const sn = scorenotes[i]
 
@@ -288,11 +193,11 @@ Application.prototype.vextab = function(header = '', opts = {}) {
 
     if (!is_chord) {
       addDuration(currstaff, sn)
-      currstaff.push(noteText(sn))
+      currstaff.push(sn.vextab())
     }
     else {
       addDuration(currstaff, sn[0])
-      const t = '(' + sn.map(n => noteText(n)).join('.') + ')'
+      const t = '(' + sn.map(n => n.vextab()).join('.') + ')'
       currstaff.push(t)
     }
 
