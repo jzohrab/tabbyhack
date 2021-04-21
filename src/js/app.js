@@ -241,7 +241,18 @@ Application.prototype.setDuration = function(i, s) {
  * Delete element from line.
  */
 Application.prototype.deleteAt = function(i) {
+  const maxi = this.line.length
+  if (i < 0 || i > maxi)
+    throw `Bounds exception, get ${i} but should be in [0, ${maxi})`
+
+  // Propagate time settings.
+  const [ first, second ] = this.line.flat()
+  if (first && second)
+    second.duration = second.duration || first.duration
+
   this.line.splice(i, 1)  // remove existing thing
+
+
   this.notes = this.line.flat()  // TODO remove this
 }
 

@@ -348,6 +348,7 @@ test('setting duration on note', t => {
   app = appWithFreqs(Ghz, Bhz)
   app.setDuration(0, '32')
   t.equal(app.notes[0].duration, '32')
+  t.equal(app.notes[1].duration, null, 'implicit')
   t.end()
 })
 
@@ -372,14 +373,23 @@ test('setting duration on chord', t => {
   t.end()
 })
 
-  /*
-TODO Tabbyhack tests
 
-Setting time
+test('duration moves to next note if first is deleted', t => {
+  app = appWithFreqs(Ghz, Bhz)
+  app.setDuration(0, '32')
+  t.equal(app.notes[0].duration, '32')
+  t.equal(app.notes[1].duration, null, 'implicit')
 
-F chord, only the duration of the first note is set
-If note duration is set
-Uses the duration of most recently specified note
-If note has same duration as previous note, the duration is removed, because it’s implicit
-If first note is deleted, and next note doesnt have time, it gets the old first note time
+  app.deleteAt(0)
+  t.equal(app.notes[0].frequency, Bhz, 'sanity check')
+  t.equal(app.notes[0].duration, '32')
+  t.end()
+})
+
+/*
+Future tests
+
+- Setting time
+  - Uses the duration of most recently specified note
+  - If note has same duration as previous note, the duration is removed, because it’s implicit
  */
