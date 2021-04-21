@@ -191,6 +191,9 @@ Application.prototype.toggleChord = function(i) {
   const n = this.notes[i]
   if (n.string == null)
     throw 'must assign string'
+  const prior = this.notes[i - 1]
+  if (prior.string == null)
+    throw 'prior note must have string assigned'
   n.type = 'chord'
 }
 

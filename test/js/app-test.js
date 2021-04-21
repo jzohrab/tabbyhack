@@ -243,7 +243,7 @@ test('can get all notes in chord ending with current chord note', t => {
 })
 
 // Need strings for all notes to ensure no clashes.
-test.skip('prior note must also have a string', t => {
+test('prior note must also have a string', t => {
   app = appWithFreqs(Bhz, Ehz)
   app.notes[1].string = 0
   t.throws(() => { app.toggleChord(1) }, /prior note must have string assigned/)
