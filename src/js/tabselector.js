@@ -4,8 +4,7 @@ const Tabselector = function(app, updateCallback) {
   this.app = app
 
   /** The current cursor position in the table. */
-  this.currNote = 0
-  this.currString = this.getGoodStringForNote(this.app.notes()[this.currNote], 0, false)
+  this.currString = this.getGoodStringForNote(this.app.notes()[0], 0, false)
   this.app.cursor = 0
 
   /** The preferred strings selected by navigation. */
@@ -116,10 +115,8 @@ Tabselector.prototype.toggleDot = function() {
 
 /** Keyboard handler. */
 Tabselector.prototype.checkKey = function(e) {
-  // console.log(`initial: r = ${this.currString}, c = ${this.currNote}`)
-  
   const oldString = this.currString
-  const oldNote = this.currNote
+  const oldCursor = this.app.cursor
 
   e = e || window.event
   // Movement
@@ -134,8 +131,8 @@ Tabselector.prototype.checkKey = function(e) {
   switch(0 + e.keyCode) {
   case UP: this.currString -= 1; break
   case DOWN: this.currString += 1; break
-  case LEFT: this.currNote -= 1; this.app.cursor -= 1; break
-  case RIGHT: this.currNote += 1; this.app.cursor += 1; break
+  case LEFT: this.app.cursor -= 1; break
+  case RIGHT: this.app.cursor += 1; break
   case PLUS: this.speedUp(); break
   case MINUS: this.slowDown(); break;
   case DOT: this.toggleDot(); break;
@@ -149,15 +146,13 @@ Tabselector.prototype.checkKey = function(e) {
   changingString = (oldString !== this.currString)
 
   /* Ensure curr row and column are within bounds. */
-  this.currNote = Math.min(this.currNote, this.app.notes().length - 1)
-  this.currNote = Math.max(0, this.currNote)
   this.app.cursor = Math.min(this.app.cursor, this.app.line.length - 1)
   this.app.cursor = Math.max(0, this.app.cursor)
 
   this.currString = this.getGoodStringForNote(this.app.noteAt(this.app.cursor), this.currString, changingString)
   
   // TODO - refactor, this is very messy.
-  if (this.currString !== oldString || this.currNote !== oldNote) {
+  if (this.currString !== oldString || this.app.cursor !== oldCursor) {
     if (this.app.line[this.app.cursor] instanceof Array) {
       console.log('cannot change the string of a note in chord')
     }
