@@ -219,14 +219,14 @@ Tabselector.prototype.checkKey = function(e) {
   changingString = (oldString !== this.currString)
 
   /* Ensure curr row and column are within bounds. */
-  this.currString = this.getGoodStringForNote(this.app.noteAt(this.app.cursor), this.currString, changingString)
-  this.currNote = Math.max(0, this.currNote)
   this.currNote = Math.min(this.currNote, this.app.notes().length - 1)
-
-  this.app.cursor = Math.max(0, this.app.cursor)
+  this.currNote = Math.max(0, this.currNote)
   this.app.cursor = Math.min(this.app.cursor, this.app.line.length - 1)
+  this.app.cursor = Math.max(0, this.app.cursor)
+
+  this.currString = this.getGoodStringForNote(this.app.noteAt(this.app.cursor), this.currString, changingString)
   
-  // console.log(`r = ${this.currString}, c = ${this.currNote}`)
+  // TODO - refactor, this is very messy.
   if (this.currString !== oldString || this.currNote !== oldNote) {
     this.updateView(oldString, oldNote)
 
@@ -234,7 +234,13 @@ Tabselector.prototype.checkKey = function(e) {
       console.log('cannot change the string of a note in chord')
     }
     else {
-      this.app.noteAt(this.app.cursor).string = this.currString
+      const n = this.app.noteAt(this.app.cursor)
+      if (n) {
+        n.string = this.currString
+      }
+      else {
+        console.log('deleted all notes')
+      }
     }
   }
 
