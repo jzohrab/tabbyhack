@@ -1,10 +1,6 @@
 /** The "keyboard navigator" to select the strings to use from the rawtab. */
 
 const Tabselector = function(app, updateCallback) {
-  /** The table we're navigating. */
-  this.tbl = document.getElementById('rawtab')
-
-  /** This class changes the app notes. */
   this.app = app
 
   /** The current cursor position in the table. */
@@ -14,10 +10,6 @@ const Tabselector = function(app, updateCallback) {
 
   /** The preferred strings selected by navigation. */
   this.app.noteAt(this.app.cursor).string = this.currString
-
-  /** The cursor is active when it changes the preferred strings. */
-  this.activeCursor = true
-  this.cursorStyle = "current"
 
   /** A callback for when something updates. */
   this.callUpdate = updateCallback
@@ -55,7 +47,6 @@ Tabselector.prototype.getGoodStringForNote = function(note, suggestedString, cha
 
 Tabselector.prototype.init = function() {
   window.addEventListener("keydown", this.eventListener)
-  this.updateView(0, 0)
 }
 
 Tabselector.prototype.stop = function() {
@@ -65,66 +56,7 @@ Tabselector.prototype.stop = function() {
   this.callUpdate()
 }
 
-Tabselector.prototype.toggleCursor = function() {
-  const cl = this.cell(this.currString, this.currNote).classList
-  cl.remove(this.cursorStyle)
-  this.activeCursor = !this.activeCursor
-  this.cursorStyle = (this.activeCursor ? "current" : "currentpassive")
-  cl.add(this.cursorStyle)
-
-  if (this.activeCursor) {
-    this.updateView(this.currString, this.currNote)
-  }
-}
-
-Tabselector.prototype.cell = function(r, c) {
-  return this.tbl.
-    getElementsByTagName('tr')[r].
-    getElementsByTagName('td')[c]
-}
-
-/** Highlight the cursor cell (only one cell should be highlighted per column). */
-Tabselector.prototype.updateView = function(oldString, oldNote) {
-  return
-  // TODO - remove this method
-
-  this.cell(oldString, oldNote).classList.remove(this.cursorStyle)
-  const c = this.cell(this.currString, this.currNote)
-  c.focus()
-  c.classList.add(this.cursorStyle)
-  c.scrollIntoView({inline: "nearest"})
-
-  if (!this.activeCursor) {
-    return
-  }
-
-  /** Clear all cells in column. */
-  for (var i = 0; i < this.app.strings.length; i++) {
-    this.clearHighlights(i, this.currNote)
-  }
-
-  c.classList.add("highlight")
-}
-
-Tabselector.prototype.clearHighlights = function(r, c) {
-  const cl = this.cell(r, c).classList
-  cl.remove("highlight")
-  cl.remove("chordtone")
-}
-
-
-// TODO remove this
-Tabselector.prototype.clearCurrent = function() {
-  this.cell(this.currString, this.currNote).classList.remove("highlight")
-  console.log('TODO - remove clearCurrent, misleading')
-  this.app.notes()[this.currNote].string = null
-}
-
 Tabselector.prototype.toggleChordTone = function() {
-  if (!this.activeCursor)
-    return
-  this.clearHighlights(this.currString, this.currNote)
-
   this.app.toggleChord(this.app.cursor)
 }
 
@@ -133,8 +65,6 @@ Tabselector.prototype.toggleChordTone = function() {
  * Delete the current note.
  */
 Tabselector.prototype.deleteCurrent = function() {
-  if (!this.activeCursor)
-    return
   console.log('deleting note at index ' + this.app.cursor)
   this.app.deleteAt(this.app.cursor)
 }
@@ -228,8 +158,6 @@ Tabselector.prototype.checkKey = function(e) {
   
   // TODO - refactor, this is very messy.
   if (this.currString !== oldString || this.currNote !== oldNote) {
-    this.updateView(oldString, oldNote)
-
     if (this.app.line[this.app.cursor] instanceof Array) {
       console.log('cannot change the string of a note in chord')
     }
