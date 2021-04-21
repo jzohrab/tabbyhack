@@ -314,6 +314,32 @@ test('all notes in chord must be unique strings', t => {
   t.end()
 })
 
+
+test('deletion', t => {
+  app = appWithFreqs(Ghz, Bhz, Ehz, Ghz, Bhz)
+  strings = [2,1,0, 2, 1]
+  for (var i = 0; i < strings.length; i++) {
+    app.notes[i].string = strings[i]
+  }
+
+  app.toggleChord(1)
+  assertAppLineEquals(t, [ [ Ghz, Bhz ], Ehz, Ghz, Bhz ], 'chorded')
+
+  app.deleteAt(0)
+  assertAppLineEquals(t, [ Ehz, Ghz, Bhz ], 'chord deleted')
+
+  app.deleteAt(1)
+  assertAppLineEquals(t, [ Ehz, Bhz ], 'g gone')
+
+  app.deleteAt(1)
+  assertAppLineEquals(t, [ Ehz ], 'b gone')
+
+  app.deleteAt(0)
+  assertAppLineEquals(t, [ ], 'empty')
+  t.end()
+})
+
+
 /*
 TODO Tabbyhack tests
 
@@ -332,5 +358,5 @@ F chord, only the duration of the first note is set
 If note duration is set
 Uses the duration of most recently specified note
 If note has same duration as previous note, the duration is removed, because it’s implicit
-
+If first note is deleted, and next note doesnt have time, it gets the old first note time
  */

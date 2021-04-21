@@ -235,6 +235,15 @@ Application.prototype.toggleChord = function(i) {
   e.type = 'chord'
 }
 
+
+/**
+ * Toggle a note into a chord, or explode a chord into individual notes.
+ */
+Application.prototype.deleteAt = function(i) {
+  this.line.splice(i, 1)  // remove existing thing
+}
+
+
 /**
  * Generate vextab "notes" string from scorenotes.
  */
