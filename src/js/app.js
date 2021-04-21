@@ -237,7 +237,7 @@ Application.prototype.toggleChord = function(i) {
 
 
 /**
- * Toggle a note into a chord, or explode a chord into individual notes.
+ * Delete element from line.
  */
 Application.prototype.deleteAt = function(i) {
   this.line.splice(i, 1)  // remove existing thing
