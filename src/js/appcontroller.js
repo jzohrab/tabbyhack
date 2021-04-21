@@ -2,6 +2,7 @@ import { Application } from './app.js'
 import { GuitarString } from './guitarstring.js'
 // import { Scribe } from './scribe.js'
 import { Tuner } from './tuner.js'
+import { Note } from './note.js'
 
 const ApplicationController = function(app) {
   const a4 = 440
@@ -36,7 +37,7 @@ ApplicationController.prototype.start = function() {
   const self = this
   this.tuner.onFrequencyDetected = function(frequency) {
     const now = Date.now()
-    const note = self.app.buildNoteStruct(frequency)
+    const note = new Note(frequency)
 
     // Ignore first sample, as we can't do anything with a note until it
     // reaches MIN_DURATION.
