@@ -210,6 +210,12 @@ Application.prototype.toggleChord = function(i) {
 
   const prior = this.line[i - 1]
   if (prior instanceof Array) {
+    const chordstrings = prior.map(n => n.string)
+    console.log(`Chord strings: ${chordstrings.join(', ')}`)
+    console.log(`check chord uses ${e.string}`)
+    if (chordstrings.includes(e.string))
+      throw `string ${e.string + 1} already used`
+
     console.log('Adding to chord')
     this.line[i - 1].push(e)
     this.line.splice(i, 1)
@@ -218,6 +224,9 @@ Application.prototype.toggleChord = function(i) {
     console.log('Adding to prior note')
     if (prior.string == null)
       throw 'prior note must have string assigned'
+    if (prior.string == e.string)
+      throw `string ${e.string + 1} already used`
+
     console.log('starting chord')
     this.line[i - 1] = [prior, e]
     console.log('removing e from the line')

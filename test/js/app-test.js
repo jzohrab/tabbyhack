@@ -289,18 +289,33 @@ test('toggle chord on chord explodes it', t => {
   app.toggleChord(0)
   assertAppLineEquals(t, [ Ghz, Bhz, Ehz ], 'chord exploded')
   t.end()
+})
 
+test('all notes in chord must be unique strings', t => {
+  app = appWithFreqs(Ghz, Bhz, Ehz)
+  app.notes[0].string = 2
+  app.notes[1].string = 2
+  app.notes[2].string = 2
+
+  assertAppLineEquals(t, [ Ghz, Bhz, Ehz ], 'ungrouped')
+
+  t.throws(() => { app.toggleChord(1) }, /string 3 already used/)
+
+  app.notes[1].string = 1
+  app.toggleChord(1)
+  assertAppLineEquals(t, [ [ Ghz, Bhz ], Ehz ], 'chorded')
+
+  t.throws(() => { app.toggleChord(1) }, /string 3 already used/)
+
+  app.notes[2].string = 0
+  app.toggleChord(1)
+  assertAppLineEquals(t, [ [ Ghz, Bhz, Ehz ] ], 'all chorded')
+  
+  t.end()
 })
 
 /*
-
 TODO Tabbyhack tests
-
-Toggle chord
-
-If note, and cord already contains note on string, does nothing, or raises error
-If currently on cord, sets all notes to tone, app cursor stays the same, note cursor points at the first note.
-
 
 Deletion
 
