@@ -344,7 +344,39 @@ test('deletion', t => {
 })
 
 
-/*
+test('setting duration on note', t => {
+  app = appWithFreqs(Ghz, Bhz)
+  app.setDuration(0, '32')
+  t.equal(app.notes[0].duration, '32')
+  t.end()
+})
+
+test.skip('setting duration on note', t => {
+  app = appWithFreqs(Ghz, Bhz, Ehz, Ghz, Bhz)
+  strings = [2,1,0, 2, 1]
+  for (var i = 0; i < strings.length; i++) {
+    app.notes[i].string = strings[i]
+  }
+
+  app.toggleChord(2)
+  assertAppLineEquals(t, [ Ghz, [ Bhz, Ehz ], Ghz, Bhz ], 'chorded')
+
+  app.deleteAt(0)
+  assertAppLineEquals(t, [ Ehz, Ghz, Bhz ], 'chord deleted')
+
+  app.deleteAt(1)
+  assertAppLineEquals(t, [ Ehz, Bhz ], 'g gone')
+
+  app.deleteAt(1)
+  assertAppLineEquals(t, [ Ehz ], 'b gone')
+
+  app.deleteAt(0)
+  assertAppLineEquals(t, [ ], 'empty')
+  t.end()
+
+})
+
+  /*
 TODO Tabbyhack tests
 
 Setting time
