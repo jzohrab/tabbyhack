@@ -37,8 +37,7 @@ window.printRecord = function() {
     `VEXTAB: ${window.app.vextab()}`,
     `APP CURSOR: ${window.app.cursor}`,
     `TABSEL CURSOR: ${ts.currNote}`,
-    `SCORENOTES:<br /><pre>${JSON.stringify(window.app.scorenotes(), null, 2)}</pre>`,
-    `NOTES:<br /><pre>${JSON.stringify(window.app.notes, null, 2)}</pre>`,
+    `LINE:<br /><pre>${JSON.stringify(window.app.line, null, 2)}</pre>`,
   ]
   const display = document.getElementById('recorded')
   display.innerHTML = '<br />' + output.join("<hr />")
@@ -140,7 +139,8 @@ window.openTab = function(btnName, tabName) {
 
 /** Get tab */
 window.renderTab = function() {
-  const notes = window.app.notes
+  /*
+  const notes = window.app.line.flat()
   const result = []
   for (var i = 0; i < notes.length; i++) {
     const t = notes[i].tab
@@ -165,6 +165,8 @@ window.renderTab = function() {
   const scribe = new Scribe(window.app.strings.length)
   const scribetab = scribe.tab(result)
   const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
+  */
+  const tabout = '<b>Temporarily disabled</b>'
   const tabdest = document.getElementById('tabdest')
   tabdest.innerHTML = tabout
 

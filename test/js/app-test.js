@@ -389,6 +389,7 @@ test('duration moves to next note if first is deleted', t => {
 /*
 Future tests
 
+- generate ascii tab from line
 - Setting time
   - Uses the duration of most recently specified note
   - If note has same duration as previous note, the duration is removed, because it’s implicit
