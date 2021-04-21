@@ -43,12 +43,12 @@ const Application = function(opts = {}) {
   ]
   this.strings = stringFreqs.map((f, i) => new GuitarString(i, f))
 
+  // The "line" of notes (i.e., the notes grouped into chords, or single tones.
+  this.line = []
+
   // The notes played.
   this.notes = []
   // TODO - get rid of this, use "this.line" instead.
-
-  // The "line" of notes (i.e., the notes grouped into chords, or single tones.
-  this.line = []
 
   // The "cursor position" when editing notes.
   this.cursorIndicator = '$.a-/bottom.$'  // default fermata
@@ -71,8 +71,8 @@ Application.prototype.addNote = function(note) {
   if (this.notes.length == 0)
     note.duration = 'q'
 
-  this.notes.push(note)
   this.line.push(note)
+  this.notes = this.line.flat()
 }
 
 
@@ -153,22 +153,11 @@ Application.prototype.getCents = function(frequency, note) {
 
 /**
  * Groups notes for scoring.
+ * TODO - remove this
  */
 Application.prototype.scorenotes = function() {
-  const result = []
-  for (var i = 0; i < this.notes.length; i++) {
-    const n = this.notes[i]
-    let entry = n
-    const is_chord = (n.tab && n.tab.type === 'chord')
-    if (is_chord) {
-      entry = result.pop()
-      if (!(entry instanceof Array))
-        entry = [ entry ]
-      entry.push(n)
-    }
-    result.push(entry)
-  }
-  return result
+  console.log('TODO - remove')
+  return this.line
 }
 
 
@@ -241,6 +230,7 @@ Application.prototype.toggleChord = function(i) {
  */
 Application.prototype.deleteAt = function(i) {
   this.line.splice(i, 1)  // remove existing thing
+  this.notes = this.line.flat()  // TODO remove this
 }
 
 
@@ -265,12 +255,12 @@ Application.prototype.vextab = function(header = '', opts = {}) {
   }
 
   noteText = function(note) {
-    if (!note.tab) {
+    if (note.string == null) {
       return `${note.name}/${note.octave}`
     }
 
-    const string = note.tab.string + 1
-    const fret = note.frets[`${note.tab.string}`]
+    const string = note.string + 1
+    const fret = note.frets[`${note.string}`]
     return `${fret}/${string}`
   }
 

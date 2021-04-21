@@ -80,12 +80,12 @@ test('add_frequency: frets out of range arent included', t => {
   t.end()
 })
 
-test('can generate vextab from notes', t => {
+test('can generate vextab', t => {
   app = new Application()
   app.add_frequency(Bhz)
-  const n = app.notes[0]
+  const n = app.line[0]
   t.equal(app.vextab(), ':q B/4', 'B 4th octave')
-  n.tab = { string: 1, type: 'tone' }
+  n.string = 1
   t.equal(app.vextab(), ':q 0/2', 'B on 2nd string (strings indexed from 0 in code)')
   t.equal(app.vextab('tabstave notation=true'), 'tabstave notation=true\nnotes :q 0/2', 'can add header, notes is added automagically')
   t.end()
@@ -95,7 +95,7 @@ test('can specify vextab options', t => {
   app = new Application( { vextabopts: 'blah' } )
   app.add_frequency(Bhz)
   const n = app.notes[0]
-  n.tab = { string: 1, type: 'tone' }
+  n.string = 1
   t.equal(app.vextab('tabstave notation=true'), 'tabstave notation=true blah\nnotes :q 0/2')
   t.end()
 })
@@ -113,10 +113,11 @@ test('can generate multiple staves of vextab', t => {
   app.add_frequency(Ehz)
   app.add_frequency(Ehz)
   const [ n1, n2, n3, n4 ] = app.notes
-  n1.tab = { string: 2, type: 'tone' }
-  n2.tab = { string: 2, type: 'tone' }
-  n3.tab = { string: 0, type: 'chord' }
-  n4.tab = { string: 0, type: 'tone' }
+  n1.string = 2
+  n2.string = 2
+  n3.string = 0
+  n4.string = 0
+  app.toggleChord(2)
 
   const expected = `tabstave notation=true
 notes :q 4/3
@@ -137,8 +138,9 @@ test('vextab can handle chords from notes', t => {
   app.add_frequency(Bhz)
   app.add_frequency(Ehz)
   t.equal(app.vextab(), ':q B/4 E/5', 'melody')
-  app.notes[0].tab = { string: 2, type: 'tone' }
-  app.notes[1].tab = { string: 0, type: 'chord' }
+  app.notes[0].string = 2
+  app.notes[1].string = 0
+  app.toggleChord(1)
   t.equal(app.vextab(), ':q (4/3.0/1)', 'chord: B on 2nd string, E on 1st')
   t.end()
 })
@@ -148,8 +150,8 @@ test('vextab can handle note timings', t => {
   app.add_frequency(Bhz)
   app.add_frequency(Ehz)
   t.equal(app.vextab(), ':q B/4 E/5', 'melody')
-  app.notes[0].tab = { string: 2, type: 'tone' }
-  app.notes[1].tab = { string: 0, type: 'tone' }
+  app.notes[0].string = 2
+  app.notes[1].string = 0
   app.notes[1].duration = '16'
   t.equal(app.vextab(), ':q 4/3 :16 0/1')
   t.end()
@@ -162,10 +164,11 @@ test('scorenotes', t => {
   app.add_frequency(Ehz)
   app.add_frequency(Ehz)
   const [ n1, n2, n3, n4 ] = app.notes
-  n1.tab = { string: 2, type: 'tone' }
-  n2.tab = { string: 2, type: 'tone' }
-  n3.tab = { string: 0, type: 'chord' }
-  n4.tab = { string: 0, type: 'tone' }
+  n1.string = 2
+  n2.string = 2
+  n3.string = 0
+  app.toggleChord(2)
+  n4.string = 0
   t.equal(app.vextab(), ':q 4/3 (4/3.0/1) 0/1', 'sanity check')
   sn = app.scorenotes()
   expected = [ n1, [ n2, n3 ], n4 ]
@@ -189,9 +192,10 @@ test('app has cursor based off of scorenotes for current edit position', t => {
   app.cursor = 42
   t.equal(app.vextab(), ':q B/4 B/4 E/5', 'cursor out of bounds')
 
-  app.notes[0].tab = { string: 2, type: 'tone' }
-  app.notes[1].tab = { string: 2, type: 'tone' }
-  app.notes[2].tab = { string: 0, type: 'chord' }
+  app.notes[0].string = 2
+  app.notes[1].string = 2
+  app.notes[2].string = 0
+  app.toggleChord(2)
   app.cursor = 1
   t.equal(app.vextab(), ':q 4/3 (4/3.0/1) HERE', 'note and chord')
 
