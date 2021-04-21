@@ -276,6 +276,21 @@ test('cant make very first note a chord', t => {
   t.end()
 })
 
+test('toggle chord on chord explodes it', t => {
+  app = appWithFreqs(Ghz, Bhz, Ehz)
+  strings = [2,1,0]
+  for (var i = 0; i < strings.length; i++) {
+    app.notes[i].string = strings[i]
+  }
+
+  assertAppLineEquals(t, [ Ghz, Bhz, Ehz ], 'ungrouped')
+  app.toggleChord(1)
+  assertAppLineEquals(t, [ [ Ghz, Bhz ], Ehz ], 'chorded')
+  app.toggleChord(0)
+  assertAppLineEquals(t, [ Ghz, Bhz, Ehz ], 'chord exploded')
+  t.end()
+
+})
 
 /*
 
@@ -285,8 +300,6 @@ Toggle chord
 
 If note, and cord already contains note on string, does nothing, or raises error
 If currently on cord, sets all notes to tone, app cursor stays the same, note cursor points at the first note.
-if last note, app cursor points at cord
-If not last note, app cursor stays the same
 
 
 Deletion

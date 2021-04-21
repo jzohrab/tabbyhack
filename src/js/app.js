@@ -193,12 +193,18 @@ Application.prototype.chordNotes = function(i) {
  * Toggle a note into a chord, or explode a chord into individual notes.
  */
 Application.prototype.toggleChord = function(i) {
+  const e = this.line[i]
+
+  if (e instanceof Array) {
+    console.log('exploding chord')
+    const reinsert = e
+    this.line.splice(i, 1)  // remove existing chord
+    this.line.splice(i, 0, ...e)  // reinsert individual notes
+    return
+  }
+
   if (i <= 0)
     throw 'first note cannot be a chord tone'
-  const e = this.line[i]
-  if (e instanceof Array)
-    throw 'TODO handle exploding chord'
-
   if (e.string == null)
     throw 'must assign string'
 
