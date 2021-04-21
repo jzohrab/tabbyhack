@@ -45,6 +45,10 @@ const Application = function(opts = {}) {
 
   // The notes played.
   this.notes = []
+  // TODO - get rid of this, use "this.line" instead.
+
+  // The "line" of notes (i.e., the notes grouped into chords, or single tones.
+  this.line = []
 
   // The "cursor position" when editing notes.
   this.cursorIndicator = '$.a-/bottom.$'  // default fermata
@@ -68,6 +72,7 @@ Application.prototype.addNote = function(note) {
     note.duration = 'q'
 
   this.notes.push(note)
+  this.line.push(note)
 }
 
 
@@ -190,13 +195,28 @@ Application.prototype.chordNotes = function(i) {
 Application.prototype.toggleChord = function(i) {
   if (i <= 0)
     throw 'first note cannot be a chord tone'
-  const n = this.notes[i]
-  if (n.string == null)
+  const e = this.line[i]
+  if (e instanceof Array)
+    throw 'TODO handle exploding chord'
+
+  if (e.string == null)
     throw 'must assign string'
-  const prior = this.notes[i - 1]
-  if (prior.string == null)
-    throw 'prior note must have string assigned'
-  n.type = 'chord'
+
+  const prior = this.line[i - 1]
+  if (prior instanceof Array) {
+    console.log('Adding to chord')
+    throw 'TODO adding to existing chord'
+  }
+  else {
+    console.log('Adding to prior note')
+    if (prior.string == null)
+      throw 'prior note must have string assigned'
+    console.log('starting chord')
+    this.line[i - 1] = [prior, e]
+    console.log('removing e from the line')
+    this.line.splice(i, 1)
+  }
+  e.type = 'chord'
 }
 
 /**

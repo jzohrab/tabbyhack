@@ -204,6 +204,25 @@ function appWithFreqs(...freqs) {
   return app
 }
 
+function getAppLine() {
+  const ret = []
+  for (var i = 0; i < app.line.length; i++) {
+    const e = app.line[i]
+    if (e instanceof Array) {
+      ret.push(e.map(n => n.frequency))
+    }
+    else {
+      ret.push(e.frequency)
+    }
+  }
+  return ret
+}
+
+function assertAppLineEquals(t, expected, msg = '') {
+  const actual = getAppLine()
+  t.deepEqual(actual, expected, msg)
+}
+
 test('cannot toggle a note into a chord until it has been assigned a string', t => {
   app = appWithFreqs(Bhz, Ehz)
   t.equal(2, app.notes.length, 'sanity check')
@@ -215,11 +234,13 @@ test('cannot toggle a note into a chord until it has been assigned a string', t 
 test('can toggle chord for note', t => {
   app = appWithFreqs(Bhz, Ehz)
   t.equal(2, app.notes.length, 'sanity check')
+  assertAppLineEquals(t, [ Bhz, Ehz ], 'ungrouped')
   t.deepEqual(['tone', 'tone'], app.notes.map(n => n.type), 'all tones')
   app.notes[0].string = 1
   app.notes[1].string = 0
   app.toggleChord(1)
   t.deepEqual(['tone', 'chord'], app.notes.map(n => n.type), 'is chord')
+  assertAppLineEquals(t, [ [ Bhz, Ehz ] ], 'ungrouped')
   t.end()
 })
 
