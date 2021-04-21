@@ -143,16 +143,15 @@ Tabselector.prototype.checkKey = function(e) {
   default: return
   }
 
-  changingString = (oldString !== this.currString)
-
   /* Ensure curr row and column are within bounds. */
   this.app.cursor = Math.min(this.app.cursor, this.app.line.length - 1)
   this.app.cursor = Math.max(0, this.app.cursor)
 
+  changingString = (oldString !== this.currString)
   this.currString = this.getGoodStringForNote(this.app.noteAt(this.app.cursor), this.currString, changingString)
   
   // TODO - refactor, this is very messy.
-  if (this.currString !== oldString || this.app.cursor !== oldCursor) {
+  if (changingString || this.app.cursor !== oldCursor) {
     if (this.app.line[this.app.cursor] instanceof Array) {
       console.log('cannot change the string of a note in chord')
     }
