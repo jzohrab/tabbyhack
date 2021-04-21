@@ -168,6 +168,23 @@ Application.prototype.scorenotes = function() {
 
 
 /**
+ * Get all notes in the chord ending with the current note.
+ */
+Application.prototype.chordNotes = function(i) {
+  if (this.notes[i].type == 'tone')
+    return []
+  const ret = []
+  for (var p = i; p >= 0; p--) {
+    const n = this.notes[p]
+    ret.push(n)
+    if (n.type == 'tone') {
+      break
+    }
+  }
+  return ret.reverse()
+}
+  
+/**
  * Toggle a note into a chord, or explode a chord into individual notes.
  */
 Application.prototype.toggleChord = function(i) {
