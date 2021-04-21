@@ -383,6 +383,23 @@ test('duration moves to next note if first is deleted', t => {
   t.end()
 })
 
+
+test('noteAt', t => {
+  app = appWithFreqs(Ghz, Bhz, Ehz, Ghz)
+  strings = [2,1,0,2]
+  for (var i = 0; i < strings.length; i++) {
+    app.line[i].string = strings[i]
+  }
+
+  app.toggleChord(2)
+  assertAppLineEquals(t, [ Ghz, [ Bhz, Ehz ], Ghz ], 'chorded')
+
+  t.equal(app.noteAt(0).frequency, Ghz, 'first')
+  t.equal(app.noteAt(1).frequency, Bhz, 'first note of chord')
+  t.equal(app.noteAt(2).frequency, Ghz, 'Last note')
+  t.end()
+})
+
 /*
 Future tests
 

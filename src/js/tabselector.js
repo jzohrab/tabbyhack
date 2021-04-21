@@ -13,7 +13,7 @@ const Tabselector = function(app, updateCallback) {
   this.app.cursor = 0
 
   /** The preferred strings selected by navigation. */
-  this.app.notes()[this.currNote].tab = { string: this.currString, type: 'tone' }
+  this.app.notes()[this.currNote].string = this.currString
 
   /** The cursor is active when it changes the preferred strings. */
   this.activeCursor = true
@@ -40,8 +40,8 @@ const Tabselector = function(app, updateCallback) {
 Tabselector.prototype.getGoodStringForNote = function(note, suggestedString, changingString) {
   if (!note)
     return
-  if (!changingString && note.tab && note.tab.string !== null)
-    return note.tab.string
+  if (!changingString && note.string !== null)
+    return note.string
 
   const possibleStrings = Object.keys(note.frets).map(n => parseInt(n, 10)).sort()
   if (possibleStrings.includes(suggestedString))
@@ -230,7 +230,7 @@ Tabselector.prototype.checkKey = function(e) {
     this.updateView(oldString, oldNote)
 
     const an = this.app.notes()[this.currNote]
-    an.tab.string = this.currString
+    an.string = this.currString
   }
 
   if (this.callUpdate) {

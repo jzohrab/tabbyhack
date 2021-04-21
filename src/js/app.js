@@ -239,6 +239,19 @@ Application.prototype.deleteAt = function(i) {
 
 
 /**
+ * Get note, first note of chord if chord
+ */
+Application.prototype.noteAt = function(i) {
+  const maxi = this.line.length
+  if (i < 0 || i > maxi)
+    throw `Bounds exception, get ${i} but should be in [0, ${maxi})`
+
+  const e = this.line[i]
+  return (e instanceof Array) ? e[0] : e
+}
+
+
+/**
  * Generate vextab "notes" string from scorenotes.
  */
 Application.prototype.vextab = function(header = '', opts = {}) {
