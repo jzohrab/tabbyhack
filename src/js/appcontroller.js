@@ -74,41 +74,6 @@ ApplicationController.prototype.stop = function() {
 }
 
 /**
- * Write the table of candidate tab numbers onscreen.
- *
- * This simply recreates the full table.  Each string is a <tr>,
- * and given played note is a new <td> added to the <tr>, with the
- * candidate fret for that string in the <td>.
- * There may be a much better way to do it.
- */
-ApplicationController.prototype.writeRawTab = function() {
-  const data = this.app.notes()
-  if (data.length == 0)
-    return
-  const rows = this.app.strings.map(s => document.createElement('tr'))
-  for (var i = 0; i < data.length; i++) {
-    for (var s = 0; s < this.app.strings.length; s++) {
-      const td = document.createElement('td')
-      let v = data[i].frets[`${s}`]
-      if (v === null || v === undefined) { v = '&nbsp;' }
-      td.innerHTML = v
-      rows[s].appendChild(td)
-    }
-  }
-
-  while (this.$rawtab.children.length > 0) {
-    const r = this.$rawtab.getElementsByTagName("tr")[0]
-    this.$rawtab.removeChild(r)
-  }
-
-  // console.log(rawtab)
-  for (var i = 0; i < rows.length; i++) {
-    // console.log(rawtab[i])
-    this.$rawtab.appendChild(rows[i])
-  }
-}
-
-/**
  * Update the text box that shows the raw data of what's currently played.
  */
 ApplicationController.prototype.updateCurrentNoteDisplay = function() {
@@ -137,7 +102,6 @@ ApplicationController.prototype.writeVextab = function() {
 
 
 ApplicationController.prototype.updateUI = function() {
-  this.writeRawTab()
   this.updateCurrentNoteDisplay()
   this.writeVextab()
 }

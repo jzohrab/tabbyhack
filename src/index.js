@@ -78,31 +78,12 @@ window.addRandom = function() {
 }
 
 
-// Thanks to https://stackoverflow.com/questions/49968622/auto-scroll-a-horizontal-div
-// for rawtab autoscroll
-
-var autoscrollInterval = null
-
-window.addEventListener('load', () => {
-  const rawtabContainer = document.getElementById('rawtabcontainer')
-  const rawtabScrollWidth = rawtabContainer.scrollWidth
-  autoscrollInterval = self.setInterval(() => {
-    if (rawtabContainer.scrollLeft !== rawtabScrollWidth) {
-      rawtabContainer.scrollTo(rawtabContainer.scrollLeft + 1, 0)
-    }
-  }, 15)
-})
-
-
 var tabselector = null
 
 /** Stop the application and scrolling */
 window.stopRecord = function() {
   window.appcontroller.stop()
   enableButtons({ btnStop: false })
-  window.clearInterval(autoscrollInterval)
-  const rawtabContainer = document.getElementById('rawtabcontainer')
-  rawtabContainer.scrollTo(0,0)
   tabselector = new Tabselector(window.app, window.renderTab)
   tabselector.init()
 }

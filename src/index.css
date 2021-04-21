@@ -24,14 +24,6 @@ body {
     width: 600px;
 }
 
-#rawtabcontainer {
-    width: 600px;
-    overflow-x: scroll;
-    white-space: nowrap;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
-}
-
 #keyboardcontrols {
     font-style: italic;
     font-size: 10pt;
