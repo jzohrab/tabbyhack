@@ -157,26 +157,7 @@ test('vextab can handle note timings', t => {
   t.end()
 })
 
-test('scorenotes', t => {
-  app = new Application()
-  app.add_frequency(Bhz)
-  app.add_frequency(Bhz)
-  app.add_frequency(Ehz)
-  app.add_frequency(Ehz)
-  const [ n1, n2, n3, n4 ] = app.line
-  n1.string = 2
-  n2.string = 2
-  n3.string = 0
-  app.toggleChord(2)
-  n4.string = 0
-  t.equal(app.vextab(), ':q 4/3 (4/3.0/1) 0/1', 'sanity check')
-  sn = app.scorenotes()
-  expected = [ n1, [ n2, n3 ], n4 ]
-  t.deepEqual(sn, expected)
-  t.end()
-})
-
-test('app has cursor based off of scorenotes for current edit position', t => {
+test('app has cursor for current edit position', t => {
   app = new Application()
   app.add_frequency(Bhz)
   app.add_frequency(Bhz)

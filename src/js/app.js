@@ -67,15 +67,6 @@ Application.prototype.addNote = function(note) {
   this.line.push(note)
 }
 
-/**
- * Groups notes for scoring.
- * TODO - remove this
- */
-Application.prototype.scorenotes = function() {
-  console.log('TODO - remove')
-  return this.line
-}
-
   
 /**
  * Toggle a note into a chord, or explode a chord into individual notes.
@@ -167,11 +158,10 @@ Application.prototype.noteAt = function(i) {
 
 
 /**
- * Generate vextab "notes" string from scorenotes.
+ * Generate vextab "notes" string.
  */
 Application.prototype.vextab = function(header = '', opts = {}) {
-  const scorenotes = this.scorenotes()
-  if (scorenotes.length == 0) {
+  if (this.line.length == 0) {
     return header
   }
 
@@ -186,8 +176,8 @@ Application.prototype.vextab = function(header = '', opts = {}) {
     }
   }
 
-  for (var i = 0; i < scorenotes.length; i++) {
-    const sn = scorenotes[i]
+  for (var i = 0; i < this.line.length; i++) {
+    const sn = this.line[i]
 
     const is_chord = (sn instanceof Array)
 
@@ -204,7 +194,7 @@ Application.prototype.vextab = function(header = '', opts = {}) {
     if (this.cursor !== null && this.cursor == i)
       currstaff.push(this.cursorIndicator)
 
-    const isLastNote = (i == scorenotes.length - 1)
+    const isLastNote = (i == this.line.length - 1)
     if (currstaff.length >= maxstafflength && !isLastNote) {
       currstaff = []
       result.push(currstaff)
@@ -215,7 +205,7 @@ Application.prototype.vextab = function(header = '', opts = {}) {
   let heading = header || ''
   if (this.options.vextabopts)
     heading = `${heading} ${this.options.vextabopts}`
-  if (heading !== '' && scorenotes.length > 0)
+  if (heading !== '' && this.line.length > 0)
     heading += '\nnotes '
 
   return result.
