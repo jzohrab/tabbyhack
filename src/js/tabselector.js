@@ -13,7 +13,7 @@ const Tabselector = function(app, updateCallback) {
   this.app.cursor = 0
 
   /** The preferred strings selected by navigation. */
-  this.app.notes()[this.currNote].string = this.currString
+  this.app.noteAt(this.app.cursor).string = this.currString
 
   /** The cursor is active when it changes the preferred strings. */
   this.activeCursor = true
@@ -146,10 +146,8 @@ noteDurations = [
 
 // Count backwards until you find a note with a duration, and return it.
 Tabselector.prototype.mostRecentDuration = function(stripDot = true) {
-  const notes = this.app.notes()
-  const ret = notes[this.currNote].duration
-  for (var i = this.currNote; i >= 0; i--) {
-    const d = notes[i].duration
+  for (var i = this.app.cursor; i >= 0; i--) {
+    const d = this.app.noteAt(i).duration
     if (d) {
       if (stripDot)
         return d.replace(/d$/, '')  // remove dotted rhythm
@@ -176,7 +174,7 @@ Tabselector.prototype.slowDown = function() {
 Tabselector.prototype.toggleDot = function() {
   let d = this.mostRecentDuration(false)
   console.log(`most recent = ${d}`)
-  const n = this.app.notes()[this.currNote]
+  const n = this.app.noteAt(this.app.cursor)
   let newduration = d
   if (d.endsWith('d'))
     newduration = d.replace(/d$/, '')
@@ -221,16 +219,23 @@ Tabselector.prototype.checkKey = function(e) {
   changingString = (oldString !== this.currString)
 
   /* Ensure curr row and column are within bounds. */
-  this.currString = this.getGoodStringForNote(this.app.notes()[this.currNote], this.currString, changingString)
+  this.currString = this.getGoodStringForNote(this.app.noteAt(this.app.cursor), this.currString, changingString)
   this.currNote = Math.max(0, this.currNote)
   this.currNote = Math.min(this.currNote, this.app.notes().length - 1)
 
+  this.app.cursor = Math.max(0, this.app.cursor)
+  this.app.cursor = Math.min(this.app.cursor, this.app.line.length - 1)
+  
   // console.log(`r = ${this.currString}, c = ${this.currNote}`)
   if (this.currString !== oldString || this.currNote !== oldNote) {
     this.updateView(oldString, oldNote)
 
-    const an = this.app.notes()[this.currNote]
-    an.string = this.currString
+    if (this.app.line[this.app.cursor] instanceof Array) {
+      console.log('cannot change the string of a note in chord')
+    }
+    else {
+      this.app.noteAt(this.app.cursor).string = this.currString
+    }
   }
 
   if (this.callUpdate) {
