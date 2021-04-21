@@ -46,13 +46,15 @@ const Application = function(opts = {}) {
   // The "line" of notes (i.e., the notes grouped into chords, or single tones.
   this.line = []
 
-  // The notes played.
-  this.notes = []
-  // TODO - get rid of this, use "this.line" instead.
-
   // The "cursor position" when editing notes.
   this.cursorIndicator = '$.a-/bottom.$'  // default fermata
   this.cursor = null
+}
+
+
+Application.prototype.notes = function(f) {
+  console.log('TODO remove app.notes() if possible.')
+  return this.line.flat()
 }
 
 
@@ -68,11 +70,10 @@ Application.prototype.addNote = function(note) {
   }
 
   // Default to quarter note for first note.
-  if (this.notes.length == 0)
+  if (this.line.length == 0)
     note.duration = 'q'
 
   this.line.push(note)
-  this.notes = this.line.flat()
 }
 
 
@@ -160,23 +161,6 @@ Application.prototype.scorenotes = function() {
   return this.line
 }
 
-
-/**
- * Get all notes in the chord ending with the current note.
- */
-Application.prototype.chordNotes = function(i) {
-  if (this.notes[i].type == 'tone')
-    return []
-  const ret = []
-  for (var p = i; p >= 0; p--) {
-    const n = this.notes[p]
-    ret.push(n)
-    if (n.type == 'tone') {
-      break
-    }
-  }
-  return ret.reverse()
-}
   
 /**
  * Toggle a note into a chord, or explode a chord into individual notes.
@@ -251,9 +235,6 @@ Application.prototype.deleteAt = function(i) {
     second.duration = second.duration || first.duration
 
   this.line.splice(i, 1)  // remove existing thing
-
-
-  this.notes = this.line.flat()  // TODO remove this
 }
 
 

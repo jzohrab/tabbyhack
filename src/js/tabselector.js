@@ -9,11 +9,11 @@ const Tabselector = function(app, updateCallback) {
 
   /** The current cursor position in the table. */
   this.currNote = 0
-  this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], 0, false)
+  this.currString = this.getGoodStringForNote(this.app.notes()[this.currNote], 0, false)
   this.app.cursor = 0
 
   /** The preferred strings selected by navigation. */
-  this.app.notes[this.currNote].tab = { string: this.currString, type: 'tone' }
+  this.app.notes()[this.currNote].tab = { string: this.currString, type: 'tone' }
 
   /** The cursor is active when it changes the preferred strings. */
   this.activeCursor = true
@@ -112,9 +112,12 @@ Tabselector.prototype.clearHighlights = function(r, c) {
   cl.remove("chordtone")
 }
 
+
+// TODO remove this
 Tabselector.prototype.clearCurrent = function() {
   this.cell(this.currString, this.currNote).classList.remove("highlight")
-  this.app.notes[this.currNote].tab = { string: null, type: 'tone' }
+  console.log('TODO - remove clearCurrent, misleading')
+  this.app.notes()[this.currNote].string = null
 }
 
 Tabselector.prototype.toggleChordTone = function() {
@@ -122,48 +125,7 @@ Tabselector.prototype.toggleChordTone = function() {
     return
   this.clearHighlights(this.currString, this.currNote)
 
-  const scorenotes = this.app.scorenotes()
-  const sn = scorenotes[this.app.cursor]
-  if (sn instanceof Array) {
-    sn.map(n => n.tab.type = 'tone')
-    // keep app.cursor in current position, should be at the start of the chord notes.
-    
-    // The tabsel cursor should be at the first note of this chord ...
-    // so find all notes up to that.
-    // Tricky code = bad code.
-    this.currNote = scorenotes.slice(0, this.app.cursor + 1).flat().length
-  }
-  else {
-    // Can't make the 0th tone a chord.
-    if (this.app.cursor == 0)
-      return
-
-    // If the prior thing is a chord, and the chord already has this
-    // string, don't allow the toggle.
-    const chord = this.app.scorenotes()[this.app.cursor - 1]
-    if (chord instanceof Array) {
-      const chordstrings = chord.map(n => n.tab.string)
-      if (chordstrings.includes(sn.tab.string)) {
-        console.log('chord already has that string')
-        return
-      }
-    }
-      
-    this.app.notes[this.currNote].tab.type = 'chord'
-
-    // keep app.cursor where it is, now it's at the next note.
-    // tabselector cursor should go to the next note.
-    this.currNote += 1
-  }
-
-  /*
-  const currType = this.app.notes[this.currNote].tab.type
-  const newtype = (this.app.notes[this.currNote].tab.type === 'tone') ?
-        { type: 'chord', classname: 'chordtone' } :
-        { type: 'tone', classname: 'highlight' }
-  this.app.notes[this.currNote].tab.type = newtype.type
-  this.cell(this.currString, this.currNote).classList.add(newtype.classname)  
-  */
+  this.app.toggleChord(this.app.cursor)
 }
 
 
@@ -173,18 +135,8 @@ Tabselector.prototype.toggleChordTone = function() {
 Tabselector.prototype.deleteCurrent = function() {
   if (!this.activeCursor)
     return
-
-  console.log('deleting note at index ' + this.currNote)
-  const scorenotes = this.app.scorenotes()
-  const sn = scorenotes[this.app.cursor]
-  if (sn instanceof Array) {
-    console.log('chord deletion not implemented')
-    return
-  }
-
-  // Delete the current note.  Leave everything else (cursor positions etc) as-is.
-  const n = this.app.notes.splice(this.currNote, 1)
-  console.log(`Deleted note ${JSON.stringify(n)}`)
+  console.log('deleting note at index ' + this.app.cursor)
+  this.app.deleteAt(this.app.cursor)
 }
 
 // Allowable durations
@@ -194,9 +146,10 @@ noteDurations = [
 
 // Count backwards until you find a note with a duration, and return it.
 Tabselector.prototype.mostRecentDuration = function(stripDot = true) {
-  const ret = this.app.notes[this.currNote].duration
+  const notes = this.app.notes()
+  const ret = notes[this.currNote].duration
   for (var i = this.currNote; i >= 0; i--) {
-    const d = this.app.notes[this.currNote].duration
+    const d = notes[i].duration
     if (d) {
       if (stripDot)
         return d.replace(/d$/, '')  // remove dotted rhythm
@@ -210,27 +163,27 @@ Tabselector.prototype.speedUp = function() {
   let i = noteDurations.indexOf(this.mostRecentDuration())
   i += 1
   i = Math.min(i, noteDurations.length - 1)
-  this.app.notes[this.currNote].duration = noteDurations[i]
+  this.app.setDuration(this.app.cursor, noteDurations[i])
 }
 
 Tabselector.prototype.slowDown = function() {
   let i = noteDurations.indexOf(this.mostRecentDuration())
   i -= 1
   i = Math.max(i, 0)
-  this.app.notes[this.currNote].duration = noteDurations[i]
+  this.app.setDuration(this.app.cursor, noteDurations[i])
 }
 
 Tabselector.prototype.toggleDot = function() {
   let d = this.mostRecentDuration(false)
   console.log(`most recent = ${d}`)
-  const n = this.app.notes[this.currNote]
+  const n = this.app.notes()[this.currNote]
   let newduration = d
   if (d.endsWith('d'))
     newduration = d.replace(/d$/, '')
   else
     newduration = `${d}d`
   console.log(`updating to = ${newduration}`)
-  n.duration = newduration
+  this.app.setDuration(this.app.cursor, newduration)
 }
 
 /** Keyboard handler. */
@@ -268,18 +221,15 @@ Tabselector.prototype.checkKey = function(e) {
   changingString = (oldString !== this.currString)
 
   /* Ensure curr row and column are within bounds. */
-  this.currString = this.getGoodStringForNote(this.app.notes[this.currNote], this.currString, changingString)
+  this.currString = this.getGoodStringForNote(this.app.notes()[this.currNote], this.currString, changingString)
   this.currNote = Math.max(0, this.currNote)
-  this.currNote = Math.min(this.currNote, this.app.notes.length - 1)
+  this.currNote = Math.min(this.currNote, this.app.notes().length - 1)
 
   // console.log(`r = ${this.currString}, c = ${this.currNote}`)
   if (this.currString !== oldString || this.currNote !== oldNote) {
     this.updateView(oldString, oldNote)
 
-    const an = this.app.notes[this.currNote]
-    if (an.tab == null) {
-      an.tab = { type: 'tone' }
-    }
+    const an = this.app.notes()[this.currNote]
     an.tab.string = this.currString
   }
 

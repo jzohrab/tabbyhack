@@ -82,7 +82,7 @@ ApplicationController.prototype.stop = function() {
  * There may be a much better way to do it.
  */
 ApplicationController.prototype.writeRawTab = function() {
-  const data = this.app.notes
+  const data = this.app.notes()
   if (data.length == 0)
     return
   const rows = this.app.strings.map(s => document.createElement('tr'))
@@ -112,10 +112,10 @@ ApplicationController.prototype.writeRawTab = function() {
  * Update the text box that shows the raw data of what's currently played.
  */
 ApplicationController.prototype.updateCurrentNoteDisplay = function() {
-  const nl = this.app.notes.length
+  const nl = this.app.notes().length
   if (nl == 0)
     return
-  const note = this.app.notes[nl - 1]
+  const note = this.app.notes()[nl - 1]
   const notedesc = `${note.name}${note.octave} (${note.frequency.toFixed(2)} Hz)`
   this.$rawnote.innerHTML = `Current: ${notedesc}`
 }
