@@ -120,39 +120,14 @@ window.openTab = function(btnName, tabName) {
 
 /** Get tab */
 window.renderTab = function() {
-  /*
-  const notes = window.app.line.flat()
-  const result = []
-  for (var i = 0; i < notes.length; i++) {
-    const t = notes[i].tab
-
-    if (!t)
-      continue;
-
-    let curr = {}
-    switch (t.type) {
-    case 'chord':
-      curr = result[result.length - 1]
-      break
-    case 'tone':
-      result.push(curr)
-      break
-    default:
-      throw `Bad type ${s.type}`
-    }
-    curr[t.string] = notes[i].frets[`${t.string}`]
-  }
-
   const scribe = new Scribe(window.app.strings.length)
-  const scribetab = scribe.tab(result)
-  const tabout = scribetab.map(a => a.join('<br />')).join('<br /><br /><br />')
-  */
-  const tabout = '<b>Temporarily disabled</b>'
+  const tabout = scribe.tab(window.app.line).
+        map(a => a.join('<br />')).
+        join('<br /><br /><br />')
   const tabdest = document.getElementById('tabdest')
   tabdest.innerHTML = tabout
 
   window.appcontroller.writeVextab()
-
   enableButtons({ btnCopy: true })
 }
 
