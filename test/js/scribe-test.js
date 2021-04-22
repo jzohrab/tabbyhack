@@ -97,14 +97,26 @@ test('multistring null notes arent tabbed', t => {
   t.end()
 })
 
-/*
 
 test('can split tab to separate lines', t => {
   const scribe = new Scribe(2, { stafflength: 7 })
-  const actual = scribe.tab([{1: 0}, {0: null, 1: 0}, {0: 7, 1: 12}, {1: 5}])
+  const line = [
+    makeFrettedNote({1: 0}, 1),
+    [
+      makeFrettedNote({0: 0}, 0),
+      makeFrettedNote({1: 0}, 1)
+    ],
+    [
+      makeFrettedNote({1: 12}, 1),
+      makeFrettedNote({0: 7}, 0),
+    ],
+    makeFrettedNote({1: 5}, 1)
+  ]
+  const actual = scribe.tab(line)
+
   const expected = [
     [
-      "------7-",
+      "---0--7-",
       "-0-0-12-"
     ],
     [
@@ -115,5 +127,3 @@ test('can split tab to separate lines', t => {
   t.deepEqual(actual, expected)
   t.end()
 })
-
-*/
