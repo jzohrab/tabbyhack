@@ -4,27 +4,44 @@ const test = require('tape')
 const js = join(process.cwd(), 'src', 'js')
 const { Scribe } = require(join(js, 'scribe.js'))
 const { GuitarString } = require(join(js, 'GuitarString.js'))
+const { Note } = require(join(js, 'Note.js'))
 
-// Useful frequencies (open strings)
-const Bhz = 246.94
-const Ehz = 329.63
+// Scribe doesn't care about frequencies, just frets and strings.
+function makeFrettedNote(frets, string) {
+  const n = new Note(246.94)
+  n.frets = frets
+  n.string = string
+  return n
+}
 
-const b = new GuitarString('b', Bhz)
-const e = new GuitarString('e', Ehz)
-
-test('single open string', t => {
-  const scribe = new Scribe(1)
-  t.deepEqual(scribe.tab([ { '0': 0 } ]), [["-0-"]])
+test('no notes = empty tab', t => {
+  const scribe = new Scribe()
+  t.deepEqual(scribe.tab([]), [new Array(6).fill("-")])
   t.end()
 })
 
+test('single open string, 2 string ', t => {
+  const scribe = new Scribe(2)
+  const line = [ makeFrettedNote({ 1: 0}, 1) ]
+  t.deepEqual(scribe.tab(line), [["---", "-0-"]])
+  t.end()
+})
+
+/*
 test('single string multiple notes', t => {
-  const scribe = new Scribe(1)
+  const scribe = new Scribe(2)
+
+  const b = new Note(Bhz)
+  const e = new Note(Ehz)
+
+
   const actual = scribe.tab([ { '0': 0 }, {0: 5}, {0: 12} ])
   const expected = [["-0-5-12-"]]
   t.deepEqual(actual, expected)
   t.end()
 })
+
+/*
 
 test('null tabbed as empty', t => {
   const scribe = new Scribe(1)
@@ -71,3 +88,4 @@ test('can split tab to separate lines', t => {
   t.end()
 })
 
+*/

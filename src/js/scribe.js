@@ -1,4 +1,4 @@
-const Scribe = function(numstrings, scribeOptions = {}) {
+const Scribe = function(numstrings = 6, scribeOptions = {}) {
   this.numstrings = numstrings
   this.opts = scribeOptions
 }
@@ -7,35 +7,32 @@ const Scribe = function(numstrings, scribeOptions = {}) {
  /**
  * get tab for frequencies
  *
- * @param {array} data, eg [ { '0': 0 }, ... ]
+ * @param {array} app.line, with .string filled in or not.
  * @returns {array}
  */
-Scribe.prototype.tab = function(data) {
+Scribe.prototype.tab = function(appline) {
   const stafflength = this.opts.stafflength || 75
 
   ns = this.numstrings
   function newStaff() {
-    const ret = []
-    for (var i = 0; i < ns; i++) {
-      ret.push('-')
-    }
-    return ret
+    return new Array(ns).fill('-')
   }
 
   const result = []
   let staff = newStaff()
   result.push(staff)
 
-  for (var i = 0; i < data.length; i++) {
-    const frets = newStaff()
-    for (var s = 0; s < this.numstrings; s++) {
-      let v = data[i][`${s}`]
-      if (v === undefined) {
-        v = null
-      }
-      frets[s] = v
-    }
+  for (var i = 0; i < appline.length; i++) {
+    const frets = new Array(ns).fill(null)
+
+    let curr = appline[i]
+    let notes = appline[i]
+    if (!(notes instanceof Array))
+      notes = [ notes ]
+
+    notes.forEach(n => frets[n.string] = n.frets[`${n.string}`])
     // console.log(frets)
+
     const maxfret = Math.max(...frets)
     maxfretlen = `${maxfret}`.length
     const fretstring = frets.
