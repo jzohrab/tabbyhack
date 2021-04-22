@@ -37,7 +37,7 @@ Scribe.prototype.tab = function(appline) {
       if (n.string >= 0 && n.string < ns)
         frets[n.string] = n.frets[`${n.string}`]
     })
-    console.log(`for line # ${i}, have frets: [ ${frets.join(', ')} ]`)
+    // console.log(`for line # ${i}, have frets: [ ${frets.join(', ')} ]`)
 
     let maxfretlen = 0
     for (var j = 0; j < frets.length; j++) {
@@ -48,13 +48,12 @@ Scribe.prototype.tab = function(appline) {
       if (maxfretlen < fstring.length)
         maxfretlen = fstring.length
     }
-    console.log(`after stringing, have frets: [ ${frets.join(', ')} ]`)
-    // console.log(frets)
+    // console.log(`after stringing, have frets: [ ${frets.join(', ')} ]`)
 
     const fretstring = frets.
           map(s => `${'-'.repeat(maxfretlen - s.length)}${s}`).
           map(s => `${s}-`)
-    console.log(`fretstring = [ ${fretstring.join(', ')} ]`)
+    // console.log(`fretstring = [ ${fretstring.join(', ')} ]`)
     for (var j = 0; j < fretstring.length; j++) {
       staff[j] += fretstring[j]
     }
