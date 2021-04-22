@@ -137,8 +137,6 @@ Tabselector.prototype.checkKey = function(e) {
   case MINUS: this.slowDown(); break;
   case DOT: this.toggleDot(); break;
   case DELETE: this.deleteCurrent(); break;
-  case SPACE: this.clearCurrent(); break
-  case T: this.toggleCursor(); break
   case C: this.toggleChordTone(); break
   default: return
   }

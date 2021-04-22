@@ -27,6 +27,7 @@
       </div>
       <div class="navlinks">
         <a href="#" onclick="openPopup('menuUsage');">Usage</a>
+        <a href="#" onclick="openPopup('menuEditing');">Editing</a>
         <a href="#" onclick="openPopup('menuDemo');">Demo</a>
         <a href="#" onclick="openPopup('menuFaq');">FAQ/NAQ</a>
         <a href="#" onclick="openPopup('menuAbout');">About</a>
@@ -52,7 +53,7 @@
                  oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                  /> ms
         </p>
-        <p>Extra vextab tabstave options:
+        <p>Extra tabbing options:
           <input type="text" style="width: 250px;" id="vextabopts" />
         </p>
       </div>
@@ -60,13 +61,12 @@
       <div id="userControls">
         <button type="button" id="btnStart" onclick="startRecord();">Start</button>
         <button type="button" id="btnStop" onclick="stopRecord();" disabled>Stop</button>
-        <button type="button" id="btnRestart" onclick="restartApp();">Reset</button>
-        <button type="button" id="btnFreeze" onclick="stopTabSelect();">Stop tab selection editor</button>
+        <button type="button" id="btnFreeze" onclick="stopEditing();">Stop editing</button>
         <span id="rawnote">Current note: </span>
       </div>
 
       <div id="keyboardcontrols">
-        <p>Arrow keys: navigate &mdash; t: toggle cursor &mdash; c: chord tone &mdash; space: toggle current cell</p>
+        <p>When you click &quot;Stop&quot;, you can edit the notes &mdash; see <a href="#" onclick="openPopup('menuUsage');">Usage</a> for available keys.</p>
       </div>
       
       <!-- Tab links -->
@@ -94,15 +94,30 @@
           <li>Get your guitar, tune up, and get within earshot of your mic.</li>
           <li><i>(Optional)</i> Enter the fret range -- this reduces the possible number of fretting options that the tabber will find.</li>
           <li>Click Start, and let this site access your mic.</li>
-          <li>Play one note at a time, slowly (about 1 note per 1/2 second).  Tab candidate notes will appear as they're recognized.  For chords, play the strings one at a time, and don't overlap the notes.</li>
+          <li>Play one note at a time, slowly (about 1 note per 1/2 second).  Tab candidate notes will appear as they're recognized.  For chords, play the strings one at a time, and don't overlap the notes.  Note you can change the app sensitivity by entering a value in the sensitivity box, but very low values may result in lots of noise being tabbed.</li>
+          <li>You can specify key and time signatures using the &quot;Extra tabbing options&quot; - eg &quot;key=A time=12/8&quot;.  Note these tabbing options correspond to the Stave keywords in the <a href="https://www.vexflow.com/vextab/tutorial.html" target="_blank">Vextab tutorial</a>.</li>
           <li>Click Stop when you're done.</li>
-          <li>Using the keyboard arrows, select the strings and frets you want to use for the tab.  'c' appends chord tones onto previous notes, and 't' toggles the cursor.  (Hard to explain ... perhaps see the demo).</li>
-          <li>When you've selected the notes you want, click 'Write tab'.  If it looks good, click 'Copy', and paste it wherever you need it.  If you need to fix it, either keep using the keyboard, or edit the tab you've already exported.</li>
+          <li>Edit the notes using the keyboard (see "Editing").  You can check the tab you'll generate on the score, or on the Ascii tab.</li>
+          <li>When you're done editing, click &quot;Stop editing&quot;, and click the &quot;Ascii&quot; tab.  Click 'Copy', and paste it wherever you need it.</li>
         </ol>
       </div>
 
+      <div id="menuEditing" class="popupContent">
+        <p class="title">Editing</p>
+        <p>When you've recorded all your notes, you'll see an underline under the first note ... that's a cursor indicating the note you're editing.</p>
+        <ul>
+          <li>left/right arrow: move to previous/next note</li>
+          <li>up/down arrow: move the note to a different string, if that same note can be fretted on the new string.  For example, if you specify a fret range of 1 to 5, you can't play a &quot;C&quot; on the top E sting.</li>
+          <li>c: toggle note to be a chord, or chord back to its notes.</li>
+          <li>+, - : speed up or slow down the current note.</li>
+          <li>. : toggle the dot for the current note</li>
+          <li>&lt;DEL&gt;: delete the current note</li>
+        </ul>
+      </div>
+
       <div id="menuDemo" class="popupContent">
-        <p class="title">A quick demo ...</p>
+        <p class="title">A quick demo ... (WAY out of date!)</p>
+        <p>This demo was recorded for version 0.0.0.0.1 of this software ... the same concepts apply, for the most part!  See Editing for other editing options.</p>
         <!-- this video is also referenced in sidebar.js, hacky. -->
         <iframe id="youtubeframe"
                 width="420" height="315"

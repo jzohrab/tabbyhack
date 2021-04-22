@@ -43,16 +43,6 @@ window.printRecord = function() {
   display.innerHTML = '<br />' + output.join("<hr />")
 }
 
-window.restartApp = function() {
-  window.app = null
-  tabselector = null
-  enableButtons({ btnStart: true, btnStop: false, btnCopy: false })
-  const tabdest = document.getElementById('tabdest')
-  tabdest.innerHTML = ''
-  startRecord()
-}
-
-
 window.onloadBody = function() {
   // In prod, hide dev tools.
   // there is probably a much better way to do this,
@@ -90,7 +80,7 @@ window.stopRecord = function() {
 
 
 /** Remove keyboard listener. */
-window.stopTabSelect = function() {
+window.stopEditing = function() {
   if (!tabselector)
     return
   tabselector.stop()
