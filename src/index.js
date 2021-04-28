@@ -3,6 +3,7 @@ import { ApplicationController } from './js/appcontroller.js'
 import { Tabselector } from './js/tabselector.js'
 import { Scribe } from './js/scribe.js'
 import { VextabScribe } from './js/vextabscribe.js'
+import { Fretboard, Tunings } from 'fretboards'
 
 // All functions have "window." due to hint:
 // https://stackoverflow.com/questions/57602686/
@@ -54,7 +55,41 @@ window.onloadBody = function() {
     }
   }
   window.openTab('btnVextab', 'finalvextab')
+  window.drawFretboard()
 }
+
+
+/** Hack from https://github.com/txels/fretboards/blob/master/demos/dynamic.html */
+window.drawFretboard = function() {
+
+  const fb1 = Fretboard({
+    where: "#fretboard",
+    frets: 12,
+    tuning: Tunings.guitar6.standard
+  })
+
+  const F = {
+    name: "F",
+    notes: ["6:f2", "5:c3", "4:f3", "3:a3", "2:c4", "1:f4"],
+  }
+
+  function update(fb, notes) {
+    for (let note of notes) {
+      fb.add(note);
+      fb.paint();
+    }
+  }
+
+  function play(fb) {
+    for (let { name, notes } of [F]) {
+      fb.clearNotes();
+      update(fb, notes);
+    }
+  }
+
+  play(fb1);
+}
+
 
 /** Hack helper during dev, add a random frequency. */
 window.addRandom = function() {
