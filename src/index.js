@@ -75,9 +75,13 @@ window.moonwave = function() {
   }
   const fretboard = new Fretboard(config);
 
+  /*
   const dots = [
     { string: 5, fret: 3 }, { string: 4, fret: 2 }, {string: 3, fret: 0}, { string: 2, fret: 1 }
   ].map(e => { return { ...e, group: 1, disabled: true } })
+  */
+  // "distance" means the distance from the current note ... that is, this is "priordots", in order before they appear before the current dots.
+  const dots = [ 2, 3, 4, 5, 6 ].map((e, i) => { return { string: 5, fret: e, distance: 5 - i } })
   const dots2 = [
     { string: 5, fret: 8 }, {string: 5, fret:9}, { string: 4, fret: 7 }, {string: 3, fret: 5}, { string: 2, fret: 6 }
   ].map(e => { return { ...e, group: 2 } })
@@ -90,7 +94,7 @@ window.moonwave = function() {
     style({
       // this gives us just the root notes
       // filter: ({ interval: '1P' }),
-      filter: ( { group } ) => group === 1,
+      filter: ( { distance } ) => distance > 0,
       // displays the note name
       // text: ({ note }) => note,
       // sets the value of the fill attribute
