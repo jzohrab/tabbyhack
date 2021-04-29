@@ -3,7 +3,8 @@ import { ApplicationController } from './js/appcontroller.js'
 import { Tabselector } from './js/tabselector.js'
 import { Scribe } from './js/scribe.js'
 import { VextabScribe } from './js/vextabscribe.js'
-import { Fretboard, Tunings } from 'fretboards'
+// import { Fretboard, Tunings } from 'fretboards'
+import { Fretboard } from '@moonwave99/fretboard.js';
 
 // All functions have "window." due to hint:
 // https://stackoverflow.com/questions/57602686/
@@ -55,9 +56,57 @@ window.onloadBody = function() {
     }
   }
   window.openTab('btnVextab', 'finalvextab')
-  window.drawFretboard()
+  window.moonwave()
+
+  // window.drawFretboard()
 }
 
+
+// moonwave fretboard
+// https://moonwave99.github.io/fretboard.js/documentation-fretboard.html
+window.moonwave = function() {
+  const config = {
+    fretCount: 24,
+    middleFretColor: "#666",
+    middleFretWidth: 1,
+    width: 2000,
+    scaleFrets: "true",
+    disabledOpacity: "0.9",
+  }
+  const fretboard = new Fretboard(config);
+
+  const dots = [
+    { string: 5, fret: 3 }, { string: 4, fret: 2 }, {string: 3, fret: 0}, { string: 2, fret: 1 }
+  ].map(e => { return { ...e, group: 1 } })
+  const dots2 = [
+    { string: 5, fret: 8 }, {string: 5, fret:9}, { string: 4, fret: 7 }, {string: 3, fret: 5}, { string: 2, fret: 6 }
+  ].map(e => { return { ...e, group: 2 } })
+  const alldots = dots.concat(dots2)
+  // console.log(JSON.stringify(alldots,null,2))
+  fretboard.
+    setDots(alldots).
+    // .setDots(dots2)
+    render().
+    style({
+      // this gives us just the root notes
+      // filter: ({ interval: '1P' }),
+      filter: ( { group } ) => group === 1,
+      // displays the note name
+      // text: ({ note }) => note,
+      // sets the value of the fill attribute
+      fill: 'red'
+    }).
+    style({
+      // this gives us just the root notes
+      // filter: ({ interval: '1P' }),
+      filter: ( { group } ) => group === 2,
+      // displays the note name
+      // text: ({ note }) => note,
+      // sets the value of the fill attribute
+      fill: 'green'
+    })
+
+}
 
 /** Hack from https://github.com/txels/fretboards/blob/master/demos/dynamic.html */
 window.drawFretboard = function() {
