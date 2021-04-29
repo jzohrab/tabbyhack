@@ -28,7 +28,7 @@ const ApplicationController = function(app) {
     disabledOpacity: "0.4",
   }
   this.fretboard = new Fretboard(fretboardconfig)
-  this.fretboard.setDots({string: 1, fret: 1}).render()
+  this.fretboard.render()
 
   this.app.noteAdded = (n) => this.drawNoteOnFretboard(n)
 
@@ -40,6 +40,12 @@ const ApplicationController = function(app) {
   this.vextabeditor = editors[0]
 }
 
+ApplicationController.prototype.configure = function(config) {
+  // TODO - if anything, may be best just to show whole fretboard all the time.
+  // the fretboard library doesn't appear to support dynamic reconfig of fretboard ... so leave this for later version of Tabbyhack.
+  // this.fretboard.fretCount = 12 // not sure if this works.
+  // this.fretboard.crop = true
+}
 
 ApplicationController.prototype.drawNoteOnFretboard = function(note) {
   console.log(`added ${JSON.stringify(note)}`)

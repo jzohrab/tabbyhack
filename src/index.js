@@ -22,7 +22,6 @@ window.onloadBody = function() {
   }
   window.openTab('btnVextab', 'finalvextab')
 
-  // TODO - note that startRecord creates new instances ... shouldn't, though.
   window.app = new Application({})
   window.appcontroller = new ApplicationController(window.app)
 }
@@ -37,15 +36,23 @@ const enableButtons = function(hsh) {
 }
 
 
+/** Build app config from UI settings. */
+const getConfig = function() {
+  const opt = function(name, defaultVal) {
+    return document.getElementById(name).value || defaultVal
+  }
+  return {
+    min: opt('minFret', 0),
+    max: opt('maxFret', 0),
+    vextabopts: opt('vextabopts', null)
+  }
+}
+
 /** Start the application */
 window.startRecord = function() {
-  // TODO - move these options to start() ?
-  const minfret = document.getElementById('minFret').value || 0
-  const maxfret = document.getElementById('maxFret').value || 12
-  const vextabopts = document.getElementById('vextabopts').value || null
-  const opts = { min: minfret, max: maxfret, vextabopts: vextabopts }
-  window.app = new Application(opts)
-  window.appcontroller = new ApplicationController(window.app)
+  const opts = getConfig()
+  window.app.configure(opts)
+  window.appcontroller.configure(opts)
   window.appcontroller.start()
   enableButtons({ btnStart: false, btnStop: true })
 }

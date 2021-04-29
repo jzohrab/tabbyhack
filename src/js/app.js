@@ -7,9 +7,7 @@ const { Note } = require('./note.js')
  * Tracks notes.
  */
 const Application = function(opts = {}) {
-  this.options = opts
-  this.options.min = this.options.min || 0
-  this.options.max = this.options.max || 12
+  this.configure(opts)
 
   // Allowable durations
   this.noteDurations = [
@@ -36,6 +34,13 @@ const Application = function(opts = {}) {
   // The "cursor position" when editing notes.
   this.cursorIndicator = '$.a-/bottom.$'  // default fermata
   this.cursor = null
+}
+
+
+Application.prototype.configure = function(config) {
+  this.options = config
+  this.options.min = this.options.min || 0
+  this.options.max = this.options.max || 12
 }
 
 
