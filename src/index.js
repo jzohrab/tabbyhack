@@ -71,13 +71,13 @@ window.moonwave = function() {
     middleFretWidth: 1,
     width: 2000,
     scaleFrets: "true",
-    disabledOpacity: "0.9",
+    disabledOpacity: "0.4",
   }
   const fretboard = new Fretboard(config);
 
   const dots = [
     { string: 5, fret: 3 }, { string: 4, fret: 2 }, {string: 3, fret: 0}, { string: 2, fret: 1 }
-  ].map(e => { return { ...e, group: 1 } })
+  ].map(e => { return { ...e, group: 1, disabled: true } })
   const dots2 = [
     { string: 5, fret: 8 }, {string: 5, fret:9}, { string: 4, fret: 7 }, {string: 3, fret: 5}, { string: 2, fret: 6 }
   ].map(e => { return { ...e, group: 2 } })
