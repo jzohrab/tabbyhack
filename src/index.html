@@ -45,14 +45,12 @@
           min = <input type="text" style="width: 20px;" id="minFret" value="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />,
           max = <input type="text" style="width: 20px;" id="maxFret" value="12" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
         </p>
-        <p>Sensitivity:
-          <input id="micsensitivity"
-                 type="text"
-                 style="width: 30px;"
-                 value="400"
-                 oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                 /> ms
-        </p>
+        <div class="slidecontainer">
+          Mic sensitivity:
+          <input class="slider" id="MicSensSlider" type="range" min="5" max="800" value="400" oninput="updateMicSensitivity(this)">
+          <input type="text" id="micsensitivity" value="400" style="width: 30px; border: none;"/> ms
+        </div>
+        
         <p>Extra tabbing options:
           <input type="text" style="width: 250px;" id="vextabopts" />
         </p>

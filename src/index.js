@@ -48,6 +48,11 @@ const getConfig = function() {
   }
 }
 
+/** Mic slider. */
+window.updateMicSensitivity = function(s) {
+  document.getElementById("micsensitivity").value = s.value
+}
+
 /** Start the application */
 window.startRecord = function() {
   const opts = getConfig()
