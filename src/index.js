@@ -62,32 +62,33 @@ window.onloadBody = function() {
 /** Hack from https://github.com/txels/fretboards/blob/master/demos/dynamic.html */
 window.drawFretboard = function() {
 
-  const fb1 = Fretboard({
+  /*
+    config = {
+    frets: 12, // Number of frets to display
+    startFret: 0, // Initial fret
+    strings: 6, // Strings
+    tuning: Tunings.guitar6.standard, // Tuning: default = Standard Guitar
+    fretWidth: 50, // Display width of frets in pixels
+    fretHeight: 20, // Display heigh of frets in pixels
+    leftHanded: false, // Show mirror image for left handed players
+    showTitle: false, // Set the note name as the title, so it will display on hover
+    }
+   */
+
+  const fb = Fretboard({
     where: "#fretboard",
     frets: 12,
     tuning: Tunings.guitar6.standard
   })
 
-  const F = {
-    name: "F",
-    notes: ["6:f2", "5:c3", "4:f3", "3:a3", "2:c4", "1:f4"],
-  }
+  fb.clearNotes();
 
-  function update(fb, notes) {
-    for (let note of notes) {
-      fb.add(note);
-      fb.paint();
-    }
+  for (let note of ["3:a3", "2:c4", "1:f4"]) {
+    fb.add(note);
   }
-
-  function play(fb) {
-    for (let { name, notes } of [F]) {
-      fb.clearNotes();
-      update(fb, notes);
-    }
-  }
-
-  play(fb1);
+  fb.addNote("g3", "red")
+  fb.addNoteOnString("g#3", 3, "blue")
+  fb.paint()
 }
 
 
