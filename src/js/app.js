@@ -28,7 +28,7 @@ const Application = function(opts = {}) {
   // The "line" of notes (i.e., the notes grouped into chords, or single tones.
   this.line = []
 
-  // Callbacks, can be overridden.
+  // Callbacks, can be overridden.  (Currently unused, remove?  TODO)
   this.noteAdded = (n) => { /* no-op by default. */ }
 
   // The "cursor position" when editing notes.
@@ -55,6 +55,27 @@ Application.prototype.add_frequency = function(f) {
   this.addNote(new Note(f))
 }
 
+
+/** Build a note, indicating frets. */
+// TODO - need to sort this out with some tests, currently this distorts the "architecture" :-P
+Application.prototype.buildNote = function(frequency) {
+  const n = new Note(frequency)
+  this.addFrets(n)
+  return n
+}
+
+
+/** Add frets to a note. */
+Application.prototype.addFrets = function(note) {
+  note.frets = this.strings.reduce((result, s) => {
+    const f = s.getFret(note.frequency)
+    if (f >= this.options.min && f <= this.options.max)
+      result[s.stringNumber] = f
+      return result
+  },{})
+}
+
+
 /** Add a new note. */
 Application.prototype.addNote = function(note) {
   if (note.frequency == 0) {
@@ -65,12 +86,7 @@ Application.prototype.addNote = function(note) {
   if (this.line.length == 0)
     note.duration = 'q'
 
-  note.frets = this.strings.reduce((result, s) => {
-    const f = s.getFret(note.frequency)
-    if (f >= this.options.min && f <= this.options.max)
-      result[s.stringNumber] = f
-      return result
-  },{})
+  this.addFrets(note)
   
   this.line.push(note)
   this.noteAdded(note)

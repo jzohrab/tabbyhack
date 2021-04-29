@@ -51,6 +51,8 @@ const getConfig = function() {
 /** Mic slider. */
 window.updateMicSensitivity = function(s) {
   document.getElementById("micsensitivity").value = s.value
+  window.appcontroller.sensitivity = s.value
+  window.appcontroller.start()
 }
 
 /** Start the application */

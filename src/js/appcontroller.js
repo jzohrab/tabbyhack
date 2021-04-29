@@ -14,6 +14,9 @@ const ApplicationController = function(app) {
 
   this.app = app
 
+  // We're only recording once the user clicks "start", but the mic is listening.
+  this.isRecording = false
+
   // The fretboard
   // Ref https://moonwave99.github.io/fretboard.js/documentation-fretboard.html
   const fretboardconfig = {
@@ -30,8 +33,6 @@ const ApplicationController = function(app) {
   this.fretboard = new Fretboard(fretboardconfig)
   this.fretboard.render()
 
-  this.app.noteAdded = (n) => this.handleNoteAdded(n)
-
   // Vextab creates a textarea with class "editor"
   const editors = document.getElementsByClassName("editor")
   if (editors.length !== 1) {
@@ -41,18 +42,17 @@ const ApplicationController = function(app) {
 }
 
 ApplicationController.prototype.configure = function(config) {
-  // TODO - if anything, may be best just to show whole fretboard all the time.
-  // the fretboard library doesn't appear to support dynamic reconfig of fretboard ... so leave this for later version of Tabbyhack.
-  // this.fretboard.fretCount = 12 // not sure if this works.
-  // this.fretboard.crop = true
+  this.sensitivity = document.getElementById('micsensitivity').value || 400
+}
+
+ApplicationController.prototype.startRecording = function() {
+  this.isRecording = true
+  this.start()
 }
 
 ApplicationController.prototype.start = function() {
   this.currNote = null
   this.currNoteStart = null
-
-  // Milliseconds duration note must reach before being processed.
-  const MIN_DURATION = this.sensitivity
 
   // Only add the current note _once_ after it has lasted the min
   // duration.
@@ -61,7 +61,7 @@ ApplicationController.prototype.start = function() {
   const self = this
   this.tuner.onFrequencyDetected = function(frequency) {
     const now = Date.now()
-    const note = new Note(frequency)
+    const note = self.app.buildNote(frequency)
 
     // Ignore first sample, as we can't do anything with a note until it
     // reaches MIN_DURATION.
@@ -72,10 +72,13 @@ ApplicationController.prototype.start = function() {
     }
 
     const currNoteAge = (now - self.currNoteStart)
-    if (!self.currNoteProcessed && currNoteAge > MIN_DURATION) {
+    if (note.standard !== 0 && self.currNote.standard == note.standard && currNoteAge > self.sensitivity && !self.currNoteProcessed) {
       // console.log(`Curr note duration ${duration} exceeds min, updating`)
-      self.app.addNote(self.currNote)
-      self.updateUI()
+      self.handleNote(self.currNote)
+      if (self.isRecording) {
+        self.app.addNote(self.currNote)
+        self.updateUI()
+      }
       self.currNoteProcessed = true
     }
 
@@ -95,12 +98,13 @@ ApplicationController.prototype.start = function() {
 
 
 ApplicationController.prototype.stop = function() {
+  this.isRecording = false
   this.tuner.onFrequencyDetected = function(note) { /* no-op */ }
 }
 
 
 
-ApplicationController.prototype.handleNoteAdded = function(note) {
+ApplicationController.prototype.handleNote = function(note) {
   this.drawNoteOnFretboard(note)
   this.updateCurrentNoteDisplay(note)
 }
