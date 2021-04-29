@@ -30,7 +30,7 @@ const ApplicationController = function(app) {
   this.fretboard = new Fretboard(fretboardconfig)
   this.fretboard.render()
 
-  this.app.noteAdded = (n) => this.drawNoteOnFretboard(n)
+  this.app.noteAdded = (n) => this.handleNoteAdded(n)
 
   // Vextab creates a textarea with class "editor"
   const editors = document.getElementsByClassName("editor")
@@ -45,18 +45,6 @@ ApplicationController.prototype.configure = function(config) {
   // the fretboard library doesn't appear to support dynamic reconfig of fretboard ... so leave this for later version of Tabbyhack.
   // this.fretboard.fretCount = 12 // not sure if this works.
   // this.fretboard.crop = true
-}
-
-ApplicationController.prototype.drawNoteOnFretboard = function(note) {
-  console.log(`added ${JSON.stringify(note)}`)
-  // note.frets example: "frets":{"2":2,"3":7,"4":12}
-  const dots = Object.entries(note.frets).
-        map(p => [ parseInt(p[0]) + 1, p[1] ]).
-        reduce((arr, p) => { arr.push({ string: p[0], fret: p[1] }); return arr }, [])
-  this.fretboard.
-    setDots(dots).
-    render().
-    style({ fill: 'green' })
 }
 
 ApplicationController.prototype.start = function() {
@@ -110,14 +98,32 @@ ApplicationController.prototype.stop = function() {
   this.tuner.onFrequencyDetected = function(note) { /* no-op */ }
 }
 
+
+
+ApplicationController.prototype.handleNoteAdded = function(note) {
+  this.drawNoteOnFretboard(note)
+  this.updateCurrentNoteDisplay(note)
+}
+
+
+/** Update the fretboard. */
+ApplicationController.prototype.drawNoteOnFretboard = function(note) {
+  console.log(`added ${JSON.stringify(note)}`)
+  // note.frets example: "frets":{"2":2,"3":7,"4":12}
+  const dots = Object.entries(note.frets).
+        map(p => [ parseInt(p[0]) + 1, p[1] ]).
+        reduce((arr, p) => { arr.push({ string: p[0], fret: p[1] }); return arr }, [])
+  this.fretboard.
+    setDots(dots).
+    render().
+    style({ fill: 'green' })
+}
+
+
 /**
  * Update the text box that shows the raw data of what's currently played.
  */
-ApplicationController.prototype.updateCurrentNoteDisplay = function() {
-  const nl = this.app.notes().length
-  if (nl == 0)
-    return
-  const note = this.app.notes()[nl - 1]
+ApplicationController.prototype.updateCurrentNoteDisplay = function(note) {
   const notedesc = `${note.name}${note.octave} (${note.frequency.toFixed(2)} Hz)`
   this.$rawnote.innerHTML = `Current: ${notedesc}`
 }
@@ -139,7 +145,6 @@ ApplicationController.prototype.writeVextab = function() {
 
 
 ApplicationController.prototype.updateUI = function() {
-  this.updateCurrentNoteDisplay()
   this.writeVextab()
 }
 
