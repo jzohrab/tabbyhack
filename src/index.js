@@ -81,15 +81,15 @@ window.moonwave = function() {
   ].map(e => { return { ...e, group: 1, disabled: true } })
   */
   // "distance" means the distance from the current note ... that is, this is "priordots", in order before they appear before the current dots.
-  const dots = [ 2, 3, 4, 5, 6 ].map((e, i) => { return { string: 5, fret: e, distance: 5 - i } })
-  const dots2 = [
+  const prior = [ 2, 3, 4, 5,6,7 ].map((e, i) => { return { string: 5, fret: e, distance: 6 - i } })
+  const current = [
     { string: 5, fret: 8 }, {string: 5, fret:9}, { string: 4, fret: 7 }, {string: 3, fret: 5}, { string: 2, fret: 6 }
-  ].map(e => { return { ...e, group: 2 } })
-  const alldots = dots.concat(dots2)
+  ].map(e => { return { ...e, distance: 0 } })
+  const alldots = prior.concat(current)
   // console.log(JSON.stringify(alldots,null,2))
   fretboard.
     setDots(alldots).
-    // .setDots(dots2)
+    // .setDots(current)
     render().
     style({
       // this gives us just the root notes
@@ -103,7 +103,7 @@ window.moonwave = function() {
     style({
       // this gives us just the root notes
       // filter: ({ interval: '1P' }),
-      filter: ( { group } ) => group === 2,
+      filter: ( { distance } ) => distance === 0,
       // displays the note name
       // text: ({ note }) => note,
       // sets the value of the fill attribute
@@ -111,9 +111,19 @@ window.moonwave = function() {
     })
 
   // Set opacity so that the further back you go, things fade out.
-  var els = document.getElementsByClassName("dot-group-2")
-  for (var i = 0; i < els.length; i++) {
-    els[i].setAttribute("opacity", "0.2")
+  // dot distances map to opacity
+  const opacityForDistance = (n) => {
+    if (n == 0)
+      return 1
+    return 0.5 - 0.05 * n
+  }
+  for (var d = 0; d <= 10; ++d) {
+    const cn = `dot-distance-${d}`
+    console.log('setting opacity for ' + cn)
+    var els = document.getElementsByClassName(cn)
+    for (var i = 0; i < els.length; i++) {
+      els[i].setAttribute("opacity", opacityForDistance(d))
+    }
   }
 }
 
