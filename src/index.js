@@ -3,12 +3,30 @@ import { ApplicationController } from './js/appcontroller.js'
 import { Tabselector } from './js/tabselector.js'
 import { Scribe } from './js/scribe.js'
 import { VextabScribe } from './js/vextabscribe.js'
-// import { Fretboard, Tunings } from 'fretboards'
 import { Fretboard } from '@moonwave99/fretboard.js';
 
 // All functions have "window." due to hint:
 // https://stackoverflow.com/questions/57602686/
 //   javascript-function-wont-trigger-when-called-in-html-file-during-parcel-build
+
+
+window.onloadBody = function() {
+  // In prod, hide dev tools.
+  // there is probably a much better way to do this,
+  // but this is fine for now.
+  if (process.env.NODE_ENV === 'development') {
+    const el = document.getElementById('devControls')
+    if (el) {
+      el.style.display = 'block';
+    }
+  }
+  window.openTab('btnVextab', 'finalvextab')
+
+  // TODO - note that startRecord creates new instances ... shouldn't, though.
+  window.app = new Application({})
+  window.appcontroller = new ApplicationController(window.app)
+}
+
 
 const enableButtons = function(hsh) {
   const es = Object.entries(hsh)
@@ -18,11 +36,10 @@ const enableButtons = function(hsh) {
   }
 }
 
+
 /** Start the application */
 window.startRecord = function() {
-  if (window.app) {
-    return
-  }
+  // TODO - move these options to start() ?
   const minfret = document.getElementById('minFret').value || 0
   const maxfret = document.getElementById('maxFret').value || 12
   const vextabopts = document.getElementById('vextabopts').value || null
@@ -45,134 +62,18 @@ window.printRecord = function() {
   display.innerHTML = '<br />' + output.join("<hr />")
 }
 
-window.onloadBody = function() {
-  // In prod, hide dev tools.
-  // there is probably a much better way to do this,
-  // but this is fine for now.
-  if (process.env.NODE_ENV === 'development') {
-    const el = document.getElementById('devControls')
-    if (el) {
-      el.style.display = 'block';
-    }
-  }
-  window.openTab('btnVextab', 'finalvextab')
-  window.moonwave()
-
-  // window.drawFretboard()
-}
-
-
-// moonwave fretboard
-// https://moonwave99.github.io/fretboard.js/documentation-fretboard.html
-window.moonwave = function() {
-  const config = {
-    el: '#fretboard',
-    fretCount: 24,
-    middleFretColor: "#666",
-    middleFretWidth: 1,
-    width: 2000,
-    scaleFrets: "true",
-    disabledOpacity: "0.4",
-  }
-  const fretboard = new Fretboard(config);
-
-  /*
-  const dots = [
-    { string: 5, fret: 3 }, { string: 4, fret: 2 }, {string: 3, fret: 0}, { string: 2, fret: 1 }
-  ].map(e => { return { ...e, group: 1, disabled: true } })
-  */
-  // "distance" means the distance from the current note ... that is, this is "priordots", in order before they appear before the current dots.
-  const prior = [ 2, 3, 4, 5,6,7 ].map((e, i) => { return { string: 5, fret: e, distance: 6 - i } })
-  const current = [
-    { string: 5, fret: 8 }, {string: 5, fret:9}, { string: 4, fret: 7 }, {string: 3, fret: 5}, { string: 2, fret: 6 }
-  ].map(e => { return { ...e, distance: 0 } })
-  const alldots = prior.concat(current)
-  // console.log(JSON.stringify(alldots,null,2))
-  fretboard.
-    setDots(alldots).
-    // .setDots(current)
-    render().
-    style({
-      // this gives us just the root notes
-      // filter: ({ interval: '1P' }),
-      filter: ( { distance } ) => distance > 0,
-      // displays the note name
-      // text: ({ note }) => note,
-      // sets the value of the fill attribute
-      fill: 'red'
-    }).
-    style({
-      // this gives us just the root notes
-      // filter: ({ interval: '1P' }),
-      filter: ( { distance } ) => distance === 0,
-      // displays the note name
-      // text: ({ note }) => note,
-      // sets the value of the fill attribute
-      fill: 'green'
-    })
-
-  // Set opacity so that the further back you go, things fade out.
-  // dot distances map to opacity
-  const opacityForDistance = (n) => {
-    if (n == 0)
-      return 1
-    return 0.5 - 0.05 * n
-  }
-  for (var d = 0; d <= 10; ++d) {
-    const cn = `dot-distance-${d}`
-    console.log('setting opacity for ' + cn)
-    var els = document.getElementsByClassName(cn)
-    for (var i = 0; i < els.length; i++) {
-      els[i].setAttribute("opacity", opacityForDistance(d))
-    }
-  }
-}
-
-/** Hack from https://github.com/txels/fretboards/blob/master/demos/dynamic.html */
-window.drawFretboard = function() {
-
-  /*
-    config = {
-    frets: 12, // Number of frets to display
-    startFret: 0, // Initial fret
-    strings: 6, // Strings
-    tuning: Tunings.guitar6.standard, // Tuning: default = Standard Guitar
-    fretWidth: 50, // Display width of frets in pixels
-    fretHeight: 20, // Display heigh of frets in pixels
-    leftHanded: false, // Show mirror image for left handed players
-    showTitle: false, // Set the note name as the title, so it will display on hover
-    }
-   */
-
-  const fb = Fretboard({
-    where: "#fretboard",
-    frets: 12,
-    tuning: Tunings.guitar6.standard
-  })
-
-  fb.clearNotes();
-
-  for (let note of ["3:a3", "2:c4", "1:f4"]) {
-    fb.add(note);
-  }
-  fb.addNote("g3", "red")
-  fb.addNoteOnString("g#3", 3, "blue")
-  fb.paint()
-}
-
-
 /** Hack helper during dev, add a random frequency. */
 window.addRandom = function() {
   var count = window. prompt("Number of notes to add:", 5)
   count = parseInt(count, 10)
   startRecord()
   for (var i = 0; i < count; i++) {
-    const freq = Math.floor(Math.random() * 200) + 200
-    window.app.add_frequency(freq)
+    const freq = Math.floor(Math.random() * 50) + 200
+    window.appcontroller.app.add_frequency(freq)
   }
 }
 
-
+// TODO get rid of this?
 var tabselector = null
 
 /** Stop the application and scrolling */

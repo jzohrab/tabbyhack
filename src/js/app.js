@@ -30,6 +30,9 @@ const Application = function(opts = {}) {
   // The "line" of notes (i.e., the notes grouped into chords, or single tones.
   this.line = []
 
+  // Callbacks, can be overridden.
+  this.noteAdded = (n) => { /* no-op by default. */ }
+
   // The "cursor position" when editing notes.
   this.cursorIndicator = '$.a-/bottom.$'  // default fermata
   this.cursor = null
@@ -65,6 +68,7 @@ Application.prototype.addNote = function(note) {
   },{})
   
   this.line.push(note)
+  this.noteAdded(note)
 }
 
   
