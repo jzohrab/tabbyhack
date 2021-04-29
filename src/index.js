@@ -60,7 +60,7 @@ window.startRecord = function() {
   const opts = getConfig()
   window.app.configure(opts)
   window.appcontroller.configure(opts)
-  window.appcontroller.start()
+  window.appcontroller.startRecording()
   enableButtons({ btnStart: false, btnStop: true })
 }
 
