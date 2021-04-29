@@ -106,6 +106,11 @@ window.moonwave = function() {
       fill: 'green'
     })
 
+  // Set opacity so that the further back you go, things fade out.
+  var els = document.getElementsByClassName("dot-group-2")
+  for (var i = 0; i < els.length; i++) {
+    els[i].setAttribute("opacity", "0.2")
+  }
 }
 
 /** Hack from https://github.com/txels/fretboards/blob/master/demos/dynamic.html */
