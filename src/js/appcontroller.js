@@ -21,8 +21,10 @@ const ApplicationController = function(app) {
     fretCount: 24,
     middleFretColor: "#666",
     middleFretWidth: 1,
-    width: 2000,
+    width: 1500,
+    // height: 50,
     scaleFrets: "true",
+    showFretNumbers: "false",
     disabledOpacity: "0.4",
   }
   this.fretboard = new Fretboard(fretboardconfig)

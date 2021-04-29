@@ -21,7 +21,7 @@ body {
 
 #userControls {
     padding: 5px;
-    width: 600px;
+    width: 500px;
 }
 
 #keyboardcontrols {
@@ -209,6 +209,7 @@ table td {
     margin-top: 12px;
     border: 1px solid #ccc;
     background-color: #f1f1f1;
+    width: 800px;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -241,3 +242,16 @@ table td {
 }
 
 /* Tabs END */
+
+
+/* Fretboard */
+div#fretboard {
+    width: 700px;
+    vertical-align:top;
+}
+
+div#fretboard div.fretboard-html-wrapper svg {
+    position:absolute;
+    height: 100%;
+    vertical-align:top;
+}
