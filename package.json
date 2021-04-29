@@ -25,6 +25,7 @@
     "./vendor/**/*": false
   },
   "dependencies": {
+    "@moonwave99/fretboard.js": "^0.2.4",
     "fretboards": "^0.5.0",
     "vextab": "^3.0.6"
   }
