@@ -66,6 +66,7 @@ window.onloadBody = function() {
 // https://moonwave99.github.io/fretboard.js/documentation-fretboard.html
 window.moonwave = function() {
   const config = {
+    el: '#fretboard',
     fretCount: 24,
     middleFretColor: "#666",
     middleFretWidth: 1,
