@@ -88,23 +88,15 @@ window.addRandom = function() {
   }
 }
 
-// TODO get rid of this?
-var tabselector = null
-
 /** Stop the application and scrolling */
 window.stopRecord = function() {
   window.appcontroller.stop()
   enableButtons({ btnStop: false })
-  tabselector = new Tabselector(window.app, window.renderTab)
-  tabselector.init()
 }
 
 
-/** Remove keyboard listener. */
 window.stopEditing = function() {
-  if (!tabselector)
-    return
-  tabselector.stop()
+  window.appcontroller.stopEditing()
 }
 
 /** Toggle tabs.

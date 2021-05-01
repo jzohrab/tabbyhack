@@ -3,6 +3,7 @@ import { GuitarString } from './guitarstring.js'
 import { Tuner } from './tuner.js'
 import { Note } from './note.js'
 import { AppFretboard } from './appfretboard.js'
+import { Tabselector } from './tabselector.js'
 
 const ApplicationController = function(app) {
   const a4 = 440
@@ -20,11 +21,14 @@ const ApplicationController = function(app) {
   this.fretboard = new AppFretboard()
 
   // Vextab creates a textarea with class "editor"
-  const editors = document.getElementsByClassName("editor")
-  if (editors.length !== 1) {
+  const vexeditors = document.getElementsByClassName("editor")
+  if (vexeditors.length !== 1) {
     throw "no unique 'editor' class found"
   }
-  this.vextabeditor = editors[0]
+  this.vextabeditor = vexeditors[0]
+
+  // The editor
+  this.tabselector = null
 }
 
 ApplicationController.prototype.configure = function(config) {
@@ -86,11 +90,19 @@ ApplicationController.prototype.addNote = function(n) {
   }
 }
 
+/** Start keyboard listener. */
 ApplicationController.prototype.stop = function() {
   this.isRecording = false
   this.tuner.onFrequencyDetected = function(note) { /* no-op */ }
+
+  this.tabselector = new Tabselector(this.app, window.renderTab)
+  this.tabselector.init()
 }
 
+/** Remove keyboard listener. */
+ApplicationController.prototype.stopEditing = function() {
+  this.tabselector.stop()
+}
 
 
 ApplicationController.prototype.handleNote = function(note) {
