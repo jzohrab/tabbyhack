@@ -74,11 +74,7 @@ ApplicationController.prototype.start = function() {
     const currNoteAge = (now - self.currNoteStart)
     if (note.standard !== 0 && self.currNote.standard == note.standard && currNoteAge > self.sensitivity && !self.currNoteProcessed) {
       // console.log(`Curr note duration ${duration} exceeds min, updating`)
-      self.handleNote(self.currNote)
-      if (self.isRecording) {
-        self.app.addNote(self.currNote)
-        self.updateUI()
-      }
+      this.addNote(self.currNote)
       self.currNoteProcessed = true
     }
 
@@ -96,6 +92,13 @@ ApplicationController.prototype.start = function() {
 
 }
 
+ApplicationController.prototype.addNote = function(n) {
+  this.handleNote(n)
+  if (this.isRecording) {
+    this.app.addNote(n)
+    this.updateUI()
+  }
+}
 
 ApplicationController.prototype.stop = function() {
   this.isRecording = false
