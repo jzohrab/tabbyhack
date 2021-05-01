@@ -2,7 +2,7 @@ import { Application } from './app.js'
 import { GuitarString } from './guitarstring.js'
 import { Tuner } from './tuner.js'
 import { Note } from './note.js'
-import { Fretboard } from '@moonwave99/fretboard.js';
+import { AppFretboard } from './appfretboard.js'
 
 const ApplicationController = function(app) {
   const a4 = 440
@@ -17,21 +17,7 @@ const ApplicationController = function(app) {
   // We're only recording once the user clicks "start", but the mic is listening.
   this.isRecording = false
 
-  // The fretboard
-  // Ref https://moonwave99.github.io/fretboard.js/documentation-fretboard.html
-  const fretboardconfig = {
-    el: '#fretboard',
-    fretCount: 24,
-    middleFretColor: "#666",
-    middleFretWidth: 1,
-    width: 1500,
-    // height: 50,
-    scaleFrets: "true",
-    showFretNumbers: "false",
-    disabledOpacity: "0.4",
-  }
-  this.fretboard = new Fretboard(fretboardconfig)
-  this.fretboard.render()
+  this.fretboard = new AppFretboard()
 
   // Vextab creates a textarea with class "editor"
   const editors = document.getElementsByClassName("editor")
@@ -108,22 +94,8 @@ ApplicationController.prototype.stop = function() {
 
 
 ApplicationController.prototype.handleNote = function(note) {
-  this.drawNoteOnFretboard(note)
+  this.fretboard.drawNote(note)
   this.updateCurrentNoteDisplay(note)
-}
-
-
-/** Update the fretboard. */
-ApplicationController.prototype.drawNoteOnFretboard = function(note) {
-  console.log(`added ${JSON.stringify(note)}`)
-  // note.frets example: "frets":{"2":2,"3":7,"4":12}
-  const dots = Object.entries(note.frets).
-        map(p => [ parseInt(p[0]) + 1, p[1] ]).
-        reduce((arr, p) => { arr.push({ string: p[0], fret: p[1] }); return arr }, [])
-  this.fretboard.
-    setDots(dots).
-    render().
-    style({ fill: 'green' })
 }
 
 
