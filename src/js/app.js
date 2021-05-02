@@ -191,7 +191,7 @@ Application.prototype.vextab = function(header = '', opts = {}) {
     ...opts,
     cursor: this.cursor,
     cursorIndicator: this.cursorIndicator,
-    vexttabopts: this.options.vextabopts
+    vextabopts: this.options.vextabopts
   }
   const vs = new VextabScribe(header, finalopts)
   return vs.tab(this.line)
