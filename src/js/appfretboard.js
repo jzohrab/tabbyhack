@@ -21,7 +21,7 @@ const AppFretboard = function() {
 
 /** Update the fretboard. */
 AppFretboard.prototype.drawNote = function(note) {
-  console.log(`added ${JSON.stringify(note)}`)
+  // console.log(`added ${JSON.stringify(note)}`)
   // note.frets example: "frets":{"2":2,"3":7,"4":12}
   const dots = this.noteAllStringFrets(note)
   this.fretboard.
@@ -53,24 +53,26 @@ AppFretboard.prototype.chordStringFrets = function(notes, color) {
 
 /** Update fretboard with line of notes. */
 AppFretboard.prototype.drawLine = function(line, cursor) {
-  console.log('enter drawLine')
+  // console.log('enter drawLine')
   const dots = []
   let newdots = []
 
   const isChord = function(el) { return el instanceof Array }
 
-  console.log(`starting from cursor = ${cursor}`)
-  for (var i = cursor; i >= (cursor - 5) && i >= 0; i--) {
+  // Show the current dot (at the app cursor) plus this many old dots.
+  const olddotcount = 1
+  
+  // console.log(`starting from cursor = ${cursor}`)
+  for (var i = cursor; i <= (cursor - olddotcount) && i >= 0; i--) {
     const el = line[i]
-    console.log(`got el = ${JSON.stringify(el, null, 2)}`)
+    // console.log(`got el = ${JSON.stringify(el, null, 2)}`)
     if (i == cursor) {
       // Current position in line
       if (isChord(el)) {
-        newdots = this.chordStringFrets(el, 'yellow')
+        newdots = this.chordStringFrets(el, 'green')
       }
       else {
-        newdots = this.noteAllStringFrets(el, 'green')
-        newdots.push(this.noteSelectedStringFret(el, 'yellow'))
+        newdots.push(this.noteSelectedStringFret(el, 'green'))
       }
     }
     else {
@@ -82,15 +84,20 @@ AppFretboard.prototype.drawLine = function(line, cursor) {
         newdots.push(this.noteSelectedStringFret(el, 'red'))
       }
     }
-    console.log(`got newdots = ${JSON.stringify(newdots, null, 2)}`)
+
+    // console.log(`got newdots = ${JSON.stringify(newdots, null, 2)}`)
     const distance = cursor - i
     dots.push(newdots.map(n => { return { ...n, distance: distance } }))
   }
 
-  console.log(`got all dots = \n ${JSON.stringify(dots, null, 2)}`)
+  // console.log(`got all dots = \n ${JSON.stringify(dots, null, 2)}`)
 
+  // The dots to add could be in arrays (if chords), so must flatten
+  // .. also want to render later dots last, and we iterated
+  // backwards, so reverse it.
+  const finaldots = dots.flat().reverse()
   this.fretboard.
-    setDots(dots.flat()).
+    setDots(finaldots).
     render().
     style({
       filter: ( { color: 'red' } ),
@@ -99,10 +106,6 @@ AppFretboard.prototype.drawLine = function(line, cursor) {
     style({
       filter: ( { color: 'green' } ),
       fill: 'green'
-    }).
-    style({
-      filter: ( { color: 'yellow' } ),
-      fill: 'yellow'
     })
 
   /*

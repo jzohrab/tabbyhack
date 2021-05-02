@@ -1,6 +1,6 @@
 /** The "keyboard navigator" to select the strings to use from the rawtab. */
 
-const Tabselector = function(app, fretboard) {
+const Tabselector = function(app, fretboard, updateCallback) {
   this.app = app
 
   /** The current cursor position in the table. */
@@ -9,6 +9,10 @@ const Tabselector = function(app, fretboard) {
 
   /** The preferred strings selected by navigation. */
   this.app.noteAt(this.app.cursor).string = this.currString
+
+  /** A callback for when something updates. */
+  this.callUpdate = updateCallback
+  this.callUpdate()
 
   this.fretboard = fretboard
 
@@ -50,6 +54,7 @@ Tabselector.prototype.stop = function() {
   window.removeEventListener("keydown", this.eventListener)
   /* Update the app, so vextab can be updated. */
   this.app.cursor = null
+  this.callUpdate()
 }
 
 Tabselector.prototype.toggleChordTone = function() {
@@ -161,6 +166,9 @@ Tabselector.prototype.checkKey = function(e) {
     }
   }
 
+  if (this.callUpdate) {
+    this.callUpdate()
+  }
   this.fretboard.drawLine(this.app.line, this.app.cursor)
 
 }

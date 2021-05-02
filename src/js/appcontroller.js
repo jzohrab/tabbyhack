@@ -95,7 +95,7 @@ ApplicationController.prototype.stop = function() {
   this.isRecording = false
   this.tuner.onFrequencyDetected = function(note) { /* no-op */ }
 
-  this.tabselector = new Tabselector(this.app, this.fretboard)
+  this.tabselector = new Tabselector(this.app, this.fretboard, window.renderTab)
   this.tabselector.init()
 }
 
