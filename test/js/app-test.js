@@ -189,10 +189,10 @@ function appWithFreqs(...freqs) {
   return app
 }
 
-function getAppLine() {
+function getAppLine(line = app.line) {
   const ret = []
-  for (var i = 0; i < app.line.length; i++) {
-    const e = app.line[i]
+  for (var i = 0; i < line.length; i++) {
+    const e = line[i]
     if (e instanceof Array) {
       ret.push(e.map(n => n.frequency))
     }
@@ -379,6 +379,11 @@ test('noteAt', t => {
   t.equal(app.noteAt(1).frequency, Bhz, 'first note of chord')
   t.equal(app.noteAt(2).frequency, Ghz, 'Last note')
   t.end()
+})
+
+
+test.skip('editorwindow', t => {
+
 })
 
 /*
