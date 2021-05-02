@@ -66,31 +66,17 @@ AppFretboard.prototype.drawLine = function(line, cursor) {
 
   // console.log(`starting from cursor = ${cursor}`)
   for (var i = cursor; i >= (cursor - olddotcount) && i >= 0; i--) {
-    let newdots = []
-
     const el = line[i]
     // console.log(`got el = ${JSON.stringify(el, null, 2)}`)
-    if (i == cursor) {
-      // Current position in line
-      if (isChord(el)) {
-        newdots = this.chordStringFrets(el, currcolor)
-      }
-      else {
-        newdots.push(this.noteSelectedStringFret(el, currcolor))
-      }
+    const color = (i == cursor) ? currcolor : oldcolor
+    let newdots = null
+    if (isChord(el)) {
+      newdots = this.chordStringFrets(el, color)
     }
     else {
-      // Older notes (before cursor)
-      if (isChord(el)) {
-        newdots = this.chordStringFrets(el, oldcolor)
-      }
-      else {
-        newdots.push(this.noteSelectedStringFret(el, oldcolor))
-      }
+      newdots = [ this.noteSelectedStringFret(el, color) ]
     }
-
     // console.log(`got newdots = ${JSON.stringify(newdots, null, 2)}`)
-    const distance = cursor - i
     dots.push(newdots.map(n => { return { ...n, disabled: (i < cursor) } }))
   }
 
