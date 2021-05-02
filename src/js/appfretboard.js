@@ -55,39 +55,43 @@ AppFretboard.prototype.chordStringFrets = function(notes, color) {
 AppFretboard.prototype.drawLine = function(line, cursor) {
   // console.log('enter drawLine')
   const dots = []
-  let newdots = []
 
   const isChord = function(el) { return el instanceof Array }
 
   // Show the current dot (at the app cursor) plus this many old dots.
   const olddotcount = 1
-  
+
+  const currcolor = 'red'
+  const oldcolor = 'green'
+
   // console.log(`starting from cursor = ${cursor}`)
   for (var i = cursor; i >= (cursor - olddotcount) && i >= 0; i--) {
+    let newdots = []
+
     const el = line[i]
     // console.log(`got el = ${JSON.stringify(el, null, 2)}`)
     if (i == cursor) {
       // Current position in line
       if (isChord(el)) {
-        newdots = this.chordStringFrets(el, 'green')
+        newdots = this.chordStringFrets(el, currcolor)
       }
       else {
-        newdots.push(this.noteSelectedStringFret(el, 'green'))
+        newdots.push(this.noteSelectedStringFret(el, currcolor))
       }
     }
     else {
       // Older notes (before cursor)
       if (isChord(el)) {
-        newdots = this.chordStringFrets(el, 'red')
+        newdots = this.chordStringFrets(el, oldcolor)
       }
       else {
-        newdots.push(this.noteSelectedStringFret(el, 'red'))
+        newdots.push(this.noteSelectedStringFret(el, oldcolor))
       }
     }
 
     // console.log(`got newdots = ${JSON.stringify(newdots, null, 2)}`)
     const distance = cursor - i
-    dots.push(newdots.map(n => { return { ...n, distance: distance } }))
+    dots.push(newdots.map(n => { return { ...n, disabled: (i < cursor) } }))
   }
 
   // console.log(`got all dots = \n ${JSON.stringify(dots, null, 2)}`)
@@ -100,12 +104,12 @@ AppFretboard.prototype.drawLine = function(line, cursor) {
     setDots(finaldots).
     render().
     style({
-      filter: ( { color: 'red' } ),
-      fill: 'red'
+      filter: ( { color: oldcolor } ),
+      fill: oldcolor
     }).
     style({
-      filter: ( { color: 'green' } ),
-      fill: 'green'
+      filter: ( { color: currcolor } ),
+      fill: currcolor
     })
 
   /*
