@@ -63,7 +63,7 @@ AppFretboard.prototype.drawLine = function(line, cursor) {
   const olddotcount = 1
   
   // console.log(`starting from cursor = ${cursor}`)
-  for (var i = cursor; i <= (cursor - olddotcount) && i >= 0; i--) {
+  for (var i = cursor; i >= (cursor - olddotcount) && i >= 0; i--) {
     const el = line[i]
     // console.log(`got el = ${JSON.stringify(el, null, 2)}`)
     if (i == cursor) {

@@ -15,6 +15,7 @@ const Tabselector = function(app, fretboard, updateCallback) {
   this.callUpdate()
 
   this.fretboard = fretboard
+  this.fretboard.drawLine(this.app.line, this.app.cursor)
 
   /** Listen to keyboard events. */
   // bind required here to ensure that "this" in the checkKey method
