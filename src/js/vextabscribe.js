@@ -7,10 +7,16 @@ const VextabScribe = function(header, opts = {}) {
  /**
  * get vextab for data.
  */
-VextabScribe.prototype.tab = function(line) {
+VextabScribe.prototype.tab = function(line, startIndex = 0, endIndex = null) {
   if (line.length == 0) {
     return this.header
   }
+
+  if (startIndex < 0)
+    startIndex = 0
+  endIndex = (endIndex == null ? line.length : endIndex)
+  if (endIndex > line.length)
+    endIndex = line.length
 
   const maxstafflength = this.opts.stafflength || 24
   const result = []
@@ -24,7 +30,7 @@ VextabScribe.prototype.tab = function(line) {
     }
   }
 
-  for (var i = 0; i < line.length; i++) {
+  for (var i = startIndex; i < endIndex; i++) {
     const sn = line[i]
 
     const is_chord = (sn instanceof Array)

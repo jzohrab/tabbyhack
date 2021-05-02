@@ -393,24 +393,26 @@ test('editorwindow', t => {
   const fullLine = [ Ghz, [ Bhz, Ehz ], Ghz, Bhz ]
   assertAppLineEquals(t, fullLine, 'sanity check')
 
-  function assertWindow(pos, width, expLine, expBefore, expAfter) {
+  function assertWindow(pos, width, expLine, expBefore, expAfter, expStartIndex, expEndIndex) {
     const msg = `${pos}, ${width} `
     const w = app.editorWindow(pos, width)
     t.deepEqual(getAppLine(w.line), expLine, msg + 'line')
     t.equal(w.before, expBefore, msg + 'before window')
     t.equal(w.after, expAfter, msg + 'after window')
+    t.equal(w.startIndex, expStartIndex, msg + 'start index')
+    t.equal(w.endIndex, expEndIndex, msg + 'end index')
   }
 
-  assertWindow(2, 1, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0)
-  assertWindow(2, 2, fullLine, 0, 0)
-  assertWindow(0, 2, [ Ghz, [ Bhz, Ehz ], Ghz ], 0, 1)
-  assertWindow(5, 2, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0)
-  assertWindow(2, 20, fullLine, 0, 0)
-  assertWindow(3, 2, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0)
+  assertWindow(2, 2, fullLine, 0, 0, 0, fullLine.length)
+  assertWindow(2, 1, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0, 1, 4)
+  assertWindow(0, 2, [ Ghz, [ Bhz, Ehz ], Ghz ], 0, 1, 0, 3)
+  assertWindow(5, 2, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0, 1, 4)
+  assertWindow(2, 20, fullLine, 0, 0, 0, 4)
+  assertWindow(3, 2, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0, 1, 4)
 
   // Edge cases for fun.
   for (var i = 0; i < fullLine.length; i++) {
-    assertWindow(i, 0, [ fullLine[i] ], i, fullLine.length - (i + 1))
+    assertWindow(i, 0, [ fullLine[i] ], i, fullLine.length - (i + 1), i, i + 1)
   }
   
   t.end()

@@ -205,7 +205,13 @@ Application.prototype.editorWindow = function(pos = 0, width = 10) {
   const usePos = Math.min(Math.max(0, pos), this.line.length - 1)
   const before = Math.max(0, usePos - width)
   const after = Math.max(this.line.length - (usePos + 1) - width, 0)
-  const ret = { line: [], before: before, after: after }
+  const ret = {
+    line: [],
+    before: before,
+    after: after,
+    startIndex: 0,
+    endIndex: 0
+  }
 
   if (this.line.length == 0) {
     return ret
@@ -214,6 +220,8 @@ Application.prototype.editorWindow = function(pos = 0, width = 10) {
   // eg ['a','b','c','d','e','f','g','h'].slice(2, 5) = ['c','d','e']
   const startSlice = Math.max(usePos - width, 0)
   const endSlice = Math.min(usePos + width + 1, this.line.length)
+  ret.startIndex = startSlice
+  ret.endIndex = endSlice
   ret.line = this.line.slice(startSlice, endSlice)
 
   return ret
