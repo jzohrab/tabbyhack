@@ -255,3 +255,12 @@ div#fretboard div.fretboard-html-wrapper svg {
     height: 100%;
     vertical-align:top;
 }
+
+
+/* Mini editor */
+/* stolen from http://jsfiddle.net/ogL5w6ja/2/ */
+.vexbox {
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}

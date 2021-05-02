@@ -4,6 +4,7 @@ import { Tuner } from './tuner.js'
 import { Note } from './note.js'
 import { AppFretboard } from './appfretboard.js'
 import { Tabselector } from './tabselector.js'
+import { VextabScribe } from './vextabscribe.js'
 
 const ApplicationController = function(app) {
   const a4 = 440
@@ -20,12 +21,14 @@ const ApplicationController = function(app) {
 
   this.fretboard = new AppFretboard()
 
-  // Vextab creates a textarea with class "editor"
+  // Vextab creates a textarea with class "editor".
+  // There are 2 editors onscreen: the mini editor, and the large editor.
   const vexeditors = document.getElementsByClassName("editor")
-  if (vexeditors.length !== 1) {
+  if (vexeditors.length !== 2) {
     throw "no unique 'editor' class found"
   }
-  this.vextabeditor = vexeditors[0]
+  this.minieditor = vexeditors[0]
+  this.vextabeditor = vexeditors[1]
 
   // The editor
   this.tabselector = null
@@ -119,10 +122,36 @@ ApplicationController.prototype.updateCurrentNoteDisplay = function(note) {
   this.$rawnote.innerHTML = `Current: ${notedesc}`
 }
 
+
+/**
+ * Update the mini vextab editor.
+ */
+ApplicationController.prototype.writeVextabMini = function() {
+  const opts = {
+    cursor: this.app.cursor,
+    cursorIndicator: this.app.cursorIndicator
+  }
+  const scribe = new VextabScribe('tabstave notation=true', opts)
+  const line = this.app.line
+  const w = this.app.editorWindow(this.app.cursor || line.length, 10)
+  const vt = scribe.tab(w.line)
+  if (vt === '') {
+    return
+  }
+  this.minieditor.value = vt
+
+  // Simulate a keypress in the mini editor so that the canvas is updated.
+  // ref https://github.com/0xfe/mini/blob/master/src/div.js
+  this.minieditor.dispatchEvent(new KeyboardEvent('keyup'));
+}
+
+
 /**
  * Update the vextab editor.
  */
 ApplicationController.prototype.writeVextab = function() {
+  this.writeVextabMini()  // TODO - move this call to somewhere better
+
   const vt = this.app.vextab('tabstave notation=true')
   if (vt === '') {
     return
