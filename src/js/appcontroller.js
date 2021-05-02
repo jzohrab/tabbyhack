@@ -95,7 +95,7 @@ ApplicationController.prototype.stop = function() {
   this.isRecording = false
   this.tuner.onFrequencyDetected = function(note) { /* no-op */ }
 
-  this.tabselector = new Tabselector(this.app, window.renderTab)
+  this.tabselector = new Tabselector(this.app, this.fretboard)
   this.tabselector.init()
 }
 
@@ -137,73 +137,6 @@ ApplicationController.prototype.writeVextab = function() {
 
 ApplicationController.prototype.updateUI = function() {
   this.writeVextab()
-}
-
-
-/** SAMPLE CODE to be integrated */
-// When the user is editing and the cursor changes, get the notes and update the fretboard.
-ApplicationController.prototype.TODO_fix_this = function() {
-  const config = {
-    el: '#fretboard',
-    fretCount: 24,
-    middleFretColor: "#666",
-    middleFretWidth: 1,
-    width: 2000,
-    scaleFrets: "true",
-    disabledOpacity: "0.4",
-  }
-  const fretboard = new Fretboard(config);
-
-  /*
-  const dots = [
-    { string: 5, fret: 3 }, { string: 4, fret: 2 }, {string: 3, fret: 0}, { string: 2, fret: 1 }
-  ].map(e => { return { ...e, group: 1, disabled: true } })
-  */
-  // "distance" means the distance from the current note ... that is, this is "priordots", in order before they appear before the current dots.
-  const prior = [ 2, 3, 4, 5,6,7 ].map((e, i) => { return { string: 5, fret: e, distance: 6 - i } })
-  const current = [
-    { string: 5, fret: 8 }, {string: 5, fret:9}, { string: 4, fret: 7 }, {string: 3, fret: 5}, { string: 2, fret: 6 }
-  ].map(e => { return { ...e, distance: 0 } })
-  const alldots = prior.concat(current)
-  // console.log(JSON.stringify(alldots,null,2))
-  fretboard.
-    setDots(alldots).
-    // .setDots(current)
-    render().
-    style({
-      // this gives us just the root notes
-      // filter: ({ interval: '1P' }),
-      filter: ( { distance } ) => distance > 0,
-      // displays the note name
-      // text: ({ note }) => note,
-      // sets the value of the fill attribute
-      fill: 'red'
-    }).
-    style({
-      // this gives us just the root notes
-      // filter: ({ interval: '1P' }),
-      filter: ( { distance } ) => distance === 0,
-      // displays the note name
-      // text: ({ note }) => note,
-      // sets the value of the fill attribute
-      fill: 'green'
-    })
-
-  // Set opacity so that the further back you go, things fade out.
-  // dot distances map to opacity
-  const opacityForDistance = (n) => {
-    if (n == 0)
-      return 1
-    return 0.5 - 0.05 * n
-  }
-  for (var d = 0; d <= 10; ++d) {
-    const cn = `dot-distance-${d}`
-    console.log('setting opacity for ' + cn)
-    var els = document.getElementsByClassName(cn)
-    for (var i = 0; i < els.length; i++) {
-      els[i].setAttribute("opacity", opacityForDistance(d))
-    }
-  }
 }
 
 module.exports = { ApplicationController }
