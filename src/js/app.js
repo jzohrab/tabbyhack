@@ -1,5 +1,6 @@
 const { GuitarString } = require('./guitarstring.js')
 const { Note } = require('./note.js')
+const { VextabScribe } = require('./vextabscribe.js')
 
 /**
  * Main application.
@@ -186,60 +187,14 @@ Application.prototype.noteAt = function(i) {
  * Generate vextab "notes" string.
  */
 Application.prototype.vextab = function(header = '', opts = {}) {
-  if (this.line.length == 0) {
-    return header
+  const finalopts = {
+    ...opts,
+    cursor: this.cursor,
+    cursorIndicator: this.cursorIndicator,
+    vexttabopts: this.options.vextabopts
   }
-
-  const maxstafflength = opts.stafflength || 24
-  const result = []
-  let currstaff = []
-  let currcount = 0
-  result.push(currstaff)
-
-  addDuration = function(s, note) {
-    if (note.duration) {
-      s.push(`:${note.duration}`)
-    }
-  }
-
-  for (var i = 0; i < this.line.length; i++) {
-    const sn = this.line[i]
-
-    const is_chord = (sn instanceof Array)
-
-    if (!is_chord) {
-      addDuration(currstaff, sn)
-      currstaff.push(sn.vextab())
-      currcount++
-    }
-    else {
-      addDuration(currstaff, sn[0])
-      const t = '(' + sn.map(n => n.vextab()).join('.') + ')'
-      currstaff.push(t)
-      currcount++
-    }
-
-    if (this.cursor !== null && this.cursor == i)
-      currstaff.push(this.cursorIndicator)
-
-    const isLastNote = (i == this.line.length - 1)
-    if (currcount >= maxstafflength && !isLastNote) {
-      currstaff = []
-      currcount = 0
-      result.push(currstaff)
-    }
-
-  }
-
-  let heading = header || ''
-  if (this.options.vextabopts)
-    heading = `${heading} ${this.options.vextabopts}`
-  if (heading !== '' && this.line.length > 0)
-    heading += '\nnotes '
-
-  return result.
-    map(staff => `${heading}${staff.join(' ')}`).
-    join('\n\n')
+  const vs = new VextabScribe(header, finalopts)
+  return vs.tab(this.line)
 }
 
 
