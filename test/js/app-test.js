@@ -382,8 +382,28 @@ test('noteAt', t => {
 })
 
 
-test.skip('editorwindow', t => {
+test('editorwindow', t => {
+  app = appWithFreqs(Ghz, Bhz, Ehz, Ghz, Bhz)
+  strings = [2,1,0,2,2]
+  for (var i = 0; i < strings.length; i++) {
+    app.line[i].string = strings[i]
+  }
+  app.toggleChord(2)
+  assertAppLineEquals(t, [ Ghz, [ Bhz, Ehz ], Ghz, Bhz ], 'sanity check')
 
+  const w = app.editorWindow(2, 1) // cursor position, width
+  t.deepEqual(getAppLine(w.line), [ [ Bhz, Ehz ], Ghz, Bhz ])
+  t.equal(w.before, 1, '1 note before window')
+  t.equal(w.after, 0, '0 notes after window')
+  const actual = getAppLine(w.line)
+
+  // 2, 2
+  // 0, 2  // beginning
+  // 5, 2
+  // 2, 20 // long
+  // 3, 2  // end
+
+  t.end()
 })
 
 /*
