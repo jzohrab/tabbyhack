@@ -392,19 +392,19 @@ test('editorwindow', t => {
   assertAppLineEquals(t, [ Ghz, [ Bhz, Ehz ], Ghz, Bhz ], 'sanity check')
 
   function assertWindow(pos, width, expLine, expBefore, expAfter) {
+    const msg = `${pos}, ${width} `
     const w = app.editorWindow(pos, width)
-    t.deepEqual(getAppLine(w.line), expLine, 'line')
-    t.equal(w.before, expBefore, 'before window')
-    t.equal(w.after, expAfter, 'after window')
+    t.deepEqual(getAppLine(w.line), expLine, msg + 'line')
+    t.equal(w.before, expBefore, msg + 'before window')
+    t.equal(w.after, expAfter, msg + 'after window')
   }
 
   assertWindow(2, 1, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0)
-
-  // 2, 2
-  // 0, 2  // beginning
-  // 5, 2
-  // 2, 20 // long
-  // 3, 2  // end
+  assertWindow(2, 2, [ Ghz, [ Bhz, Ehz ], Ghz, Bhz ], 0, 0)
+  assertWindow(0, 2, [ Ghz, [ Bhz, Ehz ], Ghz ], 0, 1)
+  assertWindow(5, 2, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0)
+  assertWindow(2, 20, [ Ghz, [ Bhz, Ehz ], Ghz, Bhz ], 0, 0)
+  assertWindow(3, 2, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0)
 
   t.end()
 })
