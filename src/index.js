@@ -82,7 +82,7 @@ window.addRandom = function() {
   count = parseInt(count, 10)
   startRecord()
   for (var i = 0; i < count; i++) {
-    const freq = Math.floor(Math.random() * 50) + 200
+    const freq = Math.floor(Math.random() * 200) + 200
     const n = window.app.buildNote(freq)
     window.appcontroller.addNote(n)
   }
