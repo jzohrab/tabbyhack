@@ -193,6 +193,7 @@ Application.prototype.vextab = function(header = '', opts = {}) {
   const maxstafflength = opts.stafflength || 24
   const result = []
   let currstaff = []
+  let currcount = 0
   result.push(currstaff)
 
   addDuration = function(s, note) {
@@ -209,19 +210,22 @@ Application.prototype.vextab = function(header = '', opts = {}) {
     if (!is_chord) {
       addDuration(currstaff, sn)
       currstaff.push(sn.vextab())
+      currcount++
     }
     else {
       addDuration(currstaff, sn[0])
       const t = '(' + sn.map(n => n.vextab()).join('.') + ')'
       currstaff.push(t)
+      currcount++
     }
 
     if (this.cursor !== null && this.cursor == i)
       currstaff.push(this.cursorIndicator)
 
     const isLastNote = (i == this.line.length - 1)
-    if (currstaff.length >= maxstafflength && !isLastNote) {
+    if (currcount >= maxstafflength && !isLastNote) {
       currstaff = []
+      currcount = 0
       result.push(currstaff)
     }
 
