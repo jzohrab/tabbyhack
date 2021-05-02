@@ -391,11 +391,14 @@ test('editorwindow', t => {
   app.toggleChord(2)
   assertAppLineEquals(t, [ Ghz, [ Bhz, Ehz ], Ghz, Bhz ], 'sanity check')
 
-  const w = app.editorWindow(2, 1) // cursor position, width
-  t.deepEqual(getAppLine(w.line), [ [ Bhz, Ehz ], Ghz, Bhz ])
-  t.equal(w.before, 1, '1 note before window')
-  t.equal(w.after, 0, '0 notes after window')
-  const actual = getAppLine(w.line)
+  function assertWindow(pos, width, expLine, expBefore, expAfter) {
+    const w = app.editorWindow(pos, width)
+    t.deepEqual(getAppLine(w.line), expLine, 'line')
+    t.equal(w.before, expBefore, 'before window')
+    t.equal(w.after, expAfter, 'after window')
+  }
+
+  assertWindow(2, 1, [ [ Bhz, Ehz ], Ghz, Bhz ], 1, 0)
 
   // 2, 2
   // 0, 2  // beginning
