@@ -80,6 +80,10 @@ AppFretboard.prototype.drawLine = function(line, cursor) {
     dots.push(newdots.map(n => { return { ...n, disabled: (i < cursor) } }))
   }
 
+  if (!isChord(line[cursor])) {
+    dots.push(this.noteAllStringFrets(line[cursor], 'white'))
+  }
+
   // console.log(`got all dots = \n ${JSON.stringify(dots, null, 2)}`)
 
   // The dots to add could be in arrays (if chords), so must flatten
