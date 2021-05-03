@@ -4,7 +4,7 @@ const Tabselector = function(app, fretboard, updateCallback) {
   this.app = app
 
   /** The current cursor position in the table. */
-  this.currString = this.getGoodStringForNote(this.app.notes()[0], 0, false)
+  this.currString = this.getGoodStringForNote(this.app.line[0], 0, false)
   this.app.cursor = 0
 
   /** The preferred strings selected by navigation. */

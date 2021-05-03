@@ -29,9 +29,6 @@ const Application = function(opts = {}) {
   // The "line" of notes (i.e., the notes grouped into chords, or single tones.
   this.line = []
 
-  // Callbacks, can be overridden.  (Currently unused, remove?  TODO)
-  this.noteAdded = (n) => { /* no-op by default. */ }
-
   // The "cursor position" when editing notes.
   this.cursorIndicator = null  // '$.a-/bottom.$'
   this.cursor = null
@@ -42,12 +39,6 @@ Application.prototype.configure = function(config) {
   this.options = config
   this.options.min = this.options.min || 0
   this.options.max = this.options.max || 12
-}
-
-
-Application.prototype.notes = function(f) {
-  console.log('TODO remove app.notes() if possible.')
-  return this.line.flat()
 }
 
 
@@ -91,7 +82,6 @@ Application.prototype.addNote = function(note) {
   
   this.line.push(note)
   this.cursor = this.line.length - 1
-  this.noteAdded(note)
 }
 
   
