@@ -262,5 +262,9 @@ div#fretboard div.fretboard-html-wrapper svg {
 .vexbox {
   align-items: center;
   justify-content: center;
-  height: 300px;
+}
+
+div#vextabmini p {
+    display: none;
+    margin: 0px !important;
 }

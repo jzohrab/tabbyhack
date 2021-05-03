@@ -28,6 +28,9 @@ const ApplicationController = function(app) {
     throw "no unique 'editor' class found"
   }
   this.minieditor = vexeditors[0]
+  this.minieditor.style.display = 'none'
+  this.writeVextabMini()
+
   this.vextabeditor = vexeditors[1]
 
   // The editor
@@ -134,9 +137,6 @@ ApplicationController.prototype.writeVextabMini = function() {
   const scribe = new VextabScribe('tabstave notation=true', opts)
   const indices = this.app.editorWindowIndices(this.app.line.length, this.app.cursor, 21)
   const vt = scribe.tab(this.app.line, indices.start, indices.end)
-  if (vt === '') {
-    return
-  }
   this.minieditor.value = vt
 
   // Simulate a keypress in the mini editor so that the canvas is updated.
