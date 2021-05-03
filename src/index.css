@@ -3,6 +3,7 @@ body {
 }
 
 #rawnote {
+    display: none;
     font-style: italic;
     font-size: 10pt;
     float: right;

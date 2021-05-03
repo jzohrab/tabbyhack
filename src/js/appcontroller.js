@@ -108,14 +108,17 @@ ApplicationController.prototype.stop = function() {
   const self = this
   const callback = () => { self.updateUI() }
 
-  this.tabselector = new Tabselector(this.app, this.fretboard, callback)
-
-  this.tabselector.init()
+  if (this.app.line.length > 0) {
+    this.tabselector = new Tabselector(this.app, this.fretboard, callback)
+    this.tabselector.init()
+  }
 }
 
 /** Remove keyboard listener. */
 ApplicationController.prototype.stopEditing = function() {
-  this.tabselector.stop()
+  if (this.tabselector) {
+    this.tabselector.stop()
+  }
 }
 
 
