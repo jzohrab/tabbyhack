@@ -268,3 +268,17 @@ div#vextabmini p {
     display: none;
     margin: 0px !important;
 }
+
+.prog-border {
+    border:1px solid #ccc!important;
+    width: 580px;
+    margin-bottom: 20px;
+}
+
+#prog-bar {
+    color:#000!important;
+    height:5px;
+    width:0%;
+    background-color:green!important;
+}
+

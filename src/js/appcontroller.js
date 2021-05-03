@@ -150,6 +150,13 @@ ApplicationController.prototype.writeVextabMini = function() {
   // Simulate a keypress in the mini editor so that the canvas is updated.
   // ref https://github.com/0xfe/mini/blob/master/src/div.js
   this.minieditor.dispatchEvent(new KeyboardEvent('keyup'));
+
+  // If we're not recording, we're editing ... update the progress bar.
+  if (!this.isRecording) {
+    // Assume that everything to the left of the cursor has had a string assigned.
+    const w = Math.floor(100 * (this.app.cursor + 1)/ this.app.line.length)
+    document.getElementById('prog-bar').style.width = `${w}%`
+  }
 }
 
 
