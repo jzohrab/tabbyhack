@@ -98,8 +98,9 @@ window.stopRecord = function() {
 window.stopEditing = function() {
   window.appcontroller.stopEditing()
   window.renderTab()
-  const e = document.getElementById("tabList");
-  e.scrollIntoView();
+  const e = document.getElementById("tabOutputDiv")
+  e.style.display = 'block'
+  e.scrollIntoView()
 }
 
 /** Toggle tabs.
