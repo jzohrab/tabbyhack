@@ -83,22 +83,24 @@
       </div>
 
       <!-- Tab links -->
-      <div class="tab">
-        <button id="btnVextab" class="tablinks" onclick="openTab('btnVextab', 'finalvextab')">Vextab</button>
-        <button id="btnAscii" class="tablinks" onclick="openTab('btnAscii', 'finaltab')">Ascii</button>
-      </div>
-
-      <div id="finaltab" class="tabcontent">
-        <div id="tabdest"></div>
-        <div id="controls-tab">
-          <button type="button" id="btnCopy" onclick="copyTab();" disabled>Copy</button>&nbsp;<span id="copied">Copied!</span>
+      <div id="tabOutputDiv">
+        <div id="tabList" class="tab">
+          <button id="btnVextab" class="tablinks" onclick="openTab('btnVextab', 'finalvextab')">Vextab</button>
+          <button id="btnAscii" class="tablinks" onclick="openTab('btnAscii', 'finaltab')">Ascii</button>
         </div>
-      </div>
 
-      <div id="finalvextab" class="tabcontent">
-        <div id="vextabdest" class="vextab-auto" width=700 scale=0.8 editor="true" editor-width=750 editor-height=100>
+        <div id="finaltab" class="tabcontent">
+          <div id="tabdest"></div>
+          <div id="controls-tab">
+            <button type="button" id="btnCopy" onclick="copyTab();" disabled>Copy</button>&nbsp;<span id="copied">Copied!</span>
+          </div>
         </div>
-      </div>
+
+        <div id="finalvextab" class="tabcontent">
+          <div id="vextabdest" class="vextab-auto" width=700 scale=0.8 editor="true" editor-width=750 editor-height=100>
+          </div>
+        </div>
+      </div>  <!-- tabOutputDiv -->
 
       <!-- Popup content -->
       <div id="menuUsage" class="popupContent">

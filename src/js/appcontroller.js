@@ -177,7 +177,7 @@ ApplicationController.prototype.writeVextab = function() {
 
 
 ApplicationController.prototype.updateUI = function() {
-  this.writeVextab()
+  // this.writeVextab()
   this.writeVextabMini()
 }
 

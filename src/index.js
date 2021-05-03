@@ -97,6 +97,9 @@ window.stopRecord = function() {
 
 window.stopEditing = function() {
   window.appcontroller.stopEditing()
+  window.renderTab()
+  const e = document.getElementById("tabList");
+  e.scrollIntoView();
 }
 
 /** Toggle tabs.
