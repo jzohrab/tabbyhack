@@ -100,6 +100,7 @@ ApplicationController.prototype.addNote = function(n) {
 ApplicationController.prototype.stop = function() {
   this.isRecording = false
   this.tuner.onFrequencyDetected = function(note) { /* no-op */ }
+  this.app.cursorIndicator = '$.a-/bottom.$'
 
   // Create a callback for UI updates when the tabselector does its thing.
   // Fancy code ... if we just pass in "this.updateUI" as the callback,

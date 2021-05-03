@@ -33,7 +33,7 @@ const Application = function(opts = {}) {
   this.noteAdded = (n) => { /* no-op by default. */ }
 
   // The "cursor position" when editing notes.
-  this.cursorIndicator = '$.a-/bottom.$'  // default fermata
+  this.cursorIndicator = null  // '$.a-/bottom.$'
   this.cursor = null
 }
 
@@ -90,6 +90,7 @@ Application.prototype.addNote = function(note) {
   this.addFrets(note)
   
   this.line.push(note)
+  this.cursor = this.line.length - 1
   this.noteAdded(note)
 }
 
