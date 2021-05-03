@@ -44,7 +44,37 @@
         <p>Use fret range:
           min = <input type="text" style="width: 20px;" id="minFret" value="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />,
           max = <input type="text" style="width: 20px;" id="maxFret" value="12" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />.
-          &nbsp; Extra tabbing options: <input type="text" style="width: 250px;" id="vextabopts" />
+
+          Key: 
+          <select id="tabkey">
+            <option value="" selected>(none)</option>
+            <option value="C">C</option>
+            <option value="F">F</option>
+            <option value="Bb">Bb</option>
+            <option value="Eb">Eb</option>
+            <option value="Ab">Ab</option>
+            <option value="Db">Db</option>
+            <option value="Gb">Gb</option>
+            <option value="Cb">Cb</option>
+            <option value="G">G</option>
+            <option value="D">D</option>
+            <option value="A">A</option>
+            <option value="E">E</option>
+            <option value="B">B</option>
+            <option value="F#">F#</option>
+            <option value="C#">C#</option>
+          </select>
+
+          Time: 
+          <select id="tabtime">
+            <option value="" selected>(none)</option>
+            <option value="4/4">4/4</option>
+            <option value="3/4">3/4</option>
+            <option value="2/4">2/4</option>
+            <option value="12/8">12/8</option>
+            <option value="12/8">6/8</option>
+          </select>
+
         </p>
         <div class="slidecontainer">
           Mic sensitivity:

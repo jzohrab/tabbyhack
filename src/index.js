@@ -41,10 +41,19 @@ const getConfig = function() {
   const opt = function(name, defaultVal) {
     return document.getElementById(name).value || defaultVal
   }
+
+  let v = ''
+  const tabkey = opt('tabkey', '')
+  const tabtime = opt('tabtime', '')
+  if (tabkey !== '')
+    v += `key=${tabkey}`
+  if (tabtime !== '')
+    v += ` time=${tabtime}`
+
   return {
     min: opt('minFret', 0),
     max: opt('maxFret', 0),
-    vextabopts: opt('vextabopts', null)
+    vextabopts: v
   }
 }
 
