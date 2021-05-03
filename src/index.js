@@ -61,7 +61,7 @@ window.startRecord = function() {
   window.app.configure(opts)
   window.appcontroller.configure(opts)
   window.appcontroller.startRecording()
-  enableButtons({ btnStart: false, btnStop: true })
+  enableButtons({ btnStart: false, btnStop: true, btnFreeze: false })
 }
 
 window.printRecord = function() {
@@ -91,7 +91,7 @@ window.addRandom = function() {
 /** Stop the application and scrolling */
 window.stopRecord = function() {
   window.appcontroller.stop()
-  enableButtons({ btnStop: false })
+  enableButtons({ btnStop: false, btnFreeze: true })
 }
 
 

@@ -54,7 +54,7 @@ Tabselector.prototype.init = function() {
 Tabselector.prototype.stop = function() {
   window.removeEventListener("keydown", this.eventListener)
   /* Update the app, so vextab can be updated. */
-  this.app.cursor = null
+  this.app.cursorIndicator = null
   this.callUpdate()
 }
 
