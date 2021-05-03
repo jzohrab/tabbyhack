@@ -132,9 +132,8 @@ ApplicationController.prototype.writeVextabMini = function() {
     cursorIndicator: this.app.cursorIndicator
   }
   const scribe = new VextabScribe('tabstave notation=true', opts)
-  const w = this.app.editorWindow(this.app.cursor || this.app.line.length, 10)
-  console.log(`window: ${JSON.stringify(w, null, 2)}`)
-  const vt = scribe.tab(this.app.line, w.startIndex, w.endIndex)
+  const indices = this.app.editorWindowIndices(this.app.line.length, this.app.cursor, 21)
+  const vt = scribe.tab(this.app.line, indices.start, indices.end)
   if (vt === '') {
     return
   }
