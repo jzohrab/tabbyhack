@@ -142,9 +142,11 @@ ApplicationController.prototype.updateCurrentNoteDisplay = function(note) {
  */
 ApplicationController.prototype.writeVextabMini = function() {
   const opts = {
+    ...window.getConfig(),
     cursor: this.app.cursor,
     cursorIndicator: this.app.cursorIndicator
   }
+  // console.log(JSON.stringify(opts,null,2))
   const scribe = new VextabScribe('tabstave notation=true', opts)
   const indices = this.app.editorWindowIndices(this.app.line.length, this.app.cursor, 21)
   const vt = scribe.tab(this.app.line, indices.start, indices.end)

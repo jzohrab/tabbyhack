@@ -37,7 +37,7 @@ const enableButtons = function(hsh) {
 
 
 /** Build app config from UI settings. */
-const getConfig = function() {
+window.getConfig = function() {
   const opt = function(name, defaultVal) {
     return document.getElementById(name).value || defaultVal
   }
@@ -75,7 +75,7 @@ window.startRecord = function() {
   const i = "<p>When done recording, click 'Stop'.</p>"
   setUserInstructions(i)
 
-  const opts = getConfig()
+  const opts = window.getConfig()
   window.app.configure(opts)
   window.appcontroller.configure(opts)
   window.appcontroller.startRecording()
