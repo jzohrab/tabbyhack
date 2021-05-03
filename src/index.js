@@ -55,8 +55,17 @@ window.updateMicSensitivity = function(s) {
   window.appcontroller.start()
 }
 
+
+function setUserInstructions(html) {
+  const e = document.getElementById("userInstructions")
+  e.innerHTML = html
+}
+
 /** Start the application */
 window.startRecord = function() {
+  const i = "<p>When done recording, click 'Stop'.</p>"
+  setUserInstructions(i)
+
   const opts = getConfig()
   window.app.configure(opts)
   window.appcontroller.configure(opts)
@@ -90,12 +99,18 @@ window.addRandom = function() {
 
 /** Stop the application and scrolling */
 window.stopRecord = function() {
+  const i = "<p>You can edit the tab using the keyboard (see Editing).  When done editing, click 'Done'.</p>"
+  setUserInstructions(i)
+
   window.appcontroller.stop()
   enableButtons({ btnStop: false, btnFreeze: true })
 }
 
 
 window.stopEditing = function() {
+  const i = "<p>Your tab is below.  Thanks for using Tabbyhack!</p>"
+  setUserInstructions(i)
+
   window.appcontroller.stopEditing()
   window.renderTab()
   const e = document.getElementById("tabOutputDiv")

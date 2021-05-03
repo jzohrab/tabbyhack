@@ -53,15 +53,15 @@
         </div>
       </div>
 
+      <div id="userInstructions">
+        <p>Enter your setting above (frets, tabbing options), and click 'Start', and start playing ... slowly-ish, a single note at a time.</p>
+      </div>
+
       <div id="userControls">
         <button type="button" id="btnStart" onclick="startRecord();">Start</button>
         <button type="button" id="btnStop" onclick="stopRecord();" disabled>Stop</button>
         <button type="button" id="btnFreeze" onclick="stopEditing();" disabled>Done</button>
         <span id="rawnote">Current note: </span>
-      </div>
-
-      <div id="keyboardcontrols">
-        <p>When you click &quot;Stop&quot;, you can edit the notes &mdash; see <a href="#" onclick="openPopup('menuUsage');">Usage</a> for available keys.</p>
       </div>
 
       <!-- mini editor -->
