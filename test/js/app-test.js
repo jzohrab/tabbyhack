@@ -342,10 +342,10 @@ test('setting duration on chord', t => {
 
   app.setDuration(1, '32')
 
-  t.equal(app.notes()[0].duration, 'q', 'default q')
-  t.equal(app.notes()[1].duration, '32', 'first note in chord')
+  t.equal(app.line[0].duration, 'q', 'default q')
+  t.equal(app.line[1][0].duration, '32', 'first note in chord')
 
-  const n2 = app.notes()[2]
+  const n2 = app.line[1][1]
   t.equal(n2.frequency, Ehz, 'sanity check')
   t.equal(n2.duration, null, 'second note in chord does not get duration')
   t.end()
