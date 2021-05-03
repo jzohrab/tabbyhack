@@ -70,7 +70,7 @@ ApplicationController.prototype.start = function() {
     const currNoteAge = (now - self.currNoteStart)
     if (note.standard !== 0 && self.currNote.standard == note.standard && currNoteAge > self.sensitivity && !self.currNoteProcessed) {
       // console.log(`Curr note duration ${duration} exceeds min, updating`)
-      this.addNote(self.currNote)
+      self.addNote(self.currNote)
       self.currNoteProcessed = true
     }
 
@@ -101,7 +101,14 @@ ApplicationController.prototype.stop = function() {
   this.isRecording = false
   this.tuner.onFrequencyDetected = function(note) { /* no-op */ }
 
-  this.tabselector = new Tabselector(this.app, this.fretboard, window.renderTab)
+  // Create a callback for UI updates when the tabselector does its thing.
+  // Fancy code ... if we just pass in "this.updateUI" as the callback,
+  // javascript complains (I believe because "this" resolves to the tabselector).
+  const self = this
+  const callback = () => { self.updateUI() }
+
+  this.tabselector = new Tabselector(this.app, this.fretboard, callback)
+
   this.tabselector.init()
 }
 
@@ -149,8 +156,6 @@ ApplicationController.prototype.writeVextabMini = function() {
  * Update the vextab editor.
  */
 ApplicationController.prototype.writeVextab = function() {
-  this.writeVextabMini()  // TODO - move this call to somewhere better
-
   const vt = this.app.vextab('tabstave notation=true')
   if (vt === '') {
     return
@@ -165,6 +170,7 @@ ApplicationController.prototype.writeVextab = function() {
 
 ApplicationController.prototype.updateUI = function() {
   this.writeVextab()
+  this.writeVextabMini()
 }
 
 module.exports = { ApplicationController }
