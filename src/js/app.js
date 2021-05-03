@@ -227,4 +227,31 @@ Application.prototype.editorWindow = function(pos = 0, width = 10) {
   return ret
 }
 
+
+Application.prototype.editorWindowIndices = function(length, pos, width) {
+  const h = Math.floor(width / 2)
+  let start = pos - h
+
+  // Fix start.
+  if (start < 0)
+    start = 0
+
+  // Push end out.
+  let end = start + width
+
+  // Pull end back if needed.
+  if (end > length)
+    end = length
+
+  // Push start back if needed.
+  if (end - width < start)
+    start = end - width
+
+  // Final correction.
+  if (start < 0)
+    start = 0
+
+  return { start, end}
+}
+  
 module.exports = { Application }

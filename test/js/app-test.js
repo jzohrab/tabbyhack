@@ -418,6 +418,40 @@ test('editorwindow', t => {
   t.end()
 })
 
+
+test('window indices', t => {
+  app = new Application()
+
+  // Sanity check, 10 items, width = 1
+  for (var i = 0; i < 10; i++) {
+    const r = app.editorWindowIndices(10, i, 1)
+    const e = [ i, i + 1 ]
+    t.equal(e[0], r.start, `${i}: ${e} start, got ${r.start}`)
+    t.equal(e[1], r.end, `${i}: ${e} end, got ${r.end}`)
+  }
+  
+  // 10 items, width = 7
+  const expected = {
+    0: [0, 7],   // |x . . . . . .|- - -
+    1: [0, 7],   // |. x . . . . .|- - -
+    2: [0, 7],   // |. . x . . . .|- - -
+    3: [0, 7],   // |. . . x . . .|- - -
+    4: [1, 8],   //  -|. . . x . . .|- -
+    5: [2, 9],   //  - -|. . . x . . .|-
+    6: [3, 10],  //  - - -|. . . x . . .|
+    7: [3, 10],  //  - - -|. . . . x . .|
+    8: [3, 10],  //  - - -|. . . . . x .|
+    9: [3, 10],  //  - - -|. . . . . . x|
+  }
+  for (var i = 0; i < 10; i++) {
+    const r = app.editorWindowIndices(10, i, 7)
+    const e = expected[`${i}`]
+    t.equal(e[0], r.start, `${i}: ${e} start, got ${r.start}`)
+    t.equal(e[1], r.end, `${i}: ${e} end, got ${r.end}`)
+  }
+  t.end()
+})
+
 /*
 Future tests
 
