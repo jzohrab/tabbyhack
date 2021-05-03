@@ -37,29 +37,26 @@
     <div class="main">
 
       <div id="bannerDiv">
-        <p>Play your guitar and generate tab &mdash; see <a href="#" onclick="openPopup('menuUsage');">Usage</a> if you're new.  Welcome and good luck!</p>
+        <p>Play your guitar and generate tab &mdash; click Start, record, click Stop, edit, and click Done to see tab (see <a href="#" onclick="openPopup('menuUsage');">Usage</a>).  Have fun!</p>
       </div>
 
       <div id="userSpecsDiv">
         <p>Use fret range:
           min = <input type="text" style="width: 20px;" id="minFret" value="0" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />,
-          max = <input type="text" style="width: 20px;" id="maxFret" value="12" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />
+          max = <input type="text" style="width: 20px;" id="maxFret" value="12" oninput="this.value = this.value.replace(/[^0-9]/g, '');" />.
+          &nbsp; Extra tabbing options: <input type="text" style="width: 250px;" id="vextabopts" />
         </p>
         <div class="slidecontainer">
           Mic sensitivity:
           <input class="slider" id="MicSensSlider" type="range" min="25" max="800" value="400" oninput="updateMicSensitivity(this)">
           <input type="text" id="micsensitivity" value="400" style="width: 30px; border: none;"/> ms
         </div>
-        
-        <p>Extra tabbing options:
-          <input type="text" style="width: 250px;" id="vextabopts" />
-        </p>
       </div>
 
       <div id="userControls">
         <button type="button" id="btnStart" onclick="startRecord();">Start</button>
         <button type="button" id="btnStop" onclick="stopRecord();" disabled>Stop</button>
-        <button type="button" id="btnFreeze" onclick="stopEditing();" disabled>Stop editing</button>
+        <button type="button" id="btnFreeze" onclick="stopEditing();" disabled>Done</button>
         <span id="rawnote">Current note: </span>
       </div>
 
@@ -79,7 +76,7 @@
       </div>
 
       <!-- Fretboard -->
-      <div id="fretboard">
+      <div id="fretboard">Fretboard:
       </div>
 
       <!-- Tab links -->
@@ -114,7 +111,7 @@
           <li>You can specify key and time signatures using the &quot;Extra tabbing options&quot; - eg &quot;key=A time=12/8&quot;.  Note these tabbing options correspond to the Stave keywords in the <a href="https://www.vexflow.com/vextab/tutorial.html" target="_blank">Vextab tutorial</a>.</li>
           <li>Click Stop when you're done.</li>
           <li>Edit the notes using the keyboard (see "Editing").</li>
-          <li>When you're done editing, click &quot;Stop editing&quot;.  The Vextab and Ascii tablature will be generated.  Copy and paste those wherever you want.</li>
+          <li>When you're done editing, click "Done".  The Vextab and Ascii tablature will be generated.  Copy and paste those wherever you want.</li>
         </ol>
       </div>
 
